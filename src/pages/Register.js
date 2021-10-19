@@ -5,7 +5,7 @@ import { Col, Row, Card, Form, Button, Spinner } from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
 import AuthContext from '../contexts/AuthContext';
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,7 +19,7 @@ const Login = () => {
   });
 
   const onClick = () => {
-    auth.signIn(username, password, () => history.replace('/places'));
+    auth.register(username, password, () => history.replace('/places'));
   };
 
   return (
@@ -29,7 +29,7 @@ const Login = () => {
           <Card>
             <Card.Body>
               <h3 className='text-center'>
-                <b>LOGIN</b>
+                <b>REGISTER</b>
               </h3>
 
               <Form.Group>
@@ -67,7 +67,7 @@ const Login = () => {
                     aria-hidden='true'
                   />
                 ) : (
-                  'Sign In'
+                  'Register'
                 )}
               </Button>
             </Card.Body>
@@ -78,4 +78,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
