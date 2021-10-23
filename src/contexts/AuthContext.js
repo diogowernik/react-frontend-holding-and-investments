@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
   const signIn = async (username, password, callback) => {
     setLoading(true);
     const response = await signInApi(username, password);
-    console.log('response: ', response);
 
     if (response && response.auth_token) {
       localStorage.setItem('token', response.auth_token);

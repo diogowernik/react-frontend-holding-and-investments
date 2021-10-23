@@ -1,11 +1,12 @@
-import { Row, Col } from 'react-bootstrap';
-import React, { useEffect, useState, useContext } from 'react';
+import { Row, Col, Modal } from 'react-bootstrap';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { fetchPlaces } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 
 import MainLayout from '../layouts/MainLayout';
+import PlaceForm from '../containers/PlaceForm';
 
 const Place = styled.div`
   margin-bottom: 20px;
@@ -25,26 +26,54 @@ const Place = styled.div`
     font-weight: bold;
   }
 `;
+const AddPlaceButton = styled.div`
+  border: 1px dashed gray;
+  height: 200px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: white;
+  :hover {
+    background-color: #fbfbfb;
+  }
+`;
 
 const Places = () => {
   const [places, setPlaces] = useState([]);
+  const [show, setShow] = useState(false);
 
   const auth = useContext(AuthContext);
 
-  const onFetchPlaces = async () => {
+  const onHide = () => setShow(false);
+  const onShow = () => setShow(true);
+  const onFetchPlaces = useCallback(async () => {
     const json = await fetchPlaces(auth.token);
     if (json) {
       setPlaces(json);
     }
-  };
+  }, [auth.token]);
 
   useEffect(() => {
     onFetchPlaces();
-  }, []);
+  }, [onFetchPlaces]);
+
+  const onDone = () => {
+    onFetchPlaces();
+    onHide();
+  };
 
   return (
     <MainLayout>
       <h3>My Places</h3>
+
+      <Modal show={show} onHide={onHide} centered>
+        <Modal.Body>
+          <PlaceForm onDone={onDone} />
+        </Modal.Body>
+      </Modal>
 
       <Row>
         {places.map((place) => (
@@ -55,7 +84,9 @@ const Places = () => {
             </Place>
           </Col>
         ))}
-        <Col lg={4}></Col>
+        <Col lg={4}>
+          <AddPlaceButton onClick={onShow}>Add New Place</AddPlaceButton>
+        </Col>
       </Row>
     </MainLayout>
   );
