@@ -63,6 +63,16 @@ export function addPlace(data, token) {
   return request('/api/places/', { data, token, method: 'POST' });
 }
 
+// portfolios
+
+export function fetchPortfolios(token) {
+  return request('/api/portfolios/', { token });
+}
+
+export function addPortfolio(data, token) {
+  return request('/api/portfolios/', { data, token, method: 'POST' });
+}
+
 // upload to cloudinary
 
 export function uploadImage(image) {

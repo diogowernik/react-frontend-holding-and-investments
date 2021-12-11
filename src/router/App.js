@@ -9,6 +9,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Places from '../pages/Places';
+import Portfolios from '../pages/Portfolios';
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
           </Route>
           <PrivateRoute exact path='/places'>
             <Places />
+          </PrivateRoute>
+          <PrivateRoute exact path='/portfolios'>
+            <Portfolios />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>

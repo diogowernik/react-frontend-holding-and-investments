@@ -22,12 +22,17 @@ const MainLayout = ({ children }) => {
     history.push('/places');
   };
 
+  const gotoPortfolios = () => {
+    history.push('/portfolios');
+  };
+
   return (
     <>
       <Navbar bg='light' variant='light' className='mb-4'>
-        <Navbar.Brand href='/'>QR Menu</Navbar.Brand>
+        <Navbar.Brand href='/'>Minha Holding</Navbar.Brand>
         <Nav className='flex-grow-1'>
           <Nav.Link onClick={gotoPlaces}>Places</Nav.Link>
+          <Nav.Link onClick={gotoPortfolios}>Portfolios</Nav.Link>
         </Nav>
 
         <Nav className='flex-grow-1 justify-content-end'>

@@ -8,13 +8,13 @@ const Home = () => (
       <Container>
         <Row>
           <Col md={6} className="my-auto">
-            <h1><b>QR Code Menu</b></h1>
+            <h1><b>Minha Holding</b></h1>
             <h5 className="mt-4 mb-4">
-              A smart way to share your digital menu in a QR Code with your customers
+              Uma forma inteligente de gerenciar seus investimentos e tomar decisões
             </h5>
             <br/>
-            <Button href="/places" variant="standard" size="lg">
-              Create Your Menu
+            <Button href="/portfolios" variant="standard" size="lg">
+              Gerenciar seus Investimentos
             </Button>
           </Col>
           <Col md={6}>
