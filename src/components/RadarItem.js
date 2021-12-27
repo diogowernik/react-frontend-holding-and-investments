@@ -10,6 +10,7 @@ const Container = styled.div`
   margin-bottom: 30px;
   box-shadow: 1px 1px 8px rgba(0,0,0,0.1);
   display: flex;
+  opacity: ${({active}) => (active ? 1 : 0.6)};
   > div:first-child {
     width: 40%;
     border-top-left-radius: 5px;
