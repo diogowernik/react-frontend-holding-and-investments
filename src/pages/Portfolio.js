@@ -8,15 +8,15 @@ import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 
 import { 
-  fetchPlace, 
-  removePlace, 
-  removeCategory, 
-  removeMenuItem, 
+  fetchPortfolio, 
+  removePortfolio, 
+  removeRadar, 
+  removeRadarItem, 
 } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import MainLayout from '../layouts/MainLayout';
-import MenuItemForm from '../containers/MenuItemForm';
-import MenuItem from '../components/MenuItem';
+import RadarItemForm from '../containers/RadarItemForm';
+import RadarItem from '../components/RadarItem';
 
 const Panel = styled.div`
   background-color: white;
@@ -25,50 +25,50 @@ const Panel = styled.div`
   box-shadow: 1px 1px 10px rgba(0,0,0,0.05);
 `;
 
-const Place = () => {
-  const [place, setPlace] = useState({});
-  const [menuItemFormShow, setMenuItemFormShow] = useState(false);
+const Portfolio = () => {
+  const [portfolio, setPortfolio] = useState({});
+  const [radarItemFormShow, setRadarItemFormShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const showModal = () => setMenuItemFormShow(true);
-  const hideModal = () => setMenuItemFormShow(false);
+  const showModal = () => setRadarItemFormShow(true);
+  const hideModal = () => setRadarItemFormShow(false);
 
   const auth = useContext(AuthContext);
   const params = useParams();
   const history = useHistory();
 
-  const onBack = () => history.push("/places");
+  const onBack = () => history.push("/portfolios");
 
-  const onFetchPlace = async () => {
-    const json = await fetchPlace(params.id, auth.token);
+  const onFetchPortfolio = async () => {
+    const json = await fetchPortfolio(params.id, auth.token);
     if (json) {
-      setPlace(json);
+      setPortfolio(json);
     }
   };
 
-  const onRemovePlace = () => {
+  const onRemovePortfolio = () => {
     const c = window.confirm("Are you sure?");
     if (c) {
-      removePlace(params.id, auth.token).then(onBack);
+      removePortfolio(params.id, auth.token).then(onBack);
     }
   };
 
-  const onRemoveCategory = (id) => {
+  const onRemoveRadar = (id) => {
     const c = window.confirm("Are you sure?");
     if (c) {
-      removeCategory(id, auth.token).then(onFetchPlace);
+      removeRadar(id, auth.token).then(onFetchPortfolio);
     }
   };
 
-  const onRemoveMenuItem = (id) => {
+  const onRemoveRadarItem = (id) => {
     const c = window.confirm("Are you sure?");
     if (c) {
-      removeMenuItem(id, auth.token).then(onFetchPlace);
+      removeRadarItem(id, auth.token).then(onFetchPortfolio);
     }
   };
 
   useEffect(() => {
-    onFetchPlace();
+    onFetchPortfolio();
   }, []);
 
   return (
@@ -80,9 +80,9 @@ const Place = () => {
               <Button variant="link" onClick={onBack}>
                 <IoMdArrowBack size={25} color="black" />
               </Button>
-              <h3 className="mb-0 ml-2 mr-2">{place.name}</h3>
+              <h3 className="mb-0 ml-2 mr-2">{portfolio.name}</h3>
 
-              <Button variant="link" onClick={onRemovePlace}>
+              <Button variant="link" onClick={onRemovePortfolio}>
                 <AiOutlineDelete size={25} color="red" />
               </Button>
             </div>
@@ -91,30 +91,30 @@ const Place = () => {
 
         <Col md={4}>
           <Panel>
-            <MenuItemForm place={place} onDone={onFetchPlace} />
+            <RadarItemForm portfolio={portfolio} onDone={onFetchPortfolio} />
           </Panel>
         </Col>
 
         <Col md={8}>
-          {place?.categories?.map((category) => (
-            <div key={category.id} className="mb-5">
+          {portfolio?.radars?.map((radar) => (
+            <div key={radar.id} className="mb-5">
               <div className="d-flex align-items-center mb-4">
                 <h4 className="mb-0 mr-2">
-                  <b>{category.name}</b>
+                  <b>{radar.name}</b>
                 </h4>
-                <Button variant="link" onClick={() => onRemoveCategory(category.id)}>
+                <Button variant="link" onClick={() => onRemoveRadar(radar.id)}>
                   <AiOutlineDelete size={25} color="red" />
                 </Button>
               </div>
-              {category.menu_items.map((item) => (
-                <MenuItem 
+              {radar.radar_items.map((item) => (
+                <RadarItem 
                   key={item.id} 
                   item={item} 
                   onEdit={() => {
                     setSelectedItem(item);
                     showModal()
                   }}
-                  onRemove={() => onRemoveMenuItem(item.id)}
+                  onRemove={() => onRemoveRadarItem(item.id)}
                 />
               ))}
             </div>
@@ -122,13 +122,13 @@ const Place = () => {
         </Col>
       </Row>
     
-      <Modal show={menuItemFormShow} onHide={hideModal} centered>
+      <Modal show={radarItemFormShow} onHide={hideModal} centered>
         <Modal.Body>
-          <h4 className="text-center">Menu Item</h4>
-          <MenuItemForm 
-            place={place}
+          <h4 className="text-center">Radar Item</h4>
+          <RadarItemForm 
+            portfolio={portfolio}
             onDone={() => {
-              onFetchPlace();
+              onFetchPortfolio();
               hideModal()
             }}
             item={selectedItem}
@@ -141,4 +141,4 @@ const Place = () => {
   )
 };
 
-export default Place;
+export default Portfolio;

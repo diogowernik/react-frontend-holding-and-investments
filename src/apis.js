@@ -55,55 +55,45 @@ export function register(username, password) {
   });
 }
 
-export function fetchPlaces(token) {
-  return request('/api/places/', { token });
-}
-
-export function addPlace(data, token) {
-  return request('/api/places/', { data, token, method: 'POST' });
-}
-
-
-export function fetchPlace(id, token) {
-  return request(`/api/places/${id}`, { token });
-}
-
-export function addCategory(data, token) {
-  return request("/api/categories/", { data, token, method: "POST" });
-}
-
-export function addMenuItems(data, token) {
-  return request("/api/menu_items/", { data, token, method: "POST" });
-}
-
-export function updateMenuItem(id, data, token) {
-  return request(`/api/menu_items/${id}`, { data, token, method: "PATCH" });
-}
-
-export function removePlace(id, token) {
-  return request(`/api/places/${id}`, { token, method: "DELETE" });
-}
-
-export function removeCategory(id, token) {
-  return request(`/api/categories/${id}`, { token, method: "DELETE" });
-}
-
-export function removeMenuItem(id, token) {
-  return request(`/api/menu_items/${id}`, { token, method: "DELETE" });
-}
-
-export function updatePlace(id, data, token) {
-  return request(`/api/places/${id}`, { data, token, method: "PATCH" });
-}
-
-// portfolios
-
 export function fetchPortfolios(token) {
   return request('/api/portfolios/', { token });
 }
 
 export function addPortfolio(data, token) {
   return request('/api/portfolios/', { data, token, method: 'POST' });
+}
+
+
+export function fetchPortfolio(id, token) {
+  return request(`/api/portfolios/${id}`, { token });
+}
+
+export function addRadar(data, token) {
+  return request("/api/radars/", { data, token, method: "POST" });
+}
+
+export function addRadarItems(data, token) {
+  return request("/api/radar_items/", { data, token, method: "POST" });
+}
+
+export function updateRadarItem(id, data, token) {
+  return request(`/api/radar_items/${id}`, { data, token, method: "PATCH" });
+}
+
+export function removePortfolio(id, token) {
+  return request(`/api/portfolios/${id}`, { token, method: "DELETE" });
+}
+
+export function removeRadar(id, token) {
+  return request(`/api/radars/${id}`, { token, method: "DELETE" });
+}
+
+export function removeRadarItem(id, token) {
+  return request(`/api/radar_items/${id}`, { token, method: "DELETE" });
+}
+
+export function updatePortfolio(id, data, token) {
+  return request(`/api/portfolios/${id}`, { data, token, method: "PATCH" });
 }
 
 // upload to cloudinary

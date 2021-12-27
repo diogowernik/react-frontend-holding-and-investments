@@ -1,4 +1,5 @@
 import { Row, Col, Modal } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -46,6 +47,7 @@ const Portfolios = () => {
   const [show, setShow] = useState(false);
 
   const auth = useContext(AuthContext);
+  const history = useHistory();
 
   const onHide = () => setShow(false);
   const onShow = () => setShow(true);
@@ -78,7 +80,7 @@ const Portfolios = () => {
       <Row>
         {portfolios.map((portfolio) => (
           <Col key={portfolio.id} lg={4}>
-            <Portfolio>
+            <Portfolio onClick={() => history.push(`/portfolios/${portfolio.id}`)}>
               <div style={{ backgroundImage: `url(${portfolio.image})` }}></div>
               <p>{portfolio.name}</p>
             </Portfolio>

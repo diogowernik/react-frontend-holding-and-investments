@@ -14,12 +14,12 @@ const Register = () => {
 
   useEffect(() => {
     if (auth.token) {
-      history.replace('/places');
+      history.replace('/portfolios');
     }
   });
 
   const onClick = () => {
-    auth.register(username, password, () => history.replace('/places'));
+    auth.register(username, password, () => history.replace('/portfolios'));
   };
 
   return (

@@ -9,10 +9,8 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 
-import Places from '../pages/Places';
-import Place from '../pages/Place';
-
 import Portfolios from '../pages/Portfolios';
+import Portfolio from '../pages/Portfolio';
 
 function App() {
   return (
@@ -29,13 +27,9 @@ function App() {
             <Register />
           </Route>
 
-          <PrivateRoute exact path='/places/:id'>
-            <Place />
+          <PrivateRoute exact path='/portfolios/:id'>
+            <Portfolio />
           </PrivateRoute>
-          <PrivateRoute exact path='/places'>
-            <Places />
-          </PrivateRoute>
-
           <PrivateRoute exact path='/portfolios'>
             <Portfolios />
           </PrivateRoute>
