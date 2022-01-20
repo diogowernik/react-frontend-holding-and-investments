@@ -11,7 +11,7 @@ const RadarItemForm = ({ portfolio, onDone, item = {} }) => {
   const [radarFormShow, setRadarFormShow] = useState(false);
   
   const [radar, setRadar] = useState(item.radar);
-  const [name, setName] = useState(item.name);
+  const [asset, setAsset] = useState(item.asset);
 
   const target = useRef(null);
 
@@ -34,15 +34,15 @@ const RadarItemForm = ({ portfolio, onDone, item = {} }) => {
     const json = await addRadarItems({
       portfolio: portfolio.id,
       radar,
-      name
+      asset: asset
     }, auth.token);
 
     console.log(json);
 
     if (json) {
-      toast(`Radar Item ${json.name} was created`, { type: "success" });
+      toast(`Radar Item ${json.asset.ticker} was created`, { type: "success" });
       setRadar("");
-      setName("");
+      setAsset("");
       onDone();
     }
   }
@@ -53,7 +53,7 @@ const RadarItemForm = ({ portfolio, onDone, item = {} }) => {
       {
         portfolio: portfolio.id,
         radar,
-        name
+        asset
       },
       auth.token
     );
@@ -61,9 +61,9 @@ const RadarItemForm = ({ portfolio, onDone, item = {} }) => {
     if (json) {
       console.log(json);
 
-      toast(`Radar Item ${json.name} was updated`, { type: "success" });
+      toast(`Radar Item ${json.asset.ticker} was updated`, { type: "success" });
       setRadar("");
-      setName("");
+      setAsset("");
       onDone();
     }
   }
@@ -79,7 +79,7 @@ const RadarItemForm = ({ portfolio, onDone, item = {} }) => {
             <option />
             {portfolio?.radars?.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.name}
+                {c.asset}
               </option>
             ))}
           </Form.Control>
@@ -101,7 +101,7 @@ const RadarItemForm = ({ portfolio, onDone, item = {} }) => {
                 <Form.Group>
                   <Form.Control
                     type="text"
-                    placeholder="Radar Name"
+                    placeholder="Radar Asset"
                     value={radarName}
                     onChange={(e) => setRadarName(e.target.value)}
                   />
@@ -120,12 +120,12 @@ const RadarItemForm = ({ portfolio, onDone, item = {} }) => {
     
       {/* RADAR ITEMS FORM */}
       <Form.Group>
-        <Form.Label>Name</Form.Label>
+        <Form.Label>Asset</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Enter Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          placeholder="Enter Asset"
+          value={asset}
+          onChange={(e) => setAsset(e.target.value)}
         />
       </Form.Group>
       <Button 
