@@ -63,33 +63,12 @@ export function addPortfolio(data, token) {
   return request('/api/portfolios/', { data, token, method: 'POST' });
 }
 
-
 export function fetchPortfolio(id, token) {
   return request(`/api/portfolios/${id}`, { token });
 }
 
-export function addRadar(data, token) {
-  return request("/api/radars/", { data, token, method: "POST" });
-}
-
-export function addRadarItems(data, token) {
-  return request("/api/radar_items/", { data, token, method: "POST" });
-}
-
-export function updateRadarItem(id, data, token) {
-  return request(`/api/radar_items/${id}`, { data, token, method: "PATCH" });
-}
-
 export function removePortfolio(id, token) {
   return request(`/api/portfolios/${id}`, { token, method: "DELETE" });
-}
-
-export function removeRadar(id, token) {
-  return request(`/api/radars/${id}`, { token, method: "DELETE" });
-}
-
-export function removeRadarItem(id, token) {
-  return request(`/api/radar_items/${id}`, { token, method: "DELETE" });
 }
 
 export function updatePortfolio(id, data, token) {
