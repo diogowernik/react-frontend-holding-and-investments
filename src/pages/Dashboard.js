@@ -1,11 +1,9 @@
 import { Card, Col, Row } from 'react-bootstrap';
 import React, {  } from 'react';
-import Portfolio from './Portfolio';
 
 const Dashboard = () => {
 
   return (
-    <Portfolio>
         <Row>
             <Col lg={6}>
                 <Card  color="gray" className="mb-3">   
@@ -32,7 +30,6 @@ const Dashboard = () => {
                 </Card>  
             </Col>
         </Row>
-    </Portfolio>
   )
 };
 

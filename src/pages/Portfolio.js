@@ -1,6 +1,6 @@
 import { IoMdArrowBack } from 'react-icons/io';
 // import { AiOutlineDelete} from 'react-icons/ai';
-import { Row, Col, Button, Container, Nav, Card, Table } from 'react-bootstrap';
+import { Row, Col, Button, Container, Nav, Card, Table, Tab } from 'react-bootstrap';
 import { useParams, useHistory } from 'react-router-dom';
 import React, { useEffect, useState, useContext } from 'react';
 import {fetchPortfolio,
@@ -8,10 +8,12 @@ import {fetchPortfolio,
   } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import MainLayout from '../layouts/MainLayout';
+import Dashboard from './Dashboard'
+import Fiis from './Fiis'
 
 
 
-const Portfolio = ({ children }) => {
+const Portfolio = () => {
   const [portfolio, setPortfolio] = useState({});
   const auth = useContext(AuthContext);
   const params = useParams();
@@ -55,20 +57,27 @@ const Portfolio = ({ children }) => {
             </Card.Header>
           </Card>
         </Col> 
+        <Tab.Container defaultActiveKey="dashboard">
         <Col lg={9}>
         <Card className=" mb-3">
             <Card.Header>
-                <Nav variant="pills" >
+            
+              <Nav variant="pills">
+                  <Nav.Item>
+                      <Nav.Link eventKey="dashboard">Dashboard</Nav.Link>
+                  </Nav.Item>
 
-                    <Nav.Item>
-                        <Nav.Link onClick={() => history.push(`/portfolios/${portfolio.id}/dashboard`) }>Dashboard</Nav.Link>
-                    </Nav.Item>
+                  <Nav.Item>
+                      <Nav.Link eventKey="fiis">Fiis</Nav.Link>
+                  </Nav.Item>
+              </Nav>
+              
 
-                    <Nav.Item>
-                        <Nav.Link onClick={() => history.push(`/portfolios/${portfolio.id}/fiis`)}>Fiis</Nav.Link>
-                    </Nav.Item>
 
-                </Nav>
+
+
+
+                
             </Card.Header>
         </Card>
         </Col>
@@ -117,9 +126,17 @@ const Portfolio = ({ children }) => {
           </Card>
         </Col>
         <Col lg={9}>   
-              { children }
+            <Tab.Content>
+                  <Tab.Pane eventKey="dashboard">
+                      <Dashboard />
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="fiis">
+                      <Fiis/>
+                  </Tab.Pane>
+              </Tab.Content>
+            
         </Col>
-        
+        </Tab.Container>
       </Row>
       </Container>
 

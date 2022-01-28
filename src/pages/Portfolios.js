@@ -81,7 +81,7 @@ const Portfolios = () => {
       <Row>
         {portfolios.map((portfolio) => (
           <Col key={portfolio.id} lg={4}>
-            <Portfolio onClick={() => history.push(`/portfolios/${portfolio.id}/dashboard`)}>
+            <Portfolio onClick={() => history.push(`/portfolios/${portfolio.id}`)}>
               <div style={{ backgroundImage: `url(${portfolio.image})` }}></div>
               <p>{portfolio.name}</p>
             </Portfolio>

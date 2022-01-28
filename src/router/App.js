@@ -10,8 +10,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 
 import Portfolios from '../pages/Portfolios';
-import Dashboard from '../pages/Dashboard';
-import Fiis from '../pages/Fiis';
+import Portfolio from '../pages/Portfolio';
 
 function App() {
   return (
@@ -28,12 +27,10 @@ function App() {
             <Register />
           </Route>
 
-          <PrivateRoute exact path='/portfolios/:id/dashboard'>
-            <Dashboard />
+          <PrivateRoute exact path='/portfolios/:id'>
+            <Portfolio />
           </PrivateRoute>
-          <PrivateRoute exact path='/portfolios/:id/fiis'>
-            <Fiis />
-          </PrivateRoute>
+          
           <PrivateRoute exact path='/portfolios'>
             <Portfolios />
           </PrivateRoute>
