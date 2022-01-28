@@ -1,4 +1,4 @@
-import { Row, Col, Modal } from 'react-bootstrap';
+import { Row, Col, Modal, Container } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
@@ -69,7 +69,8 @@ const Portfolios = () => {
 
   return (
     <MainLayout>
-      <h3>My Portfolios</h3>
+      <Container>
+      <h3>Meus Portfolios</h3>
 
       <Modal show={show} onHide={onHide} centered>
         <Modal.Body>
@@ -80,16 +81,17 @@ const Portfolios = () => {
       <Row>
         {portfolios.map((portfolio) => (
           <Col key={portfolio.id} lg={4}>
-            <Portfolio onClick={() => history.push(`/portfolios/${portfolio.id}`)}>
+            <Portfolio onClick={() => history.push(`/portfolios/${portfolio.id}/dashboard`)}>
               <div style={{ backgroundImage: `url(${portfolio.image})` }}></div>
               <p>{portfolio.name}</p>
             </Portfolio>
           </Col>
         ))}
         <Col lg={4}>
-          <AddPortfolioButton onClick={onShow}>Add New Portfolio</AddPortfolioButton>
+          <AddPortfolioButton onClick={onShow}>Criar novo Portfolio</AddPortfolioButton>
         </Col>
       </Row>
+      </Container>
     </MainLayout>
   );
 };

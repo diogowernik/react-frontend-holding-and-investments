@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import React, { useContext } from 'react';
 import AuthContext from '../contexts/AuthContext';
@@ -45,7 +45,7 @@ const MainLayout = ({ children }) => {
           )}
         </Nav>
       </Navbar>
-      <Container>{children}</Container>
+      <>{children}</>
     </>
   );
 };
