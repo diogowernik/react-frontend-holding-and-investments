@@ -1,8 +1,10 @@
 import { toast } from 'react-toastify';
+const base_url = process.env.REACT_APP_API_URI
+
 
 // export function signIn(username, password) {
 function request(path, { data = null, token = null, method = 'GET' }) {
-  return fetch(path, {
+  return fetch(base_url + path, {
     method,
     headers: {
       Authorization: token ? `Token ${token}` : '',
