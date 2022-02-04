@@ -3,7 +3,7 @@ const base_url = process.env.REACT_APP_API_URI
 
 
 // export function signIn(username, password) {
-function request(path, { data = null, token = null, method = 'GET' }) {
+function request(path, { data = null, token = null, method = 'GET', message }) {
   return fetch(base_url + path, {
     method,
     headers: {
@@ -11,11 +11,17 @@ function request(path, { data = null, token = null, method = 'GET' }) {
       'Content-Type': 'application/json',
     },
     body: method !== 'GET' && method !== 'DELETE' ? JSON.stringify(data) : null,
+    message 
   })
     .then((response) => {
       // If it is success
       if (response.ok) {
-        if (method === 'DELETE') {
+        if (method === 'POST') {
+          toast.success(JSON.stringify(message).slice(1,-1), {
+            
+          });
+        }
+        else if (method === 'DELETE') {
           // If delete, nothing return
           return true;
         }
@@ -47,6 +53,7 @@ export function signIn(username, password) {
   return request('/auth/token/login/', {
     data: { username, password },
     method: 'POST',
+    message: 'login realizado com sucesso'
   });
 }
 
@@ -54,6 +61,7 @@ export function register(username, password) {
   return request('/auth/users/', {
     data: { username, password },
     method: 'POST',
+    message: 'registro realizado com sucesso, faça o login para acessar o app'
   });
 }
 
