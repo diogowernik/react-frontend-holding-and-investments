@@ -28,7 +28,7 @@ function ImageDropzone({ value, onChange }) {
     uploadImage(acceptedFiles[0])
       .then((json) => onChange(json.url))
       .finally(() => setLoading(false));
-  }, []);
+  }, [onChange]);
 
   const {getRootProps, getInputProps} = useDropzone({
     onDrop,
@@ -41,7 +41,7 @@ function ImageDropzone({ value, onChange }) {
       <input {...getInputProps()} />
       {
         value ? (
-          <img src={value} />
+          <img src={value} alt='' />
         ) : loading ? (
           <Spinner variant="standard" animation="border" role="staus" />
         ) : (

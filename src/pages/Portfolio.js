@@ -1,146 +1,115 @@
-import { IoMdArrowBack } from 'react-icons/io';
-// import { AiOutlineDelete} from 'react-icons/ai';
-import { Row, Col, Button, Container, Nav, Card, Table, Tab } from 'react-bootstrap';
-import { useParams, useHistory } from 'react-router-dom';
-import React, { useEffect, useState, useContext } from 'react';
-import {fetchPortfolio,
-  //  removePortfolio,
-  } from '../apis';
-import AuthContext from '../contexts/AuthContext';
+import { Row, Col, Container, Nav, Card, Tab } from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
 import Dashboard from './Dashboard'
 import Fiis from './Fiis'
+import Cryptos from './Cryptos'
+import SideModules from '../components/sidemodules/SideModules'
+import { fetchPortfolioAssets } from '../apis';
+import AuthContext from '../contexts/AuthContext';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 
 
 
 const Portfolio = () => {
-  const [portfolio, setPortfolio] = useState({});
+  
+  const [portfolio_assets, setPortfolioAssets] = useState([]);
+  const [portfolio_fiis, setPortfolioFiis] = useState([]);
+  const [portfolio_total_fiis, setTotalPortfolioFiis] = useState([]);
+  const [portfolio_criptos, setPortfolioCriptos] = useState([]);
+  const [portfolio_total, setPortfolioTotal] = useState([]);
+  // const [portfolio_category_label, setPortfolioCategoryLabel] = useState([]);
+  // const [portfolio_category_total, setPortfolioCategoryTotal] = useState([]);
+
+  function groupBy(lista, column){
+    var columns = {};
+    var resultado = [];
+
+    lista.forEach(function (item) {
+      var reg = {};
+  
+      columns[item[column]] = columns[item[column]] || [];
+  
+      for (var i in item)
+        if (i !== column)
+          reg[i] = item[i];
+  
+      columns[item[column]].push(reg);
+    });
+  
+    for (var i in columns)
+      resultado.push({ name: i, total_today_brl: columns[i].map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) });
+  
+    return resultado;
+  }
+  
+  // console.log(categories)
+  // console.log(categories.map(a=>a.name))
+  // console.log(categories.map(a=>a.total_today_brl))
+
+
   const auth = useContext(AuthContext);
-  const params = useParams();
-  const history = useHistory();
-
-  const onBack = () => history.push("/portfolios");
-
-  const onFetchPortfolio = async () => {
-    const json = await fetchPortfolio(params.id, auth.token);
-    if (json) {
-      setPortfolio(json);
-    }
-  };
-
-  // const onRemovePortfolio = () => {
-  //   const c = window.confirm("Are you sure?");
-  //   if (c) {
-  //     removePortfolio(params.id, auth.token).then(onBack);
-  //   }
-  // };
-
-  useEffect(() => {
-    onFetchPortfolio();
-  }, []);
+  const onFetchPortfolioAssets = useCallback(async () => {
+      const json = await fetchPortfolioAssets(auth.token);
+      if (json) {
+          setPortfolioAssets(json);
+          setPortfolioFiis(json.filter( data => data.category === "Fundos Imobiliários"));
+          setTotalPortfolioFiis(json.filter( data => data.category === "Fundos Imobiliários").reduce((a, e) => a + e.total_today_brl, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+          setPortfolioCriptos(json.filter( data => data.category === "Criptomoedas")); 
+          setPortfolioTotal(groupBy(json,"category"));
+          // setPortfolioCategoryLabel(groupBy(json,"category"));
+          // setPortfolioCategoryTotal(groupBy(json,"category"));
+      }
+      }, [auth.token]);
+      useEffect(() => {
+      onFetchPortfolioAssets();
+      }, [onFetchPortfolioAssets]);
+  
 
   return (
     <MainLayout>
       <Container fluid>
       <Row>
         <Col lg={3}>
-          <Card className="mb-3">
-            <Card.Header>
-                <Button variant="link" onClick={onBack} className="float-left">
-                  <IoMdArrowBack size={25} color="black" />
-                </Button>
-                <h3 className="mb-0 ml-2 mr-2 text-center">{portfolio.name}</h3>
-
-                {/* <Button variant="link" onClick={onRemovePortfolio}>
-                  <AiOutlineDelete size={25} color="red" />
-                </Button> */}
-            </Card.Header>
-          </Card>
+          <SideModules 
+          portfolio_total={portfolio_total}
+          portfolio_assets={portfolio_assets}
+          portfolio_total_fiis={portfolio_total_fiis}
+          
+          
+          />
         </Col> 
         <Tab.Container defaultActiveKey="dashboard">
         <Col lg={9}>
         <Card className=" mb-3">
             <Card.Header>
-            
               <Nav variant="pills">
                   <Nav.Item>
                       <Nav.Link eventKey="dashboard">Dashboard</Nav.Link>
                   </Nav.Item>
-
                   <Nav.Item>
-                      <Nav.Link eventKey="fiis">Fiis</Nav.Link>
+                      <Nav.Link eventKey="fiis" >Fiis</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                      <Nav.Link eventKey="cryptos" >Cryptos</Nav.Link>
                   </Nav.Item>
               </Nav>
-              
-
-
-
-
-
-                
             </Card.Header>
         </Card>
-        </Col>
-        <Col lg={3}>
-          <Card  color="gray" className="mb-3">
-            <Card.Header className="bg-gray-lighter">Performance</Card.Header>
-              <Card.Body>
-              <p className="text-center h3 m-3 text-primary">
-              
-              5,35 %
-              </p>
-              <p className="text-center text-muted m-3">
-              
-              Rentabilidade do porfólio Atual
-              </p>
-              </Card.Body>
-              <Card.Body>
-                  <Table responsive>
-                      <tbody>
-                          <tr>
-                              <td>Patrimônio</td>
-                              <td><div className="float-right strong">R$ 535.000</div></td>
-                          </tr>
-                          <tr>
-                              <td>Custo de aquisição</td>
-                              <td><div className="float-right strong">R$ 500.000</div></td>
-                          </tr>
-                          <tr>
-                              <td>Proventos Acumulado</td>
-                              <td><div className="float-right strong">R$ 20.000</div></td>
-                          </tr>
-                          <tr>
-                              <td>Lucros com operações</td>
-                              <td><div className="float-right strong">R$ 15.000</div></td>
-                          </tr>
-                          <tr className="mt-1">
-                              <th><div className="mt-2 strong">Lucro</div></th>
-                              <th><div className="float-right h5 text-primary">R$ 35.000</div></th>
-                          </tr>
-                      </tbody>
-                      
-                          
-                      
-                  </Table>
-              </Card.Body>
-          </Card>
-        </Col>
-        <Col lg={9}>   
-            <Tab.Content>
-                  <Tab.Pane eventKey="dashboard">
-                      <Dashboard />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="fiis">
-                      <Fiis/>
-                  </Tab.Pane>
-              </Tab.Content>
-            
+        <Tab.Content>
+            <Tab.Pane eventKey="dashboard" >
+                <Dashboard portfolio_total={portfolio_total}/>
+            </Tab.Pane>
+            <Tab.Pane eventKey="fiis">
+                <Fiis data={portfolio_fiis}/>
+            </Tab.Pane>
+            <Tab.Pane eventKey="cryptos">
+                <Cryptos data={portfolio_criptos}/>
+            </Tab.Pane>
+        </Tab.Content>
         </Col>
         </Tab.Container>
       </Row>
       </Container>
-
-
     </MainLayout>
   )
 };

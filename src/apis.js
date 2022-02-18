@@ -85,17 +85,21 @@ export function updatePortfolio(id, data, token) {
   return request(`/api/portfolios/${id}`, { data, token, method: "PATCH" });
 }
 
+export function fetchPortfolioAssets(id, token) {
+  // return request(`/api/portfolios/${id}/assets`, { token });
+  return request(`/api/portfolios/${id}/assets`, { token });
+}
+
 // upload to cloudinary
 
-export function uploadImage(image) {
+export async function uploadImage(image) {
   const formData = new FormData();
   formData.append("file", image);
   formData.append("upload_preset", "minhaholding_photos");
 
-  return fetch("https://api.cloudinary.com/v1_1/minhaholding/image/upload", {
+  const response = await fetch("https://api.cloudinary.com/v1_1/minhaholding/image/upload", {
     method: "POST",
     body: formData,
-  }).then((response) => {
-    return response.json();
   });
+  return await response.json();
 }
