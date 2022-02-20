@@ -2,15 +2,15 @@ import { Card, Col, Row } from 'react-bootstrap';
 import React, {  } from 'react';
 import AssetTable from '../components/assets/AssetTable';
 
-const Fiis = ({data=[]}) => {
+const Internationals = ({data=[]}) => {
 
   return (
         <Row>
             <Col lg={12}>
                 <Card  color="gray" className="mb-3">   
-                    <Card.Header className="bg-gray-lighter">Fiis</Card.Header>
+                    <Card.Header className="bg-gray-lighter">Investimentos no Exterior</Card.Header>
                     <Card.Body>
-                        <AssetTable data={data}/>
+                    <AssetTable data={data}/>
                     </Card.Body>
                 </Card>  
             </Col>
@@ -18,4 +18,4 @@ const Fiis = ({data=[]}) => {
   )
 };
 
-export default Fiis;
+export default Internationals;

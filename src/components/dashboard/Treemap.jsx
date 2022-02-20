@@ -3,6 +3,7 @@ import Chart from 'react-apexcharts'
 import {  Card, CardHeader} from 'reactstrap'
 
 class TreeMap extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,7 +15,7 @@ class TreeMap extends React.Component {
         },
         theme: {
           mode: 'light', 
-          palette: 'palette8', 
+          palette: 'palette1', 
       },
         dataLabels: {
           enabled: true,
@@ -43,76 +44,13 @@ class TreeMap extends React.Component {
           width:'20px',
         },
       },
-      // series: [
-      //   {
-      //     name: '',
-      //     data: []
-      //   }
-      // ]
       series: [
         {
-          name: 'Ações e Negocios',
-          data: [
-            {
-              x: 'BBAS3',
-              y: 10
-            },
-            {
-              x: 'SANB11',
-              y: 60
-            },
-            {
-              x: 'CASH3',
-              y: 41
-            }
-          ]
-        },
-        {
-          name: 'Real State',
-          data: [
-            {
-              x: 'HGLG11',
-              y: 10
-            },
-            {
-              x: 'HCTR11',
-              y: 20
-            },
-            {
-              x: 'KDIF11',
-              y: 51
-            },
-            {
-              x: 'CASA 2',
-              y: 30
-            },
-            {
-              x: 'AP 522',
-              y: 30
-            }
-          ]
+          name: '',
+          data: []
         }
-      ],
+      ]
     }
-  }
-
-  // fetchData() {
-  //   fetch(`http://localhost:3001/api/portfolios/1`)
-  //     .then(response => response.json())
-  //     .then(
-  //       (response) => {
-  //         const newSeries = [];
-  //         var chart = response.treechart;
-  //         newSeries.push({chart});
-
-  //         this.setState({
-  //           series: chart,
-  //         });
-  //       });
-  // }
-
-  componentDidMount() {
-    // this.fetchData();
   }
 
   render() {
@@ -123,7 +61,7 @@ class TreeMap extends React.Component {
             <Card body>
                 <Chart
                     options={this.state.options}
-                    series={this.state.series}
+                    series={this.props.portfolio_treemap}
                     type='treemap'
                     height="450"
                     width="100%"

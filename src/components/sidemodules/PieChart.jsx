@@ -6,18 +6,17 @@ class PieChart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-    
-      series: [44, 55, 33, 43],
+    this.state = {    
+      series: [],
       options: {
         chart: {
           width: 380,
           type: 'pie',
         },
-        labels: ['Fundos Imobiliários', 'Criptomoedas', 'Caixa', 'Ativos Internacionais'],
+        labels: this.props.portfolio_categories.map(a=>a.name),
         theme: {
           mode: 'light', 
-          palette: 'palette6', 
+          palette: 'palette1', 
         },
         legend: {
           show: true,
@@ -36,13 +35,14 @@ class PieChart extends React.Component {
   render() {
     return (
         <>
+        {/* {console.log(this.props.portfolio_categories.map(a=>a.name))} */}
         <Card  color="gray" className="mb-3">
             <CardHeader className="bg-gray-lighter">PieChart</CardHeader>
             <Card body>
                 <div id="chart3">
                   <Chart 
                   options={this.state.options} 
-                  series={this.state.series} 
+                  series={this.props.portfolio_categories.map(a=>a.total_today_brl)} 
                   type="pie" 
                   height={450} 
                   />

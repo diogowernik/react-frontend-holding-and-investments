@@ -50,14 +50,14 @@ class LineChart extends React.Component {
     return (
         <>
         <Card  color="gray" className="mb-3">
-            <CardHeader className="bg-gray-lighter">Valor Patrimonial do Token/Cota</CardHeader>
+            <CardHeader className="bg-gray-lighter">Valor Patrimonial do seu Token/Cota</CardHeader>
             <Card body>
                 <div id="chart">
                   <Chart 
                   options={this.state.options} 
                   series={this.state.series} 
                   type="line" 
-                  height={450} 
+                  height={400} 
                   />
                 </div>
                 </Card>
