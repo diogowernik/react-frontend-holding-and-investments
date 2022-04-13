@@ -16,7 +16,7 @@ class PieChart extends React.Component {
         labels: this.props.portfolio_categories.map(a=>a.name),
         theme: {
           mode: 'light', 
-          palette: 'palette1', 
+          palette: 'palette2', 
         },
         legend: {
           show: true,
@@ -43,6 +43,7 @@ class PieChart extends React.Component {
                   <Chart 
                   options={this.state.options} 
                   series={this.props.portfolio_categories.map(a=>a.total_today_brl)} 
+                  labels={this.props.portfolio_categories.map(a=>a.name)} 
                   type="pie" 
                   height={450} 
                   />

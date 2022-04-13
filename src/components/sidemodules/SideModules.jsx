@@ -5,7 +5,7 @@ import React, {
     // useState, 
     // useContext
  } from 'react';
-
+// import Tokenize from './Tokenize'
 
 import { 
     useHistory 
@@ -24,7 +24,7 @@ const SideModules = ({portfolio_categories=[]}) => {
                     <Button variant="link" onClick={onBack} className="float-left">
                     <IoMdArrowBack size={25} color="black" />
                     </Button>
-                    <h3 className="mb-0 ml-2 mr-2 text-center">Meu Portfolio</h3>
+                    <h4 className="mb-0 ml-2 mr-2 text-center">Meu Portfolio</h4>
 
                 </Card.Header>
             </Card>
@@ -57,6 +57,9 @@ const SideModules = ({portfolio_categories=[]}) => {
             <PieChart 
                 portfolio_categories={portfolio_categories}
             />  
+            {/* <Tokenize 
+                
+                />   */}
         </>
             
     )

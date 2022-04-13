@@ -15,7 +15,7 @@ class TreeMap extends React.Component {
         },
         theme: {
           mode: 'light', 
-          palette: 'palette1', 
+          palette: 'palette2', 
       },
         dataLabels: {
           enabled: true,

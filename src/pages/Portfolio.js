@@ -67,13 +67,13 @@ const Portfolio = () => {
     <MainLayout>
       <Container fluid>
       <Row>
-        <Col lg={3}>
+        <Col lg={4}>
           <SideModules 
           portfolio_categories={portfolio_categories}          
           />
         </Col> 
         <Tab.Container defaultActiveKey="dashboard">
-        <Col lg={9}>
+        <Col lg={8}>
         <Card className=" mb-3">
             <Card.Header>
               <Nav variant="pills">
