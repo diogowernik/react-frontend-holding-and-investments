@@ -38,7 +38,7 @@ If you want to use sample data, change the name of fixtures.json.backup in the b
 
 This app is not ready, there are some features that are missing. And some features that are working.
 
-### Features that are Working for users on the backend
+### Features that are Working for users on the frontend
 
 - Register (Create an account)
 - Login
