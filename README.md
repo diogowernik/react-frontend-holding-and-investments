@@ -1,10 +1,8 @@
 # React Frontend App for Holding and Investments
 
-This project has a backend build in python. It is a Django Api project.
-
-https://github.com/diogowernik/django-python-backend-holding-and-investments
-
 ## How to start
+
+This project has a backend build in python. It is a Django Api project.
 
 First clone or fork the backend repository and run it on port 8000. You can check the Backend on the following link:
 
