@@ -2,7 +2,7 @@
 
 ## How to start
 
-This project has a backend build in python. It is a Django Api project.
+This project has a backend build in python. Tha is a Django Api.
 
 First clone or fork the backend repository and run it on port 8000. You can check the Backend on the following link:
 
