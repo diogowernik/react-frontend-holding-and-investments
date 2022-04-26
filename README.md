@@ -30,9 +30,9 @@ If you want to use sample data, change the name of fixtures.json.backup in the b
 
     python manage.py loaddata sample_data.json
 
-- user login:
-  username: portfolio@admin.com
-  password: folio123
+
+username: portfolio@admin.com
+password: folio123
 
 ## Features and Things to do
 
