@@ -26,14 +26,6 @@ And go to the running application:
 
 Than create an account and login to the application.
 
-If you want to use sample data, change the name of fixtures.json.backup in the backend api to 'sample_data.json' and run the following command on the backend:
-
-    python manage.py loaddata sample_data.json
-
-- user login:
-  username: portfolio@admin.com
-  password: folio123
-
 ## Features and Things to do
 
 This app is not ready, there are some features that are missing. And some features that are working.
