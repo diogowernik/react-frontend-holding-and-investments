@@ -26,18 +26,6 @@ And go to the running application:
 
 Than create an account and login to the application.
 
-<<<<<<< HEAD
-=======
-If you want to use sample data, change the name of fixtures.json.backup in the backend api to 'sample_data.json' and run the following command on the backend:
-
-    python manage.py loaddata sample_data.json
-
-
-username: portfolio@admin.com
-
-password: folio123
-
->>>>>>> 6a136b30df05630bee82a008f6a4fbd23910c6bb
 ## Features and Things to do
 
 This app is not ready, there are some features that are missing. And some features that are working.
@@ -52,5 +40,9 @@ This app is not ready, there are some features that are missing. And some featur
 
 ### Features that need to be done for users on the frontend
 
-- CRUD for Investments transaction (Create, Read, Update, Delete) at the moment only read
+- CRUD for Transaction (Create, Read, Update, Delete) at the moment only read
 - Investments Radar
+- Automatic create a tab for each category of investments with a list of investments
+- Create a tab for brokers with a list of assets by broker.
+- Think about the design of dividends
+- Connect Token Chart to the backend
