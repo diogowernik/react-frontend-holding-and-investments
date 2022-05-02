@@ -5,18 +5,10 @@ import SideModules from '../components/sidemodules/SideModules'
 import { fetchPortfolioAssets } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-import FixedIncomes from './FixedIncome';
-import Fiis from './Fiis'
-import Cryptos from './Cryptos'
-import Internationals from './International';
 
 
 const Portfolio = () => {
-  const [portfolio_fiis, setPortfolioFiis] = useState([]);
-  const [portfolio_criptos, setPortfolioCriptos] = useState([]);
-  const [portfolio_fixed_income, setPortfolioFixedIncome] = useState([]);
-  const [portfolio_international, setPortfolioInternational] = useState([]);
-
+  const [portfolio_assets, setPortfolioAssets] = useState([]);
   const [portfolio_categories, setPortfolioCategories] = useState([]);
   const [portfolio_treemap, setPortfolioTreemap] = useState([]);
   const auth = useContext(AuthContext);
@@ -42,10 +34,7 @@ const Portfolio = () => {
   const onFetchPortfolioAssets = useCallback(async () => {
       const json = await fetchPortfolioAssets(auth.token);
       if (json) {
-          setPortfolioFiis(json.filter( data => data.category === "Fundos Imobiliários"));
-          setPortfolioCriptos(json.filter( data => data.category === "Criptomoedas")); 
-          setPortfolioFixedIncome(json.filter( data => data.category === "Renda Fixa")); 
-          setPortfolioInternational(json.filter( data => data.category === "Internacional")); 
+          setPortfolioAssets(json);
           setPortfolioCategories(categoriesGroupBy(json,"category"));
           setPortfolioTreemap(json);
       }
@@ -53,7 +42,6 @@ const Portfolio = () => {
       useEffect(() => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
-  
 
   // Treemap grouping
   const grouped = portfolio_treemap.reduce((acc,curr)=>{
@@ -62,6 +50,14 @@ const Portfolio = () => {
     return {...acc, [category]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
   const treemap = Object.entries(grouped).map(([name,data])=>({name, data}))
+
+  // portfolio_assets grouping
+  const grouped_assets = portfolio_assets.reduce((acc,curr)=>{
+    const {category, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit} = curr
+    const existing = acc[category]||[]
+    return {...acc, [category]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit }]}
+  },{})
+  const assets = Object.entries(grouped_assets).map(([name,data])=>({name, data}))
   
   return (
     <MainLayout>
@@ -76,22 +72,15 @@ const Portfolio = () => {
         <Col lg={8}>
         <Card className=" mb-3">
             <Card.Header>
-              <Nav variant="pills">
+              <Nav variant="pills">    
                   <Nav.Item>
                       <Nav.Link eventKey="dashboard">Dashboard</Nav.Link>
                   </Nav.Item>
-                  <Nav.Item>
-                      <Nav.Link eventKey="fiis" >Fundos Imobiliarios</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                      <Nav.Link eventKey="cryptos" >Criptomoedas</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                      <Nav.Link eventKey="fixed_income" >Renda Fixa</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                      <Nav.Link eventKey="international" >Internacional</Nav.Link>
-                  </Nav.Item>
+                  {assets.map(({name})=>(
+                    <Nav.Item key={name}>
+                      <Nav.Link eventKey={name}>{name}</Nav.Link>
+                    </Nav.Item>
+                  ))}
               </Nav>
             </Card.Header>
         </Card>
@@ -102,18 +91,50 @@ const Portfolio = () => {
                 portfolio_treemap={treemap}
                 />
             </Tab.Pane>
-            <Tab.Pane eventKey="fiis">
-                <Fiis data={portfolio_fiis}/>
-            </Tab.Pane>
-            <Tab.Pane eventKey="cryptos">
-                <Cryptos data={portfolio_criptos}/>
-            </Tab.Pane>
-            <Tab.Pane eventKey="fixed_income">
-                <FixedIncomes data={portfolio_fixed_income}/>
-            </Tab.Pane>
-            <Tab.Pane eventKey="international">
-                <Internationals data={portfolio_international}/>
-            </Tab.Pane>
+            {assets.map(({name,data})=>(
+              <Tab.Pane eventKey={name} key={name}>
+                <Row>
+                <Col lg={12}>
+                    <Card  color="gray" className="mb-3">   
+                        <Card.Header className="bg-gray-lighter">{name}</Card.Header>
+                        <Card.Body>
+                        <div className="table-responsive">
+                        <table className="table table-striped table-sm">
+                          <thead>
+                            <tr>
+                              <th>Id</th>
+                              <th>Ticker</th>
+                              <th>Quantidade</th>
+                              <th>Preço Médio</th>
+                              <th>Custo Total</th>
+                              <th>Total Hoje</th>
+                              <th>Lucro</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit})=>(
+                              <tr key={id}>
+                                <td>{id}</td>
+                                <td>{ticker}</td>
+                                <td>{shares_amount}</td>
+                                <td>{share_average_price_brl}</td>
+                                <td>{total_cost_brl}</td>
+                                <td>{total_today_brl}</td>
+                                <td>{profit}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                        </Card.Body>
+                    </Card>  
+                </Col>
+                  
+                </Row>
+                
+
+              </Tab.Pane>
+            ))}
         </Tab.Content>
         </Col>
         </Tab.Container>
