@@ -13,11 +13,8 @@ const TransactionForm = ({ onDone }) => {
     const [broker, setBroker] = useState("");
     const [shares_amount, setSharesAmount] = useState("");
     const [share_cost_brl, setShareCostBrl] = useState("");
-
     const auth = useContext(AuthContext);
     const params = useParams();
-    // defautDate today
-    const defaultDate = new Date().toISOString().split('T')[0];
    
 
     // portfolios, assets, brokers 
@@ -25,6 +22,9 @@ const TransactionForm = ({ onDone }) => {
     const [assets, setAssets] = useState([]);
     const [brokers, setBrokers] = useState([]);
     
+    // fetch portfolios, assets, brokers
+
+    // Portfolios
     const onFetchPortfolios = useCallback(async () => {
         const json = await fetchPortfolios(auth.token);
         if (json) {
@@ -35,7 +35,14 @@ const TransactionForm = ({ onDone }) => {
       useEffect(() => {
         onFetchPortfolios();
       }, [onFetchPortfolios]);
-    
+    const portfolio_options = portfolios.map(portfolio => {
+        return {
+            value: portfolio.id,
+            label: portfolio.name
+        }
+    });
+
+    //   Assets
     const onFetchAssets = useCallback(async () => {
         const json = await fetchAssets(auth.token);
         if (json) {
@@ -53,8 +60,8 @@ const TransactionForm = ({ onDone }) => {
             label: asset.ticker + " - " + asset.price.toFixed(2) + " BRL"
         }
     });
-    console.log(assets_options);
 
+    // Brokers
     const onFetchBrokers = useCallback(async () => {
         const json = await fetchBrokers(auth.token);
         if (json) {
@@ -65,7 +72,15 @@ const TransactionForm = ({ onDone }) => {
     useEffect(() => {
         onFetchBrokers();
     }, [onFetchBrokers]);
+
+    const brokers_options = brokers.map(broker => {
+        return {
+            value: broker.id,
+            label: broker.name
+        }
+    });
     
+    // Add Transaction
      const onClick = async () => {
         const json = await addTransaction({
             order,
@@ -88,67 +103,65 @@ const TransactionForm = ({ onDone }) => {
         }
     };
 
+    // set defautValue for date
+    const defaultDate = new Date().toISOString().split('T')[0];
+    useEffect(() => {
+        setDate(defaultDate);
+    }, [defaultDate]);
+
+    // const defaultOrder = "Buy";
+    // useEffect(() => {
+    //     setOrder(defaultOrder);
+    // }, [defaultOrder]);
+
+
+
+
+
 return (
     <div>
         
         <h4 className='text-center'>Transaction</h4>
         <Form.Group>            
-            <Form.Control as="select" value={order} onChange={e => setOrder(e.target.value)}>
+            <Form.Control 
+                as="select" 
+                // defaultValue={defaultOrder}
+                value={order} 
+                onChange={e => setOrder(e.target.value)}
+            >                
+                <option value="">Tipo de Ordem</option>
                 <option value="Buy">Buy</option>
                 <option value="Sell">Sell</option>
             </Form.Control>
         </Form.Group>
         <Form.Group>
-            <Form.Control type="date" defaultValue={defaultDate} onChange={e => setDate(e.target.value)} />
-        </Form.Group>
-        <Form.Group hidden>
-            {/* select */}
-            <Form.Control
-                as='select'
-                value={params.id}
-                onChange={(e) => setPortfolio(e.target.value)}
-            >  
-                <option value="">Select Portfolio</option>
-                {/* fetch portfolios options */}
-                {portfolios.map(portfolio => (
-                    <option key={portfolio.id} value={portfolio.id}>{portfolio.name}</option>
-                ))}
-            </Form.Control>
+            <Form.Control 
+                type="date" 
+                // value={date} 
+                defaultValue={defaultDate}
+                onChange={e => setDate(e.target.value)} 
+            />
         </Form.Group>
         <Form.Group>
-            {/* select2 */}
-
+            <Select
+                placeholder="Select Portfolio"
+                onChange={e => setPortfolio(e)}
+                options={portfolio_options}                                                    
+            />
+        </Form.Group>
+        <Form.Group>
             <Select
                 onChange={(e) => setAsset(e.value)}
                 placeholder="Select Asset"
                 options={assets_options}
-                >
-            </Select>
-
-            {/* <Form.Control
-                as='select'
-                value={asset}   
-                onChange={(e) => setAsset(e.target.value)}
-            >
-                <option value="">Escolha o Ativo</option>
-                {assets.map(asset => (
-                    <option key={asset.id} value={asset.id}>{asset.ticker}</option>
-                ))}
-            </Form.Control> */}
+            />
         </Form.Group>
         <Form.Group>
-            {/* select */}
-            <Form.Control
-                as='select'
-                value={broker}
-                onChange={(e) => setBroker(e.target.value)}
-            >
-                <option value="">Select Broker</option>
-                {/* fetch brokers options */}
-                {brokers.map(broker => (
-                    <option key={broker.id} value={broker.id}>{broker.name}</option>
-                ))}
-            </Form.Control>
+            <Select
+                onChange={(e) => setBroker(e.value)}
+                placeholder="Select Broker"
+                options={brokers_options}
+            />
         </Form.Group>
         <Form.Group>
             {/* float number */}
