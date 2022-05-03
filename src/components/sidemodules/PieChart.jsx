@@ -13,7 +13,7 @@ class PieChart extends React.Component {
           width: 380,
           type: 'pie',
         },
-        labels: this.props.portfolio_categories.map(a=>a.name),
+        labels: [],
         theme: {
           mode: 'light', 
           palette: 'palette2', 
@@ -30,20 +30,17 @@ class PieChart extends React.Component {
     };
   }
 
-
-
   render() {
     return (
         <>
-        {/* {console.log(this.props.portfolio_categories.map(a=>a.name))} */}
+        {/* {console.log(this.props.categories_total.map(a=>a.name))} */}
         <Card  color="gray" className="mb-3">
             <CardHeader className="bg-gray-lighter">PieChart</CardHeader>
             <Card body>
                 <div id="chart3">
                   <Chart 
                   options={this.state.options} 
-                  series={this.props.portfolio_categories.map(a=>a.total_today_brl)} 
-                  labels={this.props.portfolio_categories.map(a=>a.name)} 
+                  series={this.props.categories_total.map(a=>a.total_today_brl)} 
                   type="pie" 
                   height={450} 
                   />

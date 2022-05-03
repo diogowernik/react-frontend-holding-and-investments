@@ -1,21 +1,20 @@
 import { IoMdArrowBack } from 'react-icons/io';
-import { Button, Card, Table } from 'react-bootstrap';
-import React, { 
-    // useEffect, 
-    // useState, 
-    // useContext
- } from 'react';
-// import Tokenize from './Tokenize'
+import { Button, Card, Table, Modal } from 'react-bootstrap';
+import React, { useState,} from 'react';
 
-import { 
-    useHistory 
-} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PieChart from './PieChart';
+import TransactionForm from '../../containers/TransactionForm';
 
 
-const SideModules = ({portfolio_categories=[]}) => {
+const SideModules = ({categories_total=[]}) => {
     const history = useHistory();
     const onBack = () => history.push("/portfolios");
+    
+    // Modal
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <>
@@ -33,17 +32,18 @@ const SideModules = ({portfolio_categories=[]}) => {
                 <Card.Body>
                     <Table responsive>
                         <tbody>
-                            {portfolio_categories.map((category) => (
-                            <tr key={category.name}>
-                                <td>{category.name}</td>
-                                <td><div className="float-right strong">{category.total_today_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div></td>
-                            </tr>
+                            {categories_total.map(category => (
+                                <tr key={category.name}>
+                                    <td>{category.name}</td>
+                                    <td className='text-right'>{category.total_today_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                </tr>
+                            
                             ))}
                             <tr className="mt-1">
                                 <th><div className="mt-2 strong">Total</div></th>
                                 <th>
                                     <div className="float-right h5 text-primary">
-                                        {portfolio_categories.map(a=>a.total_today_brl).reduce((a, e) => a + e, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                        {categories_total.map(a=>a.total_today_brl).reduce((a, e) => a + e, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                                     </div>
                                 </th>
                             </tr>
@@ -53,9 +53,31 @@ const SideModules = ({portfolio_categories=[]}) => {
                         
                     </Table>
                 </Card.Body>
+                <Card.Footer>
+                <Button variant="primary" onClick={handleShow}>
+                    Adicionar Transação
+                </Button>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Adicionar Transação</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <TransactionForm />
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Fechar
+                        </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            Salvar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                </Card.Footer>
             </Card>
             <PieChart 
-                portfolio_categories={portfolio_categories}
+                categories_total={categories_total}
             />  
             {/* <Tokenize 
                 

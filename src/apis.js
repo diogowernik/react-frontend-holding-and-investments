@@ -68,6 +68,12 @@ export function register(username, password) {
 export function fetchPortfolios(token) {
   return request('/api/portfolios/', { token });
 }
+export function fetchBrokers(token) {
+  return request('/api/brokers/', { token });
+}
+export function fetchAssets(token) {
+  return request('/api/assets/', { token });
+}
 
 export function addPortfolio(data, token) {
   return request('/api/portfolios/', { data, token, method: 'POST' });
@@ -88,6 +94,9 @@ export function updatePortfolio(id, data, token) {
 export function fetchPortfolioAssets(id, token) {
   // return request(`/api/portfolios/${id}/assets`, { token });
   return request(`/api/portfolios/${id}/assets`, { token });
+}
+export function addTransaction(id, data, token) {
+  return request(`/api/portfolios/${id}/transactions/`, { data, token, method: 'POST' });
 }
 
 // upload to cloudinary

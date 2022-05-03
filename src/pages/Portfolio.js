@@ -13,29 +13,12 @@ const Portfolio = () => {
   const [portfolio_treemap, setPortfolioTreemap] = useState([]);
   const auth = useContext(AuthContext);
 
-  // PieChart grouping
-  function categoriesGroupBy(lista, column){
-    var columns = {};
-    var resultado = [];
-    lista.forEach(function (item) {
-      var reg = {};
-      columns[item[column]] = columns[item[column]] || [];
-      for (var i in item)
-        if (i !== column)
-          reg[i] = item[i];
-      columns[item[column]].push(reg);
-    });
-    for (var i in columns)
-      resultado.push({ name: i, total_today_brl: columns[i].map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0) });
-    return resultado;
-  }
-
   // Fetchs
   const onFetchPortfolioAssets = useCallback(async () => {
       const json = await fetchPortfolioAssets(auth.token);
       if (json) {
           setPortfolioAssets(json);
-          setPortfolioCategories(categoriesGroupBy(json,"category"));
+          setPortfolioCategories(json);
           setPortfolioTreemap(json);
       }
       }, [auth.token]);
@@ -58,6 +41,20 @@ const Portfolio = () => {
     return {...acc, [category]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit }]}
   },{})
   const assets = Object.entries(grouped_assets).map(([name,data])=>({name, data}))
+
+  // portfolio_categories grouping
+  const grouped_categories = portfolio_categories.reduce((acc,curr)=>{
+    const {category, total_today_brl} = curr
+    const existing = acc[category]||[]
+    return {...acc, [category]:[...existing, { total_today_brl }]}
+  },{})
+  // sum categories
+  const categories = Object.entries(grouped_categories).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+    const {name, data} = curr
+    const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
+    return {...acc, [name]:total_today_brl} 
+  },{})
+ const categories_total = Object.entries(categories).map(([name,total_today_brl])=>({name, total_today_brl}))
   
   return (
     <MainLayout>
@@ -65,7 +62,7 @@ const Portfolio = () => {
       <Row>
         <Col lg={4}>
           <SideModules 
-          portfolio_categories={portfolio_categories}          
+          categories_total={categories_total}          
           />
         </Col> 
         <Tab.Container defaultActiveKey="dashboard">
