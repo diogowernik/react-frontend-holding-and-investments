@@ -76,7 +76,14 @@ export function fetchAssets(token) {
 }
 
 export function addPortfolio(data, token) {
-  return request('/api/portfolios/', { data, token, method: 'POST' });
+  return request('/api/portfolios/', { data, token, method: 'POST', message: 'portfolio criado com sucesso' });
+}
+export function addTransaction(data) {
+  return request('/api/transactions/', { 
+    data, 
+    method: 'POST', 
+    message: 'Transação criada com sucesso'
+  });
 }
 
 export function fetchPortfolio(id, token) {
@@ -84,20 +91,18 @@ export function fetchPortfolio(id, token) {
 }
 
 export function removePortfolio(id, token) {
-  return request(`/api/portfolios/${id}`, { token, method: "DELETE" });
+  return request(`/api/portfolios/${id}`, { token, method: "DELETE", message: 'Portfolio deletado com sucesso' });
 }
 
 export function updatePortfolio(id, data, token) {
-  return request(`/api/portfolios/${id}`, { data, token, method: "PATCH" });
+  return request(`/api/portfolios/${id}`, { data, token, method: "PATCH", message: 'Portfolio atualizado com sucesso' });
 }
 
 export function fetchPortfolioAssets(id, token) {
   // return request(`/api/portfolios/${id}/assets`, { token });
   return request(`/api/portfolios/${id}/assets`, { token });
 }
-export function addTransaction(id, data, token) {
-  return request(`/api/portfolios/${id}/transactions/`, { data, token, method: 'POST' });
-}
+
 
 // upload to cloudinary
 

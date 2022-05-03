@@ -54,7 +54,7 @@ const SideModules = ({categories_total=[]}) => {
                     </Table>
                 </Card.Body>
                 <Card.Footer>
-                <Button variant="primary" onClick={handleShow}>
+                <Button className='float-right' variant="primary" onClick={handleShow}>
                     Adicionar Transação
                 </Button>
                 <Modal show={show} onHide={handleClose}>
