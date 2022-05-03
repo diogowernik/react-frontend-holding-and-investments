@@ -22,25 +22,7 @@ const TransactionForm = ({ onDone }) => {
     const [assets, setAssets] = useState([]);
     const [brokers, setBrokers] = useState([]);
     
-    // fetch portfolios, assets, brokers
-
-    // Portfolios
-    const onFetchPortfolios = useCallback(async () => {
-        const json = await fetchPortfolios(auth.token);
-        if (json) {
-          setPortfolios(json);
-        }
-      }, [auth.token]);
-    
-      useEffect(() => {
-        onFetchPortfolios();
-      }, [onFetchPortfolios]);
-    const portfolio_options = portfolios.map(portfolio => {
-        return {
-            value: portfolio.id,
-            label: portfolio.name
-        }
-    });
+    // fetch assets, brokers
 
     //   Assets
     const onFetchAssets = useCallback(async () => {
@@ -85,7 +67,7 @@ const TransactionForm = ({ onDone }) => {
         const json = await addTransaction({
             order,
             date,
-            portfolio,
+            portfolio: params.id,
             asset,
             broker,
             shares_amount,
@@ -109,13 +91,10 @@ const TransactionForm = ({ onDone }) => {
         setDate(defaultDate);
     }, [defaultDate]);
 
-    // const defaultOrder = "Buy";
-    // useEffect(() => {
-    //     setOrder(defaultOrder);
-    // }, [defaultOrder]);
-
-
-
+    const defaultOrder = "Buy";
+    useEffect(() => {
+        setOrder(defaultOrder);
+    }, [defaultOrder]);
 
 
 return (
@@ -125,7 +104,7 @@ return (
         <Form.Group>            
             <Form.Control 
                 as="select" 
-                // defaultValue={defaultOrder}
+                defaultValue={defaultOrder}
                 value={order} 
                 onChange={e => setOrder(e.target.value)}
             >                
@@ -140,13 +119,6 @@ return (
                 // value={date} 
                 defaultValue={defaultDate}
                 onChange={e => setDate(e.target.value)} 
-            />
-        </Form.Group>
-        <Form.Group>
-            <Select
-                placeholder="Select Portfolio"
-                onChange={e => setPortfolio(e)}
-                options={portfolio_options}                                                    
             />
         </Form.Group>
         <Form.Group>
