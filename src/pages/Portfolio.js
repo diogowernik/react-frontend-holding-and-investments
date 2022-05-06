@@ -106,11 +106,11 @@ const Portfolio = () => {
                               <th>Preço Médio</th>
                               <th>Custo Total</th>
                               <th>Total Hoje</th>
-                              <th>Lucro</th>
+                              {/* <th>Lucro</th> */}
                             </tr>
                           </thead>
                           <tbody>
-                            {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit})=>(
+                            {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl})=>(
                               <tr key={id}>
                                 
                                 <td>{ticker}</td>
@@ -118,7 +118,7 @@ const Portfolio = () => {
                                 <td>{share_average_price_brl}</td>
                                 <td>{total_cost_brl}</td>
                                 <td>{total_today_brl}</td>
-                                <td>{profit}</td>
+                                {/* <td>{profit}</td> */}
                               </tr>
                             ))}
                           </tbody>
