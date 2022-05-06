@@ -1,14 +1,13 @@
 import {Form, Button} from 'react-bootstrap';
 import React, {useEffect, useState, useContext, useCallback} from 'react';
 import { useParams} from 'react-router-dom';
-import {fetchPortfolios, fetchAssets ,fetchBrokers, addTransaction} from '../apis';
+import { fetchAssets ,fetchBrokers, addTransaction} from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import Select from 'react-select'
 
 const TransactionForm = ({ onDone }) => {
     const [order, setOrder] = useState("");
     const [date, setDate] = useState("");
-    const [portfolio, setPortfolio] = useState("");
     const [asset, setAsset] = useState("");
     const [broker, setBroker] = useState("");
     const [shares_amount, setSharesAmount] = useState("");
@@ -18,7 +17,6 @@ const TransactionForm = ({ onDone }) => {
    
 
     // portfolios, assets, brokers 
-    const [portfolios, setPortfolios] = useState([]);
     const [assets, setAssets] = useState([]);
     const [brokers, setBrokers] = useState([]);
     
@@ -76,7 +74,6 @@ const TransactionForm = ({ onDone }) => {
         if (json) {
             setOrder("");
             setDate("");
-            setPortfolio("");
             setAsset("");
             setBroker("");
             setSharesAmount("");
@@ -105,7 +102,6 @@ return (
             <Form.Control 
                 as="select" 
                 defaultValue={defaultOrder}
-                value={order} 
                 onChange={e => setOrder(e.target.value)}
             >                
                 <option value="">Tipo de Ordem</option>

@@ -5,6 +5,7 @@ import SideModules from '../components/sidemodules/SideModules'
 import { fetchPortfolioAssets } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
+import Datatable from '../contexts/Datatable';
 
 
 const Portfolio = () => {
@@ -95,11 +96,11 @@ const Portfolio = () => {
                     <Card  color="gray" className="mb-3">   
                         <Card.Header className="bg-gray-lighter">{name}</Card.Header>
                         <Card.Body>
-                        <div className="table-responsive">
+                        <Datatable className="table-responsive">
                         <table className="table table-striped table-sm">
                           <thead>
                             <tr>
-                              <th>Id</th>
+                              
                               <th>Ticker</th>
                               <th>Quantidade</th>
                               <th>Preço Médio</th>
@@ -111,7 +112,7 @@ const Portfolio = () => {
                           <tbody>
                             {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit})=>(
                               <tr key={id}>
-                                <td>{id}</td>
+                                
                                 <td>{ticker}</td>
                                 <td>{shares_amount}</td>
                                 <td>{share_average_price_brl}</td>
@@ -122,7 +123,7 @@ const Portfolio = () => {
                             ))}
                           </tbody>
                         </table>
-                      </div>
+                      </Datatable>
                         </Card.Body>
                     </Card>  
                 </Col>
