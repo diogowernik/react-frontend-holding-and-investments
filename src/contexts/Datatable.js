@@ -44,7 +44,14 @@ export default class Datatable extends Component {
             // 'ordering': true, // Column ordering
             'info': false, // Bottom left status text
             // responsive: true,
-            "dom": '<"float-left"f><"clear">'
+            "dom": '<"float-left"f><"clear">',
+            oLanguage: {
+                sSearch: '<em class="fa fa-search"></em>',
+                
+            }
+            // language: { search: "" },
+
+
             // ,
             // "order": [[ 0, "asc" ]]
         }

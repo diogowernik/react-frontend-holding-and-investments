@@ -1,9 +1,14 @@
-import { Row, Col, Modal, Container } from 'react-bootstrap';
+import { Row, Col, Modal, Container, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
+import { AiOutlineDelete, AiFillEdit } from 'react-icons/ai';
 
-import { fetchPortfolios } from '../apis';
+import { 
+  fetchPortfolios, 
+  removePortfolio,
+  updatePortfolio 
+} from '../apis';
 import AuthContext from '../contexts/AuthContext';
 
 import MainLayout from '../layouts/MainLayout';
@@ -58,14 +63,32 @@ const Portfolios = () => {
     }
   }, [auth.token]);
 
-  useEffect(() => {
-    onFetchPortfolios();
-  }, [onFetchPortfolios]);
 
   const onDone = () => {
     onFetchPortfolios();
     onHide();
   };
+
+  const onRemovePortfolio = (id) => {
+    const c = window.confirm("Are you sure?");
+    if (c) {
+      removePortfolio(id, auth.token).then(onFetchPortfolios);
+    }
+  }
+
+  const onUpdatePortfolio = async (id, data) => {
+    updatePortfolio(id, data, auth.token).then(
+      (json) => {
+        if (json) {
+          setPortfolios(json);
+        }
+      }
+    );
+  }
+
+  useEffect(() => {
+    onFetchPortfolios();
+  }, [onFetchPortfolios]);
 
   return (
     <MainLayout>
@@ -83,7 +106,11 @@ const Portfolios = () => {
           <Col key={portfolio.id} lg={4}>
             <Portfolio onClick={() => history.push(`/portfolios/${portfolio.id}`)}>
               <div style={{ backgroundImage: `url(${portfolio.image})` }}></div>
-              <p>{portfolio.name}</p>
+              <p>{portfolio.name} | 
+              <Button variant="link" onClick={() => onRemovePortfolio(portfolio.id)}>
+                  <AiOutlineDelete size={25} color="red" />
+              </Button>
+              </p>
             </Portfolio>
           </Col>
         ))}
