@@ -6,6 +6,7 @@ import { fetchPortfolioAssets } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
+import GroupedTables from '../components/tables/GroupedTables';
 
 
 const Portfolio = () => {
@@ -86,6 +87,8 @@ const Portfolio = () => {
   },{})
   const setor_fii_total = Object.entries(setor_fii_total_today).map(([name,total_today_brl])=>({name, total_today_brl}))
 
+
+
   // Grouping for Treemap by Setor
   const grouped_for_treemap_by_setor = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
     const {setor_fii, ticker, total_today_brl} = curr
@@ -93,11 +96,6 @@ const Portfolio = () => {
     return {...acc, [setor_fii]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
   const treemap_setor_fii = Object.entries(grouped_for_treemap_by_setor).map(([name,data])=>({name, data}))
-
-
-
-
-
 
   // Grouping for treemap by broker
   const grouped_for_treemap_by_broker = portfolio_assets.reduce((acc,curr)=>{
@@ -144,10 +142,15 @@ const Portfolio = () => {
                         />
                     </Col> 
                     <Col lg={8}>
+                        <GroupedTables
+                        grouped_assets={category_assets}
+                        />
                         <Dashboard 
                         portfolio_treemap={treemap_categories}
                         />
+                        
                     </Col>
+                    
                   </Row>
                 </Tab.Pane>
             </Tab.Content>
@@ -160,6 +163,9 @@ const Portfolio = () => {
                         />
                     </Col> 
                     <Col lg={8}>
+                        <GroupedTables
+                        grouped_assets={broker_assets}
+                        />
                         <Dashboard 
                         portfolio_treemap={treemap_brokers}
                         />
@@ -176,6 +182,9 @@ const Portfolio = () => {
                         />
                     </Col> 
                     <Col lg={8}>
+                        <GroupedTables
+                        grouped_assets={setor_fii_assets}
+                        />
                         <Dashboard 
                         portfolio_treemap={treemap_setor_fii}
                         />
