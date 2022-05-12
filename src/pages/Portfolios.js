@@ -2,12 +2,15 @@ import { Row, Col, Modal, Container, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
-import { AiOutlineDelete, AiFillEdit } from 'react-icons/ai';
+import { 
+  AiOutlineDelete, 
+  // AiFillEdit 
+} from 'react-icons/ai';
 
 import { 
   fetchPortfolios, 
   removePortfolio,
-  updatePortfolio 
+  // updatePortfolio 
 } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 
@@ -76,15 +79,15 @@ const Portfolios = () => {
     }
   }
 
-  const onUpdatePortfolio = async (id, data) => {
-    updatePortfolio(id, data, auth.token).then(
-      (json) => {
-        if (json) {
-          setPortfolios(json);
-        }
-      }
-    );
-  }
+  // const onUpdatePortfolio = async (id, data) => {
+  //   updatePortfolio(id, data, auth.token).then(
+  //     (json) => {
+  //       if (json) {
+  //         setPortfolios(json);
+  //       }
+  //     }
+  //   );
+  // }
 
   useEffect(() => {
     onFetchPortfolios();

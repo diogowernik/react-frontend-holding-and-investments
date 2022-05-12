@@ -30,17 +30,32 @@ class PieChart extends React.Component {
     };
   }
 
+
+  componentDidUpdate(prevProps) {
+    if (this.props.total !== prevProps.total) {
+      this.setState((prevState)=> ({
+        ...prevState,
+        options:{ ...prevState.options,
+                  labels: this.props.total.map(a=>a.name)
+                }
+      }))
+    }
+  }
+
+
   render() {
     return (
         <>
-        {/* {console.log(this.props.categories_total.map(a=>a.name))} */}
+       
+
+
         <Card  color="gray" className="mb-3">
             <CardHeader className="bg-gray-lighter">PieChart</CardHeader>
             <Card body>
                 <div id="chart3">
                   <Chart 
                   options={this.state.options} 
-                  series={this.props.categories_total.map(a=>a.total_today_brl)} 
+                  series={this.props.total.map(a=>a.total_today_brl)} 
                   type="pie" 
                   height={450} 
                   />
