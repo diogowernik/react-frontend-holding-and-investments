@@ -3,10 +3,8 @@ import React, { useState,} from 'react';
 import PieChart from './PieChart';
 import TransactionForm from '../../containers/TransactionForm';
 
-// SideModules get categories_total and brokers_total from redux
-const SideModules = ({group_total}) => {
-// const SideModules = ({group_total=[]}) => {      
-    // Modal
+const SideModules = ({ group_total}) => {
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

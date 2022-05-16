@@ -7,6 +7,7 @@ import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import GroupedTables from '../components/tables/GroupedTables';
+import PieChart from '../components/sidemodules/PieChart';
 
 
 const Portfolio = () => {
@@ -105,6 +106,20 @@ const Portfolio = () => {
   },{})
   const treemap_brokers = Object.entries(grouped_for_treemap_by_broker).map(([name,data])=>({name, data}))
 
+  // grouping fiis only filter Fundos Imobiliários
+  const grouped_assets_by_fiis = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
+    const {ticker, total_today_brl} = curr
+    return {...acc, [ticker]:total_today_brl}
+  }
+  ,{})
+  const fiis_only = Object.entries(grouped_assets_by_fiis).map(([name,total_today_brl])=>({name, total_today_brl})) 
+
+  // const grouped_assets_all = portfolio_assets.reduce((acc,curr)=>{
+  //   const {ticker, total_today_brl} = curr
+  //   return {...acc, [ticker]:total_today_brl}
+  // }
+  // ,{})
+  // const all_assets = Object.entries(grouped_assets_all).map(([name,total_today_brl])=>({name, total_today_brl}))
  
 
   return (
@@ -151,6 +166,7 @@ const Portfolio = () => {
                         
                     </Col>
                     
+                    
                   </Row>
                 </Tab.Pane>
             </Tab.Content>
@@ -177,6 +193,9 @@ const Portfolio = () => {
                 <Tab.Pane eventKey="fiis" >
                 <Row>
                     <Col lg={4}>
+                        <PieChart 
+                          total={fiis_only}
+                        />  
                         <SideModules 
                         group_total={setor_fii_total}      
                         />

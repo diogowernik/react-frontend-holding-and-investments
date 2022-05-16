@@ -57,7 +57,7 @@ class PieChart extends React.Component {
                   options={this.state.options} 
                   series={this.props.total.map(a=>a.total_today_brl)} 
                   type="pie" 
-                  height={450} 
+                  // height={450} 
                   />
                 </div>
                 </Card>
