@@ -103,6 +103,10 @@ export function fetchPortfolioAssets(id, token) {
   return request(`/api/portfolios/${id}/assets`, { token });
 }
 
+export function fetchPortfolioQuotas(id, token) {
+  return request(`/api/portfolios/${id}/quotas`, { token });
+}
+
 
 // upload to cloudinary
 

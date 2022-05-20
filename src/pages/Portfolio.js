@@ -1,17 +1,19 @@
 import { Row, Col, Container, Nav, Card, Tab} from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
-import Dashboard from './Dashboard'
 import SideModules from '../components/sidemodules/SideModules'
-import { fetchPortfolioAssets } from '../apis';
+import { fetchPortfolioAssets, fetchPortfolioQuotas } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import GroupedTables from '../components/tables/GroupedTables';
 import PieChart from '../components/sidemodules/PieChart';
+import TreeMap from '../components/dashboard/Treemap';
+import LineChart from '../components/dashboard/LineChart';
 
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
+  const [portfolio_quotas, setPortfolioQuotas] = useState([]);
 
   const auth = useContext(AuthContext);
   const params = useParams();
@@ -27,7 +29,16 @@ const Portfolio = () => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
 
-  // Categories grouping
+  const onFetchPortfolioQuotas = useCallback(async () => {
+      const json = await fetchPortfolioQuotas(params.id, auth.token);
+      if (json) {
+          setPortfolioQuotas(json);
+      }
+      }, [params.id, auth.token]);
+      useEffect(() => {
+      onFetchPortfolioQuotas();
+      }, [onFetchPortfolioQuotas]);
+  // end of Fetchs
 
   // Grouping by category for table creation
   const grouped_assets_by_category = portfolio_assets.reduce((acc,curr)=>{
@@ -160,13 +171,13 @@ const Portfolio = () => {
                         <GroupedTables
                         grouped_assets={category_assets}
                         />
-                        <Dashboard 
+                        <TreeMap
                         portfolio_treemap={treemap_categories}
-                        />
-                        
+                        />    
+                        <LineChart
+                        portfolio_linechart={portfolio_quotas}
+                        />  
                     </Col>
-                    
-                    
                   </Row>
                 </Tab.Pane>
             </Tab.Content>
@@ -182,9 +193,9 @@ const Portfolio = () => {
                         <GroupedTables
                         grouped_assets={broker_assets}
                         />
-                        <Dashboard 
+                        <TreeMap
                         portfolio_treemap={treemap_brokers}
-                        />
+                        />  
                     </Col>
                   </Row>              
                 </Tab.Pane>
@@ -204,9 +215,9 @@ const Portfolio = () => {
                         <GroupedTables
                         grouped_assets={setor_fii_assets}
                         />
-                        <Dashboard 
+                        <TreeMap
                         portfolio_treemap={treemap_setor_fii}
-                        />
+                        />  
                     </Col>
                   </Row>              
                 </Tab.Pane>
