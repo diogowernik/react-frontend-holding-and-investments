@@ -75,6 +75,10 @@ export function fetchAssets(token) {
   return request('/api/assets/', { token });
 }
 
+export function fetchFiis(token) {
+  return request('/api/fiis/', { token });
+}
+
 export function addPortfolio(data, token) {
   return request('/api/portfolios/', { data, token, method: 'POST', message: 'portfolio criado com sucesso' });
 }

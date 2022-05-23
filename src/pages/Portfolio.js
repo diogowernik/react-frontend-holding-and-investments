@@ -1,11 +1,13 @@
 import { Row, Col, Container, Nav, Card, Tab} from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
 import SideModules from '../components/sidemodules/SideModules'
-import { fetchPortfolioAssets, fetchPortfolioQuotas } from '../apis';
+import { fetchPortfolioAssets, fetchPortfolioQuotas, fetchFiis } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import GroupedTables from '../components/tables/GroupedTables';
+import FiiGroupedTables from '../components/tables/FiiGroupedTables';
+import FiiGroupedRadar from '../components/tables/FiiGroupedRadar';
 import PieChart from '../components/sidemodules/PieChart';
 import TreeMap from '../components/dashboard/Treemap';
 import LineChart from '../components/dashboard/LineChart';
@@ -14,6 +16,7 @@ import LineChart from '../components/dashboard/LineChart';
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
   const [portfolio_quotas, setPortfolioQuotas] = useState([]);
+  const [fiis, setFiis] = useState([]);
 
   const auth = useContext(AuthContext);
   const params = useParams();
@@ -38,13 +41,23 @@ const Portfolio = () => {
       useEffect(() => {
       onFetchPortfolioQuotas();
       }, [onFetchPortfolioQuotas]);
+
+  const onFetchFiis = useCallback(async () => {
+      const json = await fetchFiis(auth.token);
+      if (json) {
+          setFiis(json);
+      }
+      }, [auth.token]);
+      useEffect(() => {
+      onFetchFiis();
+      }, [onFetchFiis]);
   // end of Fetchs
 
   // Grouping by category for table creation
   const grouped_assets_by_category = portfolio_assets.reduce((acc,curr)=>{
-    const {category, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, broker} = curr
+    const {category, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, broker, trade_profit, dividends_profit, asset_price, p_vpa_fii} = curr
     const existing = acc[category]||[]
-    return {...acc, [category]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, broker, category }]}
+    return {...acc, [category]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, broker, category, trade_profit, dividends_profit, asset_price, p_vpa_fii }]}
   },{})
   const category_assets = Object.entries(grouped_assets_by_category).map(([name,data])=>({name, data}))
 
@@ -59,9 +72,9 @@ const Portfolio = () => {
   // Grouping by broker for table creation
   // const grouped_assets_by_broker = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
   const grouped_assets_by_broker = portfolio_assets.reduce((acc,curr)=>{
-    const {broker, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category} = curr
+    const {broker, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, asset_price} = curr
     const existing = acc[broker]||[]
-    return {...acc, [broker]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category}]}
+    return {...acc, [broker]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, asset_price}]}
   },{})
   const broker_assets = Object.entries(grouped_assets_by_broker).map(([name,data])=>({name, data}))
 
@@ -84,11 +97,21 @@ const Portfolio = () => {
   // Grouping for Fiis by Setor
 
   const grouped_assets_by_setor_fii = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
-    const {setor_fii, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category} = curr
+    const {setor_fii, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii} = curr
     const existing = acc[setor_fii]||[]
-    return {...acc, [setor_fii]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category}]}
+    return {...acc, [setor_fii]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii}]}
   },{})
   const setor_fii_assets = Object.entries(grouped_assets_by_setor_fii).map(([name,data])=>({name, data}))
+
+  const grouped_fiis_for_radar = fiis.reduce((acc,curr)=>{
+    const {setor_fii, id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price} = curr
+    const existing = acc[setor_fii]||[]
+    return {...acc, [setor_fii]:[...existing, {id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price}]}
+  }
+  ,{})
+  const fiis_for_radar = Object.entries(grouped_fiis_for_radar).map(([name,data])=>({name, data}))
+
+  
 
   // Grouping for Fiis by Setor table Sum
 
@@ -151,6 +174,9 @@ const Portfolio = () => {
                     <Nav.Item>
                         <Nav.Link eventKey="fiis">Fundos Imobiliários</Nav.Link>
                     </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link eventKey="radar-fiis">Radar Fiis</Nav.Link>
+                    </Nav.Item>
                 </Nav>
               </Card.Header>
           </Card>
@@ -212,12 +238,26 @@ const Portfolio = () => {
                         />
                     </Col> 
                     <Col lg={8}>
-                        <GroupedTables
+                        <FiiGroupedTables
                         grouped_assets={setor_fii_assets}
+                        fiis={fiis}
                         />
                         <TreeMap
                         portfolio_treemap={treemap_setor_fii}
                         />  
+                    </Col>
+                  </Row>              
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="radar-fiis" >
+                <Row>
+                    
+                    <Col lg={12}>
+                        <FiiGroupedRadar
+                        fiis_for_radar={fiis_for_radar}
+                        />
+                        
                     </Col>
                   </Row>              
                 </Tab.Pane>

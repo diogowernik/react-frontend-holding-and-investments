@@ -46,10 +46,10 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>Cotação</th>
                                   <th>Custo Total</th>
                                   <th>Total Hoje</th>
-                                  {/* <th>Trade</th>
+                                  <th>Trade</th>
                                   <th>Dividendos</th>
                                   <th>Lucro Total</th>
-                                  <th>P/VPA</th> */}
+                                  <th>P/VPA</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -62,10 +62,10 @@ const GroupedTables = ({grouped_assets}) => {
                                     <td>{asset_price}</td>
                                     <td>{total_cost_brl}</td>
                                     <td>{total_today_brl}</td>
-                                    {/* <td>{trade_profit}</td>
+                                    <td>{trade_profit}</td>
                                     <td>{dividends_profit}</td>
                                     <td>{profit}</td>
-                                    <td>{p_vpa_fii}</td> */}
+                                    <td>{p_vpa_fii}</td>
                                   </tr>
                                 ))}
                               </tbody>
