@@ -1,13 +1,14 @@
 import { Row, Col, Container, Nav, Card, Tab} from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
 import SideModules from '../components/sidemodules/SideModules'
-import { fetchPortfolioAssets, fetchPortfolioQuotas, fetchFiis } from '../apis';
+import { fetchPortfolioAssets, fetchPortfolioQuotas, fetchFiis, fetchBrStocks } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import GroupedTables from '../components/tables/GroupedTables';
 import FiiGroupedTables from '../components/tables/FiiGroupedTables';
 import FiiGroupedRadar from '../components/tables/FiiGroupedRadar';
+import BrStocksGroupedRadar from '../components/tables/BrStocksGroupedRadar';
 import PieChart from '../components/sidemodules/PieChart';
 import TreeMap from '../components/dashboard/Treemap';
 import LineChart from '../components/dashboard/LineChart';
@@ -17,6 +18,7 @@ const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
   const [portfolio_quotas, setPortfolioQuotas] = useState([]);
   const [fiis, setFiis] = useState([]);
+  const [br_stocks, setBrStocks] = useState([]);
 
   const auth = useContext(AuthContext);
   const params = useParams();
@@ -51,6 +53,17 @@ const Portfolio = () => {
       useEffect(() => {
       onFetchFiis();
       }, [onFetchFiis]);
+
+  const onFetchBrStocks = useCallback(async () => {
+      const json = await fetchBrStocks(auth.token);
+      if (json) {
+          setBrStocks(json);
+      }
+      }, [auth.token]);
+      useEffect(() => {
+      onFetchBrStocks();
+      }, [onFetchBrStocks]);
+
   // end of Fetchs
 
   // Grouping by category for table creation
@@ -103,6 +116,7 @@ const Portfolio = () => {
   },{})
   const setor_fii_assets = Object.entries(grouped_assets_by_setor_fii).map(([name,data])=>({name, data}))
 
+  // Grouping for Fiis for Radar
   const grouped_fiis_for_radar = fiis.reduce((acc,curr)=>{
     const {setor_fii, id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price} = curr
     const existing = acc[setor_fii]||[]
@@ -111,7 +125,14 @@ const Portfolio = () => {
   ,{})
   const fiis_for_radar = Object.entries(grouped_fiis_for_radar).map(([name,data])=>({name, data}))
 
-  
+  // Grouping BrStocks for Radar
+  const grouped_br_stocks_for_radar = br_stocks.reduce((acc,curr)=>{
+    const {setor_br_stocks, id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe} = curr
+    const existing = acc[setor_br_stocks]||[]
+    return {...acc, [setor_br_stocks]:[...existing, {id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe}]}
+  }
+  ,{})
+  const br_stocks_for_radar = Object.entries(grouped_br_stocks_for_radar).map(([name,data])=>({name, data}))
 
   // Grouping for Fiis by Setor table Sum
 
@@ -176,6 +197,9 @@ const Portfolio = () => {
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="radar-fiis">Radar Fiis</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link eventKey="radar-br-stocks">Radar Ações Br</Nav.Link>
                     </Nav.Item>
                 </Nav>
               </Card.Header>
@@ -251,15 +275,24 @@ const Portfolio = () => {
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="radar-fiis" >
-                <Row>
-                    
+                <Row>                  
                     <Col lg={12}>
                         <FiiGroupedRadar
                         fiis_for_radar={fiis_for_radar}
-                        />
-                        
+                        /> 
                     </Col>
                   </Row>              
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="radar-br-stocks" >
+                <Row>
+                    <Col lg={12}>
+                        <BrStocksGroupedRadar
+                        br_stocks_for_radar={br_stocks_for_radar}
+                        />
+                    </Col>
+                </Row>
                 </Tab.Pane>
             </Tab.Content>
         
