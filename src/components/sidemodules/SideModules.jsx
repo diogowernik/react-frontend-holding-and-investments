@@ -53,9 +53,7 @@ const SideModules = ({ group_total}) => {
                         <Button variant="secondary" onClick={handleClose}>
                             Fechar
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
-                            Salvar
-                        </Button>
+                        
                     </Modal.Footer>
                 </Modal>
                 </Card.Footer>

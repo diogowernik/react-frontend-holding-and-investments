@@ -4,10 +4,20 @@ import Datatable from '../../contexts/Datatable';
 
 const GroupedTables = ({grouped_assets}) => {
 
+  // options for the datatable
+  const options1 = {
+    'paging': false, // Table pagination
+    'ordering': true, // Column ordering
+    'info': false, // Bottom left status text
+    "order": [[ 10, "desc" ]],
+    "dom": '<"float-left"f><"clear">',
+  }
+    
+
 
   return (
 
-        <Tab.Container defaultActiveKey="dashboard">
+        <Tab.Container defaultActiveKey="Agro">
         <Row>
           <Col lg={12}>
           <Card className=" mb-3">
@@ -36,7 +46,7 @@ const GroupedTables = ({grouped_assets}) => {
                           </h5>
                         </Card.Header>
                         <Card.Body>
-                            <Datatable className="table-responsive">
+                            <Datatable className="table-responsive" options={options1}>
                             <table className="table table-striped table-sm">
                               <thead>
                                 <tr>                              
@@ -50,10 +60,11 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>Dividendos</th>
                                   <th>Lucro Total</th>
                                   <th>P/VPA</th>
+                                  <th>yield 12m</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, trade_profit, dividends_profit, asset_price, p_vpa_fii })=>(
+                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, trade_profit, dividends_profit, asset_price, p_vpa_fii, twelve_m_yield })=>(
                                   <tr key={id}>
                                     
                                     <td>{ticker}</td>
@@ -64,8 +75,15 @@ const GroupedTables = ({grouped_assets}) => {
                                     <td>{total_today_brl}</td>
                                     <td>{trade_profit}</td>
                                     <td>{dividends_profit}</td>
-                                    <td>{profit}</td>
-                                    <td>{p_vpa_fii}</td>
+                                    <td
+                                    className={profit>0?'text-success':'text-danger'}
+                                    >{profit}</td>
+                                    <td
+                                    style={p_vpa_fii>1.05?{backgroundColor:''}:{backgroundColor:'lightblue'}}
+                                    >{p_vpa_fii}</td>
+                                    <td
+                                    style={twelve_m_yield<8?{backgroundColor:''}:{backgroundColor:'lightblue'}}
+                                    >{twelve_m_yield}</td>
                                   </tr>
                                 ))}
                               </tbody>

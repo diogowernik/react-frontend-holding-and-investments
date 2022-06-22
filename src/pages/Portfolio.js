@@ -97,9 +97,9 @@ const Portfolio = () => {
   // Grouping for Fiis by Setor
 
   const grouped_assets_by_setor_fii = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
-    const {setor_fii, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii} = curr
+    const {setor_fii, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii, twelve_m_yield} = curr
     const existing = acc[setor_fii]||[]
-    return {...acc, [setor_fii]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii}]}
+    return {...acc, [setor_fii]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii, twelve_m_yield}]}
   },{})
   const setor_fii_assets = Object.entries(grouped_assets_by_setor_fii).map(([name,data])=>({name, data}))
 

@@ -3,11 +3,13 @@ import Datatable from '../../contexts/Datatable';
 
 
 const GroupedTables = ({grouped_assets}) => {
-
+  // const first_group_name = grouped_assets[0].name;
+  // console.log(first_group_name);
 
   return (
-
-        <Tab.Container defaultActiveKey="dashboard">
+    // Tab container will have defaultactivekey = first_group_name
+    // <Tab.Container defaultActiveKey={first_group_name}>
+        <Tab.Container defaultActiveKey="Fundos Imobiliários"> 
         <Row>
           <Col lg={12}>
           <Card className=" mb-3">
@@ -32,7 +34,24 @@ const GroupedTables = ({grouped_assets}) => {
                           {name}
                           </h5>
                           <h5 className='float-right'>
-                          Total: {data.reduce((acc,{total_today_brl})=>(acc+total_today_brl),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                          Total: &nbsp; <span className='text-primary'>{data.reduce((acc,{total_today_brl})=>(acc+total_today_brl),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </span>
+                          &nbsp; | &nbsp;
+                          Lucro: &nbsp;
+                            <span
+                              className={
+                                data.reduce((acc,{profit})=>(acc+profit),0) > 0 ? 'text-success' : 'text-warn'
+                              }
+                            >
+                            {data.reduce((acc,{profit})=>(acc+profit),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            </span>
+                            &nbsp; | &nbsp;
+                          Dividendos: &nbsp;
+                            <span
+                              className="text-success"
+                            >
+                            {data.reduce((acc,{dividends_profit})=>(acc+dividends_profit),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            </span>
+
                           </h5>
                         </Card.Header>
                         <Card.Body>
@@ -46,10 +65,7 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>Cotação</th>
                                   <th>Custo Total</th>
                                   <th>Total Hoje</th>
-                                  {/* <th>Trade</th>
-                                  <th>Dividendos</th>
                                   <th>Lucro Total</th>
-                                  <th>P/VPA</th> */}
                                 </tr>
                               </thead>
                               <tbody>
@@ -62,10 +78,9 @@ const GroupedTables = ({grouped_assets}) => {
                                     <td>{asset_price}</td>
                                     <td>{total_cost_brl}</td>
                                     <td>{total_today_brl}</td>
-                                    {/* <td>{trade_profit}</td>
-                                    <td>{dividends_profit}</td>
-                                    <td>{profit}</td>
-                                    <td>{p_vpa_fii}</td> */}
+                                    <td
+                                      className={profit > 0 ? 'text-success' : 'text-warn'}
+                                    >{profit}</td>
                                   </tr>
                                 ))}
                               </tbody>

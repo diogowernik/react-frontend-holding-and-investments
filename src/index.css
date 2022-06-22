@@ -15,3 +15,7 @@ body {
   background-color: #fc285d;
   color: white;
 }
+
+.text-warn {
+  color: #9f7803;
+}

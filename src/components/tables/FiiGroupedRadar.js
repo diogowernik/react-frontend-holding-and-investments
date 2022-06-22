@@ -12,9 +12,6 @@ const GroupedRadar = ({fiis_for_radar}) => {
     "dom": '<"float-left"f><"clear">',
   }
 
-    
-
-
   return (
 
         <Tab.Container defaultActiveKey="Logistica">
