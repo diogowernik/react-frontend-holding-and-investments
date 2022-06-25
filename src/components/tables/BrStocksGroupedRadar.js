@@ -8,7 +8,7 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar}) => {
     'paging': false, // Table pagination
     'ordering': true, // Column ordering
     'info': false, // Bottom left status text
-    "order": [[ 2, "desc" ]],
+    "order": [[ 8, "asc" ]],
     "dom": '<"float-left"f><"clear">',
   }
 
@@ -56,10 +56,12 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar}) => {
                                   <th
                                   // className={name === 'Bancos' ? 'd-none' : ''}
                                   >ROIC</th>
+                                  <th>Ranking</th>
+                                  {/* <th>Ranking All</th> */}
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id, ticker, price, p_vpa, twelve_m_yield, ev_ebit, roic, pl, roe})=>(
+                                {data.map(({id, ticker, price, p_vpa, twelve_m_yield, ev_ebit, roic, pl, roe, ranking, ranking_all})=>(
                                   <tr className='text-center' key={id}>
                                     
                                     <td>{ticker}</td>
@@ -85,6 +87,8 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar}) => {
                                       style={roic > 12 ? {backgroundColor: 'lightblue'} : {backgroundColor: ''}}
                                       // className={name === 'Bancos' ? 'd-none' : ''}
                                     >{roic}</td>
+                                    {/* <td>{ranking}</td> */}
+                                    <td>{ranking_all}</td>
 
                                   </tr>
                                 ))}

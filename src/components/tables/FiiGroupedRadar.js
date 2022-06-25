@@ -8,7 +8,7 @@ const GroupedRadar = ({fiis_for_radar}) => {
     'paging': false, // Table pagination
     'ordering': true, // Column ordering
     'info': false, // Bottom left status text
-    "order": [[ 4, "desc" ]],
+    "order": [[ 6, "asc" ]],
     "dom": '<"float-left"f><"clear">',
   }
 
@@ -50,10 +50,11 @@ const GroupedRadar = ({fiis_for_radar}) => {
                                   <th>Yield 6m</th>
                                   <th>Yield 12m</th>
                                   <th>P/VPA</th>
+                                  <th>Ranking</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id, ticker, price, p_vpa, last_yield, six_m_yield, twelve_m_yield})=>(
+                                {data.map(({id, ticker, price, p_vpa, last_yield, six_m_yield, twelve_m_yield, ranking})=>(
                                   <tr className='text-center' key={id}>
                                     
                                     <td>{ticker}</td>
@@ -70,6 +71,7 @@ const GroupedRadar = ({fiis_for_radar}) => {
                                     <td
                                       style={p_vpa > 1.05 ? {backgroundColor: ''} : {backgroundColor: 'lightblue'}}
                                     >{p_vpa}</td>
+                                    <td>{ranking}</td>
                                   </tr>
                                 ))}
                               </tbody>

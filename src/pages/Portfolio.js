@@ -118,18 +118,18 @@ const Portfolio = () => {
 
   // Grouping for Fiis for Radar
   const grouped_fiis_for_radar = fiis.reduce((acc,curr)=>{
-    const {setor_fii, id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price} = curr
+    const {setor_fii, id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price, ranking} = curr
     const existing = acc[setor_fii]||[]
-    return {...acc, [setor_fii]:[...existing, {id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price}]}
+    return {...acc, [setor_fii]:[...existing, {id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price, ranking}]}
   }
   ,{})
   const fiis_for_radar = Object.entries(grouped_fiis_for_radar).map(([name,data])=>({name, data}))
 
   // Grouping BrStocks for Radar
   const grouped_br_stocks_for_radar = br_stocks.reduce((acc,curr)=>{
-    const {setor_br_stocks, id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe} = curr
+    const {setor_br_stocks, id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe, ranking, ranking_all} = curr
     const existing = acc[setor_br_stocks]||[]
-    return {...acc, [setor_br_stocks]:[...existing, {id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe}]}
+    return {...acc, [setor_br_stocks]:[...existing, {id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe, ranking, ranking_all}]}
   }
   ,{})
   const br_stocks_for_radar = Object.entries(grouped_br_stocks_for_radar).map(([name,data])=>({name, data}))
