@@ -36,10 +36,10 @@ class PieChart extends React.Component {
       this.setState((prevState)=> ({
         ...prevState,
         options:{ ...prevState.options,
-                  labels: this.props.total.map(a=>a.name)
+                  labels: this.props.total.map(a=>a.name),                  
                 }
       }))
-    }
+    }    
   }
 
 
@@ -52,7 +52,9 @@ class PieChart extends React.Component {
         <Card  color="gray" className="mb-3">
             <CardHeader className="bg-gray-lighter">PieChart</CardHeader>
             <Card body>
-                <div id="chart3">
+                <div 
+                id="chart3" 
+                >
                   <Chart 
                   options={this.state.options} 
                   series={this.props.total.map(a=>a.total_today_brl)} 

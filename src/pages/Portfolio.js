@@ -7,12 +7,12 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import GroupedTables from '../components/tables/GroupedTables';
 import FiiGroupedTables from '../components/tables/FiiGroupedTables';
+import BrStocksGroupedTables from '../components/tables/BrStocksGroupedTables';
 import FiiGroupedRadar from '../components/tables/FiiGroupedRadar';
 import BrStocksGroupedRadar from '../components/tables/BrStocksGroupedRadar';
 import PieChart from '../components/sidemodules/PieChart';
 import TreeMap from '../components/dashboard/Treemap';
 import LineChart from '../components/dashboard/LineChart';
-
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
@@ -116,6 +116,15 @@ const Portfolio = () => {
   },{})
   const setor_fii_assets = Object.entries(grouped_assets_by_setor_fii).map(([name,data])=>({name, data}))
 
+  // Grouping for BrStocks by Setor
+  const grouped_assets_by_setor_br_stocks = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
+    const {setor_br_stock, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_br_stocks, twelve_m_yield_br_stocks} = curr
+    const existing = acc[setor_br_stock]||[]
+    return {...acc, [setor_br_stock]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_br_stocks, twelve_m_yield_br_stocks}]}
+  }
+  ,{})
+  const setor_br_stocks_assets = Object.entries(grouped_assets_by_setor_br_stocks).map(([name,data])=>({name, data}))
+
   // Grouping for Fiis for Radar
   const grouped_fiis_for_radar = fiis.reduce((acc,curr)=>{
     const {setor_fii, id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price, ranking} = curr
@@ -143,15 +152,33 @@ const Portfolio = () => {
   },{})
   const setor_fii_total = Object.entries(setor_fii_total_today).map(([name,total_today_brl])=>({name, total_today_brl}))
 
+  // Grouping for BrStocks by Setor table Sum
+
+  const setor_br_stocks_total_today = Object.entries(grouped_assets_by_setor_br_stocks).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+    const {name, data} = curr
+    const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
+    return {...acc, [name]:total_today_brl}
+  }
+  ,{})
+  const setor_br_stocks_total = Object.entries(setor_br_stocks_total_today).map(([name,total_today_brl])=>({name, total_today_brl}))
 
 
-  // Grouping for Treemap by Setor
+  // Grouping for Treemap by Setor Fii
   const grouped_for_treemap_by_setor = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
     const {setor_fii, ticker, total_today_brl} = curr
     const existing = acc[setor_fii]||[]
     return {...acc, [setor_fii]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
   const treemap_setor_fii = Object.entries(grouped_for_treemap_by_setor).map(([name,data])=>({name, data}))
+
+  // Grouping for Treemap by Setor BR Stocks
+  const grouped_for_treemap_by_setor_br_stocks = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
+    const {setor_br_stock, ticker, total_today_brl} = curr
+    const existing = acc[setor_br_stock]||[]
+    return {...acc, [setor_br_stock]:[...existing, { x: ticker, y: total_today_brl }]}
+  }
+  ,{})
+  const treemap_setor_br_stocks = Object.entries(grouped_for_treemap_by_setor_br_stocks).map(([name,data])=>({name, data}))
 
   // Grouping for treemap by broker
   const grouped_for_treemap_by_broker = portfolio_assets.reduce((acc,curr)=>{
@@ -169,12 +196,12 @@ const Portfolio = () => {
   ,{})
   const fiis_only = Object.entries(grouped_assets_by_fiis).map(([name,total_today_brl])=>({name, total_today_brl})) 
 
-  // const grouped_assets_all = portfolio_assets.reduce((acc,curr)=>{
-  //   const {ticker, total_today_brl} = curr
-  //   return {...acc, [ticker]:total_today_brl}
-  // }
-  // ,{})
-  // const all_assets = Object.entries(grouped_assets_all).map(([name,total_today_brl])=>({name, total_today_brl}))
+  const grouped_assets_by_br_stocks = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
+    const {ticker, total_today_brl} = curr
+    return {...acc, [ticker]:total_today_brl}
+  }
+  ,{})
+  const br_stocks_only = Object.entries(grouped_assets_by_br_stocks).map(([name,total_today_brl])=>({name, total_today_brl}))
  
 
   return (
@@ -194,6 +221,9 @@ const Portfolio = () => {
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="fiis">Fundos Imobiliários</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link eventKey="br-stocks">Ações Br</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="radar-fiis">Radar Fiis</Nav.Link>
@@ -264,10 +294,31 @@ const Portfolio = () => {
                     <Col lg={8}>
                         <FiiGroupedTables
                         grouped_assets={setor_fii_assets}
-                        fiis={fiis}
                         />
                         <TreeMap
                         portfolio_treemap={treemap_setor_fii}
+                        />  
+                    </Col>
+                  </Row>              
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="br-stocks" >
+                <Row>
+                    <Col lg={4}>
+                        <PieChart 
+                          total={br_stocks_only}
+                        />  
+                        <SideModules 
+                        group_total={setor_br_stocks_total}      
+                        />
+                    </Col> 
+                    <Col lg={8}>
+                        <BrStocksGroupedTables
+                        grouped_assets={setor_br_stocks_assets}
+                        />
+                        <TreeMap
+                        portfolio_treemap={treemap_setor_br_stocks}
                         />  
                     </Col>
                   </Row>              
@@ -279,6 +330,7 @@ const Portfolio = () => {
                     <Col lg={12}>
                         <FiiGroupedRadar
                         fiis_for_radar={fiis_for_radar}
+                        fiis={fiis}
                         /> 
                     </Col>
                   </Row>              
@@ -290,6 +342,7 @@ const Portfolio = () => {
                     <Col lg={12}>
                         <BrStocksGroupedRadar
                         br_stocks_for_radar={br_stocks_for_radar}
+                        br_stocks={br_stocks}
                         />
                     </Col>
                 </Row>

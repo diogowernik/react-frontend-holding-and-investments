@@ -1,8 +1,9 @@
 import { Row, Col, Nav, Card, Tab} from 'react-bootstrap';
 import Datatable from '../../contexts/Datatable';
+import FiisRadar from './FiisRadar';
 
 
-const GroupedRadar = ({fiis_for_radar}) => {
+const GroupedRadar = ({fiis_for_radar, fiis}) => {
   // datatable options
   const options1 = {
     'paging': false, // Table pagination
@@ -14,21 +15,30 @@ const GroupedRadar = ({fiis_for_radar}) => {
 
   return (
 
-        <Tab.Container defaultActiveKey="Logistica">
+        <Tab.Container defaultActiveKey="top-10">
         <Row>
           <Col lg={12}>
           <Card className=" mb-3">
               <Card.Header>
-                <Nav variant="pills">    
+                <Nav variant="pills">   
+                    <Nav.Item key="top-10">
+                        <Nav.Link eventKey="top-10">Top 10</Nav.Link>
+                    </Nav.Item>   
                     {fiis_for_radar.map(({name})=>(
                       <Nav.Item key={name}>
                         <Nav.Link eventKey={name}>{name}</Nav.Link>
                       </Nav.Item>
-                    ))}                    
+                    ))}
+                                      
                 </Nav>
               </Card.Header>
           </Card>
           <Tab.Content>
+              <Tab.Pane eventKey="top-10">
+                <FiisRadar
+                  fiis={fiis}
+                />
+              </Tab.Pane>
               {fiis_for_radar.map(({name,data})=>(
                 <Tab.Pane eventKey={name} key={name}>
                   <Row>
@@ -89,12 +99,10 @@ const GroupedRadar = ({fiis_for_radar}) => {
 
                 </Tab.Pane>
               ))}
-
           </Tab.Content>
           </Col>
         </Row>
         </Tab.Container>
-
   )
 };
 
