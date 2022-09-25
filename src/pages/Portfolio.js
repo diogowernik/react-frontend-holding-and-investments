@@ -105,40 +105,41 @@ const Portfolio = () => {
     const existing = acc[category]||[]
     return {...acc, [category]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
-  const treemap_categories = Object.entries(grouped_for_treemap_by_category).map(([name,data])=>({name, data}))
+  const treemap_categories = Object.entries(grouped_for_treemap_by_category).map(([name,data])=>({name, data})).filter( data => data.name !== "Dividas")
+
 
   // Grouping for Fiis by Setor
 
   const grouped_assets_by_setor_fii = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
-    const {setor_fii, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii, twelve_m_yield} = curr
-    const existing = acc[setor_fii]||[]
-    return {...acc, [setor_fii]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii, twelve_m_yield}]}
+    const {subcategory, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii, twelve_m_yield} = curr
+    const existing = acc[subcategory]||[]
+    return {...acc, [subcategory]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_fii, twelve_m_yield}]}
   },{})
   const setor_fii_assets = Object.entries(grouped_assets_by_setor_fii).map(([name,data])=>({name, data}))
 
   // Grouping for BrStocks by Setor
   const grouped_assets_by_setor_br_stocks = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
-    const {setor_br_stock, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_br_stocks, twelve_m_yield_br_stocks} = curr
-    const existing = acc[setor_br_stock]||[]
-    return {...acc, [setor_br_stock]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_br_stocks, twelve_m_yield_br_stocks}]}
+    const {subcategory, id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_br_stocks, twelve_m_yield_br_stocks} = curr
+    const existing = acc[subcategory]||[]
+    return {...acc, [subcategory]:[...existing, {id, ticker, shares_amount, share_average_price_brl, total_cost_brl, total_today_brl, profit, category, trade_profit, dividends_profit, asset_price, p_vpa_br_stocks, twelve_m_yield_br_stocks}]}
   }
   ,{})
   const setor_br_stocks_assets = Object.entries(grouped_assets_by_setor_br_stocks).map(([name,data])=>({name, data}))
 
   // Grouping for Fiis for Radar
   const grouped_fiis_for_radar = fiis.reduce((acc,curr)=>{
-    const {setor_fii, id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price, ranking} = curr
-    const existing = acc[setor_fii]||[]
-    return {...acc, [setor_fii]:[...existing, {id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price, ranking}]}
+    const {subcategory, id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price, ranking} = curr
+    const existing = acc[subcategory]||[]
+    return {...acc, [subcategory]:[...existing, {id, ticker, p_vpa, last_yield, six_m_yield, twelve_m_yield, price, ranking}]}
   }
   ,{})
   const fiis_for_radar = Object.entries(grouped_fiis_for_radar).map(([name,data])=>({name, data}))
 
   // Grouping BrStocks for Radar
   const grouped_br_stocks_for_radar = br_stocks.reduce((acc,curr)=>{
-    const {setor_br_stocks, id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe, ranking, ranking_all} = curr
-    const existing = acc[setor_br_stocks]||[]
-    return {...acc, [setor_br_stocks]:[...existing, {id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe, ranking, ranking_all}]}
+    const {subcategory, id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe, ranking, ranking_all} = curr
+    const existing = acc[subcategory]||[]
+    return {...acc, [subcategory]:[...existing, {id, ticker, p_vpa, twelve_m_yield, price, ev_ebit, roic, pl, roe, ranking, ranking_all}]}
   }
   ,{})
   const br_stocks_for_radar = Object.entries(grouped_br_stocks_for_radar).map(([name,data])=>({name, data}))
@@ -165,17 +166,17 @@ const Portfolio = () => {
 
   // Grouping for Treemap by Setor Fii
   const grouped_for_treemap_by_setor = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
-    const {setor_fii, ticker, total_today_brl} = curr
-    const existing = acc[setor_fii]||[]
-    return {...acc, [setor_fii]:[...existing, { x: ticker, y: total_today_brl }]}
+    const {subcategory, ticker, total_today_brl} = curr
+    const existing = acc[subcategory]||[]
+    return {...acc, [subcategory]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
   const treemap_setor_fii = Object.entries(grouped_for_treemap_by_setor).map(([name,data])=>({name, data}))
 
   // Grouping for Treemap by Setor BR Stocks
   const grouped_for_treemap_by_setor_br_stocks = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
-    const {setor_br_stock, ticker, total_today_brl} = curr
-    const existing = acc[setor_br_stock]||[]
-    return {...acc, [setor_br_stock]:[...existing, { x: ticker, y: total_today_brl }]}
+    const {subcategory, ticker, total_today_brl} = curr
+    const existing = acc[subcategory]||[]
+    return {...acc, [subcategory]:[...existing, { x: ticker, y: total_today_brl }]}
   }
   ,{})
   const treemap_setor_br_stocks = Object.entries(grouped_for_treemap_by_setor_br_stocks).map(([name,data])=>({name, data}))

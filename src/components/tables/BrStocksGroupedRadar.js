@@ -15,7 +15,7 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar, br_stocks}) => {
 
   return (
 
-        <Tab.Container defaultActiveKey="Energia Elétrica">
+        <Tab.Container defaultActiveKey="Energia">
         <Row>
           <Col lg={12}>
           <Card className=" mb-3">

@@ -18,6 +18,20 @@ class PieChart extends React.Component {
           mode: 'light', 
           palette: 'palette2', 
         },
+        colors: [
+          '#3B93A5',
+          '#F7B844',
+          '#38BC6A',
+          '#EC3C65',
+          '#748C38',
+          '#8A1459',
+          '#1E5D8C',
+          '#421243',
+          '#7F94B0',
+          '#EF6537',
+          '#C0ADDB',
+          '#5e4fa2'
+          ],
         legend: {
           show: true,
           position: 'bottom',

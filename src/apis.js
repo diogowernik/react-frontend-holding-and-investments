@@ -86,9 +86,10 @@ export function fetchBrStocks(token) {
 export function addPortfolio(data, token) {
   return request('/api/portfolios/', { data, token, method: 'POST', message: 'portfolio criado com sucesso' });
 }
-export function addTransaction(data) {
+export function addTransaction(data, token) {
   return request('/api/transactions/', { 
     data, 
+    token,
     method: 'POST', 
     message: 'Transação criada com sucesso'
   });
