@@ -1,6 +1,6 @@
 import { Button, Card, Table, Modal } from 'react-bootstrap';
 import React, { useState,} from 'react';
-import PieChart from './PieChart';
+import PieChart from '../charts/PieChart';
 import TransactionForm from '../../containers/TransactionForm';
 
 const SideModules = ({ group_total}) => {

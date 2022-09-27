@@ -6,9 +6,9 @@ import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import GroupedTables from '../components/tables/MainTables';
-import PieChart from '../components/sidemodules/PieChart';
-import TreeMap from '../components/dashboard/Treemap';
-import LineChart from '../components/dashboard/LineChart';
+import PieChart from '../components/charts/PieChart';
+import TreeMap from '../components/charts/Treemap';
+import LineChart from '../components/charts/LineChart';
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
@@ -126,6 +126,7 @@ const Portfolio = () => {
   }
   ,{})
   const fiis_total = Object.entries(total_by_fiis).map(([name,total_today_brl])=>({name, total_today_brl})) 
+  fiis_total.sort((a, b) => b.total_today_brl - a.total_today_brl)
   // by Brasilian Stocks
   const total_by_br_stocks = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
     const {ticker, total_today_brl} = curr
@@ -133,6 +134,7 @@ const Portfolio = () => {
   }
   ,{})
   const br_stocks_total = Object.entries(total_by_br_stocks).map(([name,total_today_brl])=>({name, total_today_brl}))
+  br_stocks_total.sort((a, b) => b.total_today_brl - a.total_today_brl)
   // by International
   const total_by_international = portfolio_assets.filter( data => data.category === "Internacional").reduce((acc,curr)=>{
     const {ticker, total_today_brl} = curr
@@ -148,7 +150,10 @@ const Portfolio = () => {
   const existing = acc[category]||[]
   return {...acc, [category]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
+  console.log(treemap_by_category)
   const treemap_categories = Object.entries(treemap_by_category).map(([name,data])=>({name, data})).filter( data => data.name !== "Dividas")
+  // order treemap categories by total_today_brl
+  treemap_categories.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
   // by broker
   const treemap_by_broker = portfolio_assets.reduce((acc,curr)=>{
     const {broker, ticker, total_today_brl} = curr
@@ -156,6 +161,8 @@ const Portfolio = () => {
     return {...acc, [broker]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
   const treemap_brokers = Object.entries(treemap_by_broker).map(([name,data])=>({name, data}))
+  // order treemap brokers by total_today_brl
+  treemap_brokers.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
   // by subcategory (only for FIIs)
   const treemap_by_fiis_subcategory = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
     const {subcategory, ticker, total_today_brl} = curr
@@ -163,6 +170,7 @@ const Portfolio = () => {
     return {...acc, [subcategory]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
   const treemap_fiis_subcategory = Object.entries(treemap_by_fiis_subcategory).map(([name,data])=>({name, data}))
+  treemap_fiis_subcategory.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
   // by subcategory (only for Brasilian Stocks)
   const treemap_by_stocks_subcategory = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
     const {subcategory, ticker, total_today_brl} = curr
@@ -171,6 +179,7 @@ const Portfolio = () => {
   }
   ,{})
   const treemap_br_stocks_subcategory = Object.entries(treemap_by_stocks_subcategory).map(([name,data])=>({name, data}))
+  treemap_br_stocks_subcategory.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
   // by subcategory (only for International)
   const treemap_by_international_subcategory = portfolio_assets.filter( data => data.category === "Internacional").reduce((acc,curr)=>{
     const {subcategory, ticker, total_today_brl} = curr

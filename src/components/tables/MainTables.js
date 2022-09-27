@@ -13,7 +13,7 @@ const GroupedTables = ({grouped_assets}) => {
     "dom": '<"float-left"f><"clear">',
   }
   return (
-        <Tab.Container defaultActiveKey="Agro">
+        <Tab.Container defaultActiveKey="">
         <Row>
           <Col lg={12}>
           <Card className=" mb-3">

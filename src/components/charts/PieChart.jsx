@@ -19,18 +19,18 @@ class PieChart extends React.Component {
           palette: 'palette2', 
         },
         colors: [
-          '#3B93A5',
-          '#F7B844',
-          '#38BC6A',
-          '#EC3C65',
-          '#748C38',
-          '#8A1459',
-          '#1E5D8C',
-          '#421243',
-          '#7F94B0',
-          '#EF6537',
-          '#C0ADDB',
-          '#5e4fa2'
+          '#009c3b', // Verde
+          '#F7B844', // Amarelo
+          '#002776', // Azul
+          '#AF5B00', // Laranja Escuro
+          '#533EAA', // Roxo
+          '#504100', // Marrom
+          '#1E5D8C', // Azul Escuro
+          '#421243', // Roxo Escuro
+          '#7F94B0', // Azul Claro
+          '#EF6537', // Laranja
+          '#C0ADDB', // Roxo Claro
+          '#5e4fa2', // Roxo Médio
           ],
         legend: {
           show: true,
