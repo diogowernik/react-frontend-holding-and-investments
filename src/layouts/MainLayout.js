@@ -22,12 +22,17 @@ const MainLayout = ({ children }) => {
     history.push('/portfolios');
   };
 
+  const gotoRadar = () => {
+    history.push('/radar');
+  };
+
   return (
     <>
       <Navbar bg='light' variant='light' className='mb-4'>
         <Navbar.Brand href='/'>Minha Holding</Navbar.Brand>
         <Nav className='flex-grow-1'>
           <Nav.Link onClick={gotoPortfolios}>Portfolios</Nav.Link>
+          <Nav.Link onClick={gotoRadar}>Radar</Nav.Link>
         </Nav>
 
         <Nav className='flex-grow-1 justify-content-end'>

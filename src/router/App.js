@@ -11,6 +11,7 @@ import Register from '../pages/Register';
 
 import Portfolios from '../pages/Portfolios';
 import Portfolio from '../pages/Portfolio';
+import Radar from '../pages/Radar';
 
 function App() {
   return (
@@ -26,6 +27,11 @@ function App() {
           <Route exact path='/register'>
             <Register />
           </Route>
+          {/* Radar */}
+          <PrivateRoute exact path='/radar'>
+            <Radar />
+          </PrivateRoute>
+        
 
           <PrivateRoute exact path='/portfolios/:id'>
             <Portfolio />
