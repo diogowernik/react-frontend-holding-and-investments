@@ -78,7 +78,9 @@ const TransactionForm = ({ onDone }) => {
             setBroker("");
             setSharesAmount("");
             setShareCostBrl("");
-            // onDone();
+            console.log("created, need to refresh, but not implemented yet")
+            // solução tabajara
+            window.location.reload();
         }
     };
 

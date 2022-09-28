@@ -150,7 +150,6 @@ const Portfolio = () => {
   const existing = acc[category]||[]
   return {...acc, [category]:[...existing, { x: ticker, y: total_today_brl }]}
   },{})
-  console.log(treemap_by_category)
   const treemap_categories = Object.entries(treemap_by_category).map(([name,data])=>({name, data})).filter( data => data.name !== "Dividas")
   // order treemap categories by total_today_brl
   treemap_categories.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
@@ -188,6 +187,7 @@ const Portfolio = () => {
   }
   ,{})
   const treemap_international_subcategory = Object.entries(treemap_by_international_subcategory).map(([name,data])=>({name, data}))
+  treemap_international_subcategory.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
 
  
 

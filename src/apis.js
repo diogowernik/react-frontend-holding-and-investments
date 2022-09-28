@@ -107,13 +107,22 @@ export function updatePortfolio(id, data, token) {
   return request(`/api/portfolios/${id}`, { data, token, method: "PATCH", message: 'Portfolio atualizado com sucesso' });
 }
 
-export function fetchPortfolioAssets(id, token) {
-  // return request(`/api/portfolios/${id}/assets`, { token });
-  return request(`/api/portfolios/${id}/assets`, { token });
-}
-
 export function fetchPortfolioQuotas(id, token) {
   return request(`/api/portfolios/${id}/quotas`, { token });
+}
+export function fetchPortfolioAssets(id, token) {
+  return request(`/api/portfolios/${id}/assets`, { token });
+}
+export function removePortfolioAsset(id, token) {
+  return request(`/api/portfolio_assets/${id}`, { token, method: "DELETE", message: 'Ativo deletado com sucesso' });
+}
+
+// addPortfolioAsset, updatePortfolioAsset
+export function addPortfolioAsset(data, token) {
+  return request('/api/portfolio_assets/', { data, token, method: 'POST', message: 'Ativo adicionado com sucesso' });
+}
+export function updatePortfolioAsset(id, data, token) {
+  return request(`/api/portfolio_assets/${id}`, { data, token, method: "PATCH", message: 'Ativo atualizado com sucesso' });
 }
 
 
