@@ -46,3 +46,9 @@ This app is not ready, there are some features that are missing. And some featur
 - Create a tab for brokers with a list of assets by broker.
 - Think about the design of dividends
 - Connect Token Chart to the backend
+
+## Data Processing
+
+- For Charts
+- For Dividends
+- For Radar
