@@ -81,14 +81,21 @@ const GroupedTables = ({grouped_assets}) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, asset_price })=>(
+                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, asset_price, total_today_usd })=>(
                                   <tr key={id}>
                                     <td>{ticker}</td>
                                     <td>{shares_amount}</td>
                                     <td>{share_average_price_brl}</td>
                                     <td>{asset_price}</td>
                                     <td>{total_cost_brl}</td>
-                                    <td>{total_today_brl}</td>
+                                    <td>
+                                      {total_today_brl && total_today_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                      <br/>
+                                      <small className="text-muted">
+                                        {total_today_usd && total_today_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })} USD
+                                      </small>
+                                    
+                                    </td>
                                     <td className={profit>0?'text-success':'text-danger'}>{profit}</td>
                                     <td>
                                       <Button variant="link" 

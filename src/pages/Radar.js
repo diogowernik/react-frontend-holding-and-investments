@@ -73,6 +73,9 @@ const Radar = () => {
                     <Nav.Item>
                         <Nav.Link eventKey="radar-br-stocks">Radar Ações</Nav.Link>
                     </Nav.Item>
+                    {/* <Nav.Item>
+                        <Nav.Link eventKey="tradingview">Trading View</Nav.Link>
+                    </Nav.Item> */}
                 </Nav>
               </Card.Header>
           </Card>
@@ -101,9 +104,21 @@ const Radar = () => {
                         br_stocks={br_stocks}
                         />
                     </Col>
+                    
+
                 </Row>
                 </Tab.Pane>
             </Tab.Content>
+            {/* <Tab.Content>
+                <Tab.Pane eventKey="tradingview" >
+                <iframe 
+                  src="http://localhost:3000/tradingview.html"
+                  width="100%"
+                  height="650px"
+                  
+                ></iframe>
+                </Tab.Pane>
+            </Tab.Content> */}
         
         </Col>
       </Row>
