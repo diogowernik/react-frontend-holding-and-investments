@@ -79,16 +79,6 @@ const Portfolios = () => {
     }
   }
 
-  // const onUpdatePortfolio = async (id, data) => {
-  //   updatePortfolio(id, data, auth.token).then(
-  //     (json) => {
-  //       if (json) {
-  //         setPortfolios(json);
-  //       }
-  //     }
-  //   );
-  // }
-
   useEffect(() => {
     onFetchPortfolios();
   }, [onFetchPortfolios]);
@@ -113,8 +103,12 @@ const Portfolios = () => {
               <Button variant="link" onClick={() => onRemovePortfolio(portfolio.id)}>
                   <AiOutlineDelete size={25} color="red" />
               </Button>
+              
               </p>
             </Portfolio>
+            <Button variant="link" onClick={() => history.push(`/dividends/${portfolio.id}`)}>
+                  Dividends
+              </Button>
           </Col>
         ))}
         <Col lg={4}>

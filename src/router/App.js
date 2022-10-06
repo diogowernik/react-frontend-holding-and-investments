@@ -12,6 +12,7 @@ import Register from '../pages/Register';
 import Portfolios from '../pages/Portfolios';
 import Portfolio from '../pages/Portfolio';
 import Radar from '../pages/Radar';
+import Dividends from '../pages/Dividends';
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
           {/* Radar */}
           <PrivateRoute exact path='/radar'>
             <Radar />
+          </PrivateRoute>
+          {/* Dividends */}
+          <PrivateRoute exact path='/dividends/:id'>
+            <Dividends />
           </PrivateRoute>
         
 

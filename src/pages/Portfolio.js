@@ -277,7 +277,7 @@ const Portfolio = () => {
   const treemap_REITs_subcategory = treemap_subcategory_by("subcategory", "REITs")
   const treemap_stocks_subcategory = treemap_subcategory_by("subcategory", "Stocks")
 
- 
+  
 
   return (
     <MainLayout>
@@ -328,7 +328,7 @@ const Portfolio = () => {
             <Tab.Content>
                 <Tab.Pane eventKey="dashboard" >
                   <Row>
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <SideModules 
                         group_total={categories_total}      
                         group_total_usd={categories_total_usd}
@@ -337,7 +337,7 @@ const Portfolio = () => {
                         total={categories_total}
                         />  
                     </Col> 
-                    <Col lg={8}>
+                    <Col lg={9}>
                         <GroupedTables
                         grouped_assets={category_assets}
                         />
@@ -355,16 +355,16 @@ const Portfolio = () => {
             <Tab.Content>
                 <Tab.Pane eventKey="brokers" >
                 <Row>
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <SideModules 
                         group_total={brokers_total} 
                         group_total_usd={brokers_total_usd}     
                         />
-                        <PieChart
+                        {/* <PieChart
                         total={brokers_total}
-                        />
+                        /> */}
                     </Col> 
-                    <Col lg={8}>
+                    <Col lg={9}>
                         <GroupedTables
                         grouped_assets={broker_assets}
                         />
@@ -378,19 +378,19 @@ const Portfolio = () => {
             <Tab.Content>
                 <Tab.Pane eventKey="fiis" >
                 <Row>
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <SideModules 
                         group_total={fiis_subcategory_total}  
                         group_total_usd={fiis_subcategory_total_usd}    
                         />
-                        <PieChart 
-                        total={fiis_total}
-                        />  
                         {/* <PieChart
                         total={fiis_subcategory_total}
                         /> */}
+                        <PieChart 
+                        total={fiis_total}
+                        />  
                     </Col> 
-                    <Col lg={8}>
+                    <Col lg={9}>
                         <GroupedTables
                         grouped_assets={fiis_subcategory}
                         />
@@ -404,31 +404,25 @@ const Portfolio = () => {
             <Tab.Content>
                 <Tab.Pane eventKey="br-stocks" >
                 <Row>
-                    <Col lg={4}>
+                    <Col lg={3}>
                         <SideModules 
                         group_total={br_stocks_subcategory_total}    
                         group_total_usd={br_stocks_subcategory_total_usd}  
                         />
+                        <PieChart 
+                        total={br_stocks_total}
+                        />  
+                        {/* <PieChart
+                        total={br_stocks_subcategory_total}
+                        /> */}
                     </Col> 
-                    <Col lg={8}>
+                    <Col lg={9}>
                         <GroupedTables
                         grouped_assets={br_stocks_subcategory}
                         />
                         <TreeMap
                         portfolio_treemap={treemap_br_stocks_subcategory}
                         />  
-                        <Row>
-                          <Col lg={6}>
-                            <PieChart 
-                            total={br_stocks_total}
-                            />  
-                          </Col>
-                          <Col lg={6}>
-                            <PieChart
-                            total={br_stocks_subcategory_total}
-                            />
-                          </Col>
-                        </Row>
                     </Col>
                   </Row>              
                 </Tab.Pane>
@@ -436,16 +430,16 @@ const Portfolio = () => {
             <Tab.Content>
                 <Tab.Pane eventKey="REITs" >
                 <Row>
-                    <Col lg={4}>
-                        <PieChart 
-                          total={REITs_total}
-                        />  
+                    <Col lg={3}>
                         <SideModules 
                         group_total={REITs_subcategory_total}  
                         group_total_usd={REITs_subcategory_total_usd} 
                         />
+                        <PieChart 
+                          total={REITs_total}
+                        />  
                     </Col> 
-                    <Col lg={8}>
+                    <Col lg={9}>
                         <GroupedTables
                         grouped_assets={REITs_subcategory}
                         />
@@ -459,16 +453,16 @@ const Portfolio = () => {
             <Tab.Content>
                 <Tab.Pane eventKey="stocks" >
                 <Row>
-                    <Col lg={4}>
-                        <PieChart 
-                          total={stocks_total}
-                        />  
+                    <Col lg={3}> 
                         <SideModules 
                         group_total={stocks_subcategory_total}   
                         group_total_usd={stocks_subcategory_total_usd}
                         />
+                        <PieChart 
+                          total={stocks_total}
+                        /> 
                     </Col> 
-                    <Col lg={8}>
+                    <Col lg={9}>
                         <GroupedTables
                         grouped_assets={stocks_subcategory}
                         />

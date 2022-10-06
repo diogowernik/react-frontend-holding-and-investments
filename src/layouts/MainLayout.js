@@ -26,6 +26,11 @@ const MainLayout = ({ children }) => {
     history.push('/radar');
   };
 
+  // gambiarra need to fix
+  const gotoDividends = () => {
+    history.push('/dividends/2');
+  };
+
   return (
     <>
       <Navbar bg='light' variant='light' className='mb-4'>
@@ -33,6 +38,7 @@ const MainLayout = ({ children }) => {
         <Nav className='flex-grow-1'>
           <Nav.Link onClick={gotoPortfolios}>Portfolios</Nav.Link>
           <Nav.Link onClick={gotoRadar}>Radar</Nav.Link>
+          <Nav.Link onClick={gotoDividends}>Dividendos</Nav.Link>
         </Nav>
 
         <Nav className='flex-grow-1 justify-content-end'>

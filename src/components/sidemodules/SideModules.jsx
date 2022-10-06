@@ -33,7 +33,7 @@ const SideModules = ({ group_total, group_total_usd }) => {
 
     return (
         <>
-          <Tab.Container defaultActiveKey="BRL">
+          <Tab.Container defaultActiveKey="hide">
           <Card  color="gray" className="mb-3">
                 <Card.Header className="bg-gray-lighter">
                   Resumo

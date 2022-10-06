@@ -113,6 +113,12 @@ export function fetchPortfolioQuotas(id, token) {
 export function fetchPortfolioAssets(id, token) {
   return request(`/api/portfolios/${id}/assets`, { token });
 }
+
+// fetchPortfolioDividends
+export function fetchPortfolioDividends(id, token) {
+  return request(`/api/portfolios/${id}/dividends`, { token });
+}
+
 export function removePortfolioAsset(id, token) {
   return request(`/api/portfolio_assets/${id}`, { token, method: "DELETE", message: 'Ativo deletado com sucesso' });
 }
