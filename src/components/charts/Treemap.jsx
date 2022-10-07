@@ -23,7 +23,8 @@ class TreeMap extends React.Component {
             fontSize: '12px',
           },
           formatter: function(text, op) {
-            return [text, op.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 })]
+            return [text]
+            // return [text, op.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 })]
           },
           offsetY: -4
         },

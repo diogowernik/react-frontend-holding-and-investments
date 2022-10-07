@@ -36,7 +36,7 @@ const SideModules = ({ group_total, group_total_usd }) => {
           <Tab.Container defaultActiveKey="hide">
           <Card  color="gray" className="mb-3">
                 <Card.Header className="bg-gray-lighter">
-                  Resumo
+                  <h4 className="float-left mt-2">Patrimônio</h4>
                   <Nav variant="pills" className='float-right'>    
                     <Nav.Item>
                         <Nav.Link eventKey="BRL">BRL</Nav.Link>

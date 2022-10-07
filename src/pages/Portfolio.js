@@ -1,7 +1,10 @@
 import { Row, Col, Container, Nav, Card, Tab} from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
 import SideModules from '../components/sidemodules/SideModules'
-import { fetchPortfolioAssets, fetchPortfolioQuotas} from '../apis';
+import { 
+  fetchPortfolioAssets, 
+  fetchPortfolioDividends,
+  fetchPortfolioQuotas} from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
@@ -9,10 +12,14 @@ import GroupedTables from '../components/tables/MainTables';
 import PieChart from '../components/charts/PieChart';
 import TreeMap from '../components/charts/Treemap';
 import LineChart from '../components/charts/LineChart';
+import DividendsTables from '../components/tables/DividendsTables';
+import SideDividends from '../components/sidemodules/SideDividends';
+// import { data } from 'jquery';
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
   const [portfolio_quotas, setPortfolioQuotas] = useState([]);
+  const [portfolio_dividends, setPortfolioDividends] = useState([]);
 
   const auth = useContext(AuthContext);
   const params = useParams();
@@ -38,10 +45,17 @@ const Portfolio = () => {
       onFetchPortfolioQuotas();
       }, [onFetchPortfolioQuotas]);
 
-
+  const onFetchPortfolioDividends = useCallback(async () => {
+    const json = await fetchPortfolioDividends(params.id, auth.token);
+    if (json) {
+        setPortfolioDividends(json);
+    }
+    }, [params.id, auth.token]);
+    useEffect(() => {
+    onFetchPortfolioDividends();
+    }, [onFetchPortfolioDividends]);
 
   // end of Fetchs
-  // console.log(treemap_data)
   // Grouping for main tables creation
   
   // by category
@@ -54,8 +68,17 @@ const Portfolio = () => {
                                               total_cost_brl, total_today_brl, total_today_usd, profit, 
                                               broker, category, trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
-  
+
+  const dividends_by_category = portfolio_dividends.reduce((acc,curr)=>{
+    const {category, id, ticker, subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd} = curr
+    const existing = acc[category]||[]
+    return {...acc, [category]:[...existing, {id, ticker,  subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd}]}
+  }
+  ,{})
   const category_assets = Object.entries(assets_by_category).map(([name,data])=>({name, data}))
+
+  const category_dividends = Object.entries(dividends_by_category).map(([name,data])=>({name, data}))
+
   // by broker
   const assets_by_broker = portfolio_assets.reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
@@ -121,7 +144,23 @@ const Portfolio = () => {
     const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
     return {...acc, [name]:total_today_brl} 
   },{})
+  const total_dividends_by_category_brl = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+    const {name, data} = curr
+    const total_dividend_brl = data.map(({ total_dividend_brl }) => total_dividend_brl).reduce((a, e) => a + e, 0)
+    return {...acc, [name]:total_dividend_brl} 
+  }
+  ,{})
+  const total_dividends_by_category_usd = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+    const {name, data} = curr
+    const total_dividend_usd = data.map(({ total_dividend_usd }) => total_dividend_usd).reduce((a, e) => a + e, 0)
+    return {...acc, [name]:total_dividend_usd} 
+  }
+  ,{})
+
   const categories_total = Object.entries(total_by_category).map(([name,total_today_brl])=>({name, total_today_brl}))
+
+  const dividends_total_by_category_brl = Object.entries(total_dividends_by_category_brl).map(([name,total_dividend_brl])=>({name, total_dividend_brl}))
+  const dividends_total_by_category_usd = Object.entries(total_dividends_by_category_usd).map(([name,total_dividend_usd])=>({name, total_dividend_usd}))
   // by broker
   const total_by_broker = Object.entries(assets_by_broker).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
     const {name, data} = curr
@@ -277,12 +316,15 @@ const Portfolio = () => {
   const treemap_REITs_subcategory = treemap_subcategory_by("subcategory", "REITs")
   const treemap_stocks_subcategory = treemap_subcategory_by("subcategory", "Stocks")
 
-  
+  // sum of all total_dividend_brl
+  // const total_dividend_brl = portfolio_dividends.reduce((acc, {total_dividend_brl}) => acc + total_dividend_brl, 0);
+  // sum of all total_dividend_usd
+  // const total_dividend_usd = portfolio_dividends.reduce((acc, {total_dividend_usd}) => acc + total_dividend_usd, 0);
 
   return (
     <MainLayout>
       <Container fluid>
-        <Tab.Container defaultActiveKey="dashboard">
+        <Tab.Container defaultActiveKey="dividends">
       <Row>
         <Col lg={12}>
           <Card className=" mb-3">
@@ -317,6 +359,9 @@ const Portfolio = () => {
                           <Nav.Link eventKey="stocks">Stocks</Nav.Link>
                       </Nav.Item>
                     )}
+                    <Nav.Item>
+                        <Nav.Link eventKey="dividends">Dividendos</Nav.Link>
+                    </Nav.Item>
                 </Nav>
               </Card.Header>
           </Card>
@@ -332,6 +377,10 @@ const Portfolio = () => {
                         <SideModules 
                         group_total={categories_total}      
                         group_total_usd={categories_total_usd}
+                        />
+                        <SideDividends 
+                          total_dividends_brl={dividends_total_by_category_brl} 
+                          total_dividends_usd={dividends_total_by_category_usd}
                         />
                         <PieChart 
                         total={categories_total}
@@ -469,6 +518,24 @@ const Portfolio = () => {
                         <TreeMap
                         portfolio_treemap={treemap_stocks_subcategory}
                         />  
+                    </Col>
+                  </Row>              
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="dividends" >
+                <Row>
+                    <Col lg={3}> 
+                        <SideDividends 
+                          total_dividends_brl={dividends_total_by_category_brl} 
+                          total_dividends_usd={dividends_total_by_category_usd}
+                        />
+                        
+                    </Col> 
+                    <Col lg={9}>
+                        <DividendsTables
+                        dividends_category={category_dividends}
+                        />
                     </Col>
                   </Row>              
                 </Tab.Pane>

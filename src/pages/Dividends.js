@@ -3,7 +3,8 @@ import MainLayout from '../layouts/MainLayout';
 import { fetchPortfolioDividends } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback} from 'react';
-import { useParams} from 'react-router-dom';
+ import { useParams} from 'react-router-dom';
+//  import Dividends from '../components/tables/Dividends';
 import DividendsTable from '../components/tables/Dividends';
 
 

@@ -2,27 +2,8 @@ import { Card, Tab} from 'react-bootstrap';
 
 
 const DividendsTable = ({ portfolio_dividends }) => {
-  // datatable options
-  const options1 = {
-    'paging': false, // Table pagination
-    'ordering': true, // Column ordering
-    'info': false, // Bottom left status text
-    "order": [[ 6, "asc" ]],
-    "dom": '<"float-left"f><"clear">',
-  };
 
-  const dividends_by_category = portfolio_dividends.reduce((acc,curr) => {
-    const {category, ticker, subcategory, record_date, pay_date, shares_amount, 
-      average_price_brl, average_price_usd, total_dividend_brl, total_dividend_usd,
-      value_per_share_brl, value_per_share_usd} = curr;
-    const existing = acc[category]|| [];
-    return {...acc, [category]: [...existing, category, ticker, subcategory, record_date, pay_date, shares_amount, 
-      average_price_brl, average_price_usd, total_dividend_brl, total_dividend_usd,
-      value_per_share_brl, value_per_share_usd]}; 
-  }, {});
-  // sum of all total_dividend_brl
   const total_dividend_brl = portfolio_dividends.reduce((acc, {total_dividend_brl}) => acc + total_dividend_brl, 0);
-  // sum of all total_dividend_usd
   const total_dividend_usd = portfolio_dividends.reduce((acc, {total_dividend_usd}) => acc + total_dividend_usd, 0);
 
 
@@ -58,7 +39,6 @@ const DividendsTable = ({ portfolio_dividends }) => {
                     <th>Value per share Usd</th>
                     <th>Yield on Cost</th>
                     <th>Usd on pay date</th>
-
                   </tr>
                 </thead>
                 <tbody>
@@ -79,23 +59,14 @@ const DividendsTable = ({ portfolio_dividends }) => {
                       <td>{portfolio_dividend.value_per_share_usd}</td>
                       <td>{portfolio_dividend.yield_on_cost}</td>
                       <td>{portfolio_dividend.usd_on_pay_date}</td>
-
-
-
                     </tr>
                   ))}
                 </tbody>
               </table>
-
-
-
             </Card.Body>
           </Card>
         </Tab.Pane>
-
-                  
-
-        </>
+      </>
   )
 };
 
