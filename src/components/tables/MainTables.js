@@ -47,6 +47,8 @@ const GroupedTables = ({grouped_assets}) => {
               <Card.Header>
                 <Nav variant="pills">    
                     {grouped_assets.map(({name})=>(
+                      // custom names for tabs
+
                       <Nav.Item key={name}>
                         <Nav.Link eventKey={name}>{name}</Nav.Link>
                       </Nav.Item>
@@ -90,7 +92,9 @@ const GroupedTables = ({grouped_assets}) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, asset_price, dividends_profit })=>(
+                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, asset_price, dividends_profit_brl })=>(
+                                  // hide if shares_amount == 0
+                                  shares_amount > 0 && (
                                   <tr key={id}>
                                     <td>{ticker}</td>
                                     <td>{asset_price}</td>
@@ -98,9 +102,9 @@ const GroupedTables = ({grouped_assets}) => {
                                     <td>{total_today_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{total_cost_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{share_average_price_brl}</td>
-                                    <td>{dividends_profit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{(share_average_price_brl - (dividends_profit/shares_amount)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{(dividends_profit/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{dividends_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{(share_average_price_brl - (dividends_profit_brl/shares_amount)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{(dividends_profit_brl/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td className={profit>0?'text-primary':'text-warning'}>{profit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{((total_today_brl-total_cost_brl)/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td>{(profit/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
@@ -113,7 +117,7 @@ const GroupedTables = ({grouped_assets}) => {
 
                                     }>
                                       <Button variant="link" 
-                                        onClick={()=>{setAsset({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, asset_price, dividends_profit }); 
+                                        onClick={()=>{setAsset({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, asset_price, dividends_profit_brl }); 
                                         showModal();}}
                                       >
                                         <AiOutlineEdit size={20} color="blue" />
@@ -122,6 +126,7 @@ const GroupedTables = ({grouped_assets}) => {
                                       </Button>
                                     </td>
                                   </tr>
+                                  )
                                 ))}
                               </tbody>
                             </table>

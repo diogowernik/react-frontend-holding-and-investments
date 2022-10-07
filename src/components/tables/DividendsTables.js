@@ -6,7 +6,7 @@ const DividendsTables = ({dividends_category}) => {
     'paging': true, // Table pagination
     'ordering': true, // Column ordering
     'info': false, // Bottom left status text
-    "order": [[ 2, "asc" ]],
+    "order": [[ 3, "asc" ]],
     // show 25 rows
     "pageLength": 25,
     // "dom": '<"float-left"f><"clear">',
@@ -49,17 +49,15 @@ const DividendsTables = ({dividends_category}) => {
                               <thead>
                                 <tr>
                                   <th>Ticker</th>
-                                  <th>Category</th>
-                                  <th>Subcategory</th>
+                                  <th>Tipo</th>
                                   <th>Record Date</th>
                                   <th>Pay Date</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id,ticker,category,subcategory,record_date,pay_date})=>(
+                                {data.map(({id,ticker,subcategory,record_date,pay_date})=>(
                                   <tr key={id}>
                                     <td>{ticker}</td>
-                                    <td>{category}</td>
                                     <td>{subcategory}</td>
                                     <td>{record_date}</td>
                                     <td>{pay_date}</td>

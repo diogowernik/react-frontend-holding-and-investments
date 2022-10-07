@@ -43,7 +43,7 @@ const SideDividends = ({ total_dividends_brl, total_dividends_usd }) => {
                                     <td>{dividend.name}</td>
                                     <td>
                                       <span className="float-right">
-                                        R$ {dividend.total_dividend_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                        {dividend.total_dividend_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                                       </span>
                                     </td>
                                 </tr>

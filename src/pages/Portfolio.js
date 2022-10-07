@@ -62,11 +62,11 @@ const Portfolio = () => {
   const assets_by_category = portfolio_assets.reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-        trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
+        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[category]||[]
     return {...acc, [category]:[...existing, {id, ticker, shares_amount, share_average_price_brl, 
                                               total_cost_brl, total_today_brl, total_today_usd, profit, 
-                                              broker, category, trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+                                              broker, category, trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
 
   const dividends_by_category = portfolio_dividends.reduce((acc,curr)=>{
@@ -83,44 +83,44 @@ const Portfolio = () => {
   const assets_by_broker = portfolio_assets.reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
       total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-      trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
+      trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[broker]||[]
     return {...acc, [broker]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
       total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-      trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+      trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
   const broker_assets = Object.entries(assets_by_broker).map(([name,data])=>({name, data}))
   // by subcategory (only for FIIs)
   const fiis_by_subcategory = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
     const{category, id, ticker, shares_amount, share_average_price_brl, 
       total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-      trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
+      trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[subcategory]||[]
     return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-        trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
   const fiis_subcategory = Object.entries(fiis_by_subcategory).map(([name,data])=>({name, data}))
   // by subcategory (only for Brasilian Stocks)
   const br_stocks_by_subcategory = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-        trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
+        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[subcategory]||[]
     return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-        trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
   const br_stocks_subcategory = Object.entries(br_stocks_by_subcategory).map(([name,data])=>({name, data}))
   // by subcategory (only for REITs)
   const REITs_by_subcategory = portfolio_assets.filter( data => data.category === "REITs").reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-        trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
+        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[subcategory]||[]
     return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-        trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   }
   ,{})
   const REITs_subcategory = Object.entries(REITs_by_subcategory).map(([name,data])=>({name, data}))
@@ -128,11 +128,11 @@ const Portfolio = () => {
   const stocks_by_subcategory = portfolio_assets.filter( data => data.category === "Stocks").reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-        trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
+        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[subcategory]||[]
     return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
-        trade_profit, dividends_profit, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   }
   ,{})
   const stocks_subcategory = Object.entries(stocks_by_subcategory).map(([name,data])=>({name, data}))
