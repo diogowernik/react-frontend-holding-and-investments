@@ -57,238 +57,97 @@ const Portfolio = () => {
     }, [onFetchPortfolioDividends]);
 
   // end of Fetchs
-  // Grouping for main tables creation
-  
-  // by category
-  const assets_by_category = portfolio_assets.reduce((acc,curr)=>{
-    const {category, id, ticker, shares_amount, share_average_price_brl, 
+ 
+  function assets_by(group_type){
+    const assets_by_group_type = portfolio_assets.reduce((acc,curr)=>{
+      const {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
-    const existing = acc[category]||[]
-    return {...acc, [category]:[...existing, {id, ticker, shares_amount, share_average_price_brl, 
-                                              total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, 
-                                              broker, category, trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
-  },{})
+      const existing = acc[curr[group_type]] || []
+      return {...acc, [curr[group_type]]:[...existing, {id, ticker, shares_amount, share_average_price_brl, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, 
+        broker, category, trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+      },{})
+      const assets_group = Object.entries(assets_by_group_type).map(([name,data])=>({name, data}))
+      return assets_group
+  }
 
-
-  const category_assets = Object.entries(assets_by_category).map(([name,data])=>({name, data}))
-
-  // by broker
-  const assets_by_broker = portfolio_assets.reduce((acc,curr)=>{
-    const {category, id, ticker, shares_amount, share_average_price_brl, 
-      total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-      trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
-    const existing = acc[broker]||[]
-    return {...acc, [broker]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-      total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-      trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
-  },{})
-  const broker_assets = Object.entries(assets_by_broker).map(([name,data])=>({name, data}))
-  // by subcategory (only for FIIs)
-  const fiis_by_subcategory = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
-    const{category, id, ticker, shares_amount, share_average_price_brl, 
-      total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-      trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
-    const existing = acc[subcategory]||[]
-    return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
-  },{})
-  const fiis_subcategory = Object.entries(fiis_by_subcategory).map(([name,data])=>({name, data}))
-  // by subcategory (only for Brasilian Stocks)
-  const br_stocks_by_subcategory = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
-    const {category, id, ticker, shares_amount, share_average_price_brl, 
+  function assets_by_subcategory(subcategory){
+    const assets_by_group_type = portfolio_assets.filter(asset => asset.category === `${subcategory}`).reduce((acc,curr)=>{
+      const {category, id, ticker, shares_amount, share_average_price_brl, 
         total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
-    const existing = acc[subcategory]||[]
-    return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
-  },{})
-  const br_stocks_subcategory = Object.entries(br_stocks_by_subcategory).map(([name,data])=>({name, data}))
-  // by subcategory (only for REITs)
-  const REITs_by_subcategory = portfolio_assets.filter( data => data.category === "REITs").reduce((acc,curr)=>{
-    const {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
-    const existing = acc[subcategory]||[]
-    return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+      const existing = acc[curr[subcategory]] || []
+      return {...acc, [curr[subcategory]]:[...existing, {id, ticker, shares_amount, share_average_price_brl, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, 
+        broker, category, trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+      },{})
+      const assets_group = Object.entries(assets_by_group_type).map(([name,data])=>({name, data}))
+      return assets_group
   }
-  ,{})
-  const REITs_subcategory = Object.entries(REITs_by_subcategory).map(([name,data])=>({name, data}))
-  // by subcategory (only for Stocks)
-  const stocks_by_subcategory = portfolio_assets.filter( data => data.category === "Stocks").reduce((acc,curr)=>{
-    const {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
-    const existing = acc[subcategory]||[]
-    return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
-  }
-  ,{})
-  const stocks_subcategory = Object.entries(stocks_by_subcategory).map(([name,data])=>({name, data}))
 
-  const dividends_by_category = portfolio_dividends.reduce((acc,curr)=>{
-    const {category, id, ticker, subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd} = curr
-    const existing = acc[category]||[]
-    return {...acc, [category]:[...existing, {id, ticker,  subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd}]}
+  function total_brl_by(group_type){
+    const total_by_group_type = portfolio_assets.reduce((acc,curr)=>{
+      const {total_today_brl} = curr
+      const existing = acc[curr[group_type]] || []
+      return {...acc, [curr[group_type]]:[...existing, {total_today_brl}]}
+      },{})
+      const total_group = Object.entries(total_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+        const {name, data} = curr
+        const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
+        return {...acc, [name]:total_today_brl}
+      },{})
+      const by_group = Object.entries(total_group).map(([name,total_today_brl])=>({name, total_today_brl}))
+      return by_group
   }
-  ,{})
-  const category_dividends = Object.entries(dividends_by_category).map(([name,data])=>({name, data}))
 
-  // Grouping for Category SideModules Sum Tables and Pie Chart BRL
-  // by category
-  const total_by_category = Object.entries(assets_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_brl} 
-  },{})
-  const total_dividends_by_category_brl = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_dividend_brl = data.map(({ total_dividend_brl }) => total_dividend_brl).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_dividend_brl} 
+  function total_brl_by_subcategory(subcategory){
+    const group_by_subcategory = portfolio_assets.filter( data => data.category === `${subcategory}`).reduce((acc,curr)=>{
+      const{subcategory, total_today_brl, total_today_usd} = curr
+      const existing = acc[subcategory]||[]
+      return {...acc, [subcategory]:[...existing, {total_today_brl, total_today_usd}]}
+    },{})
+    const total_by_fiis_subcategory = Object.entries(group_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+      const {name, data} = curr
+      const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
+      return {...acc, [name]:total_today_brl}
+    },{})
+    const subcategory_total = Object.entries(total_by_fiis_subcategory).map(([name,total_today_brl])=>({name, total_today_brl}))
+    return subcategory_total
   }
-  ,{})
-  const total_dividends_by_category_usd = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_dividend_usd = data.map(({ total_dividend_usd }) => total_dividend_usd).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_dividend_usd} 
-  }
-  ,{})
 
-  const categories_total = Object.entries(total_by_category).map(([name,total_today_brl])=>({name, total_today_brl}))
+  function total_usd_by(group_type){
+    const total_by_group_type = portfolio_assets.reduce((acc,curr)=>{
+    const {total_today_usd} = curr
+    const existing = acc[curr[group_type]] || []
+    return {...acc, [curr[group_type]]:[...existing, {total_today_usd}]}
+    }
+    ,{})
+    const total_group = Object.entries(total_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+      const {name, data} = curr
+      const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
+      return {...acc, [name]:total_today_usd}
+    }
+    ,{})
+    const by_group = Object.entries(total_group).map(([name,total_today_usd])=>({name, total_today_usd}))
+    return by_group
+  }
 
-  const dividends_total_by_category_brl = Object.entries(total_dividends_by_category_brl).map(([name,total_dividend_brl])=>({name, total_dividend_brl}))
-  const dividends_total_by_category_usd = Object.entries(total_dividends_by_category_usd).map(([name,total_dividend_usd])=>({name, total_dividend_usd}))
-  // by broker
-  const total_by_broker = Object.entries(assets_by_broker).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_brl} 
-  },{})
-  const brokers_total = Object.entries(total_by_broker).map(([name,total_today_brl])=>({name, total_today_brl}))
-  // by subcategory (only for FIIs)
-  const total_by_fiis_subcategory = Object.entries(fiis_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_brl}
-  },{})
-  const fiis_subcategory_total = Object.entries(total_by_fiis_subcategory).map(([name,total_today_brl])=>({name, total_today_brl}))
-  // by subcategory (only for Brasilian Stocks)
-  const total_by_br_stocks_subcategory = Object.entries(br_stocks_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_brl}
+  function total_usd_by_subcategory(subcategory){
+    const group_by_subcategory = portfolio_assets.filter( data => data.category === `${subcategory}`).reduce((acc,curr)=>{
+      const{subcategory, total_today_brl, total_today_usd} = curr
+      const existing = acc[subcategory]||[]
+      return {...acc, [subcategory]:[...existing, {total_today_brl, total_today_usd}]}
+    },{})
+    const total_by_fiis_subcategory = Object.entries(group_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+      const {name, data} = curr
+      const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
+      return {...acc, [name]:total_today_usd}
+    },{})
+    const subcategory_total = Object.entries(total_by_fiis_subcategory).map(([name,total_today_usd])=>({name, total_today_usd}))
+    return subcategory_total
   }
-  ,{})
-  const br_stocks_subcategory_total = Object.entries(total_by_br_stocks_subcategory).map(([name,total_today_brl])=>({name, total_today_brl}))
-  // by subcategory (only for REITs)
-  const total_by_REITs_subcategory = Object.entries(REITs_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_brl}
-  }
-  ,{})
-  const REITs_subcategory_total = Object.entries(total_by_REITs_subcategory).map(([name,total_today_brl])=>({name, total_today_brl}))
-  // by subcategory (only for Stocks)
-  const total_by_stocks_subcategory = Object.entries(stocks_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_brl}
-  }
-  ,{})
-  const stocks_subcategory_total = Object.entries(total_by_stocks_subcategory).map(([name,total_today_brl])=>({name, total_today_brl}))
 
-  // Grouping for Category SideModules Sum Tables and Pie Chart USD
-  // by category
-  const total_by_category_usd = Object.entries(assets_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_usd} 
-  }
-  ,{})
-  const categories_total_usd = Object.entries(total_by_category_usd).map(([name,total_today_usd])=>({name, total_today_usd}))
-  // by broker
-  const total_by_broker_usd = Object.entries(assets_by_broker).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_usd} 
-  }
-  ,{})
-  const brokers_total_usd = Object.entries(total_by_broker_usd).map(([name,total_today_usd])=>({name, total_today_usd}))
-  // by subcategory (only for FIIs)
-  const total_by_fiis_subcategory_usd = Object.entries(fiis_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_usd}
-  }
-  ,{})
-  const fiis_subcategory_total_usd = Object.entries(total_by_fiis_subcategory_usd).map(([name,total_today_usd])=>({name, total_today_usd}))
-  // by subcategory (only for Brasilian Stocks)
-  const total_by_br_stocks_subcategory_usd = Object.entries(br_stocks_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_usd}
-  }
-  ,{})
-  const br_stocks_subcategory_total_usd = Object.entries(total_by_br_stocks_subcategory_usd).map(([name,total_today_usd])=>({name, total_today_usd}))
-  // by subcategory (only for REITs)
-  const total_by_REITs_subcategory_usd = Object.entries(REITs_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_usd}
-  }
-  ,{})
-  const REITs_subcategory_total_usd = Object.entries(total_by_REITs_subcategory_usd).map(([name,total_today_usd])=>({name, total_today_usd}))
-  // by subcategory (only for Stocks)
-  const total_by_stocks_subcategory_usd = Object.entries(stocks_by_subcategory).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_today_usd}
-  }
-  ,{})
-  const stocks_subcategory_total_usd = Object.entries(total_by_stocks_subcategory_usd).map(([name,total_today_usd])=>({name, total_today_usd}))
-
-
-
-  // Grouping for Pie Chart
-  // by FIIs
-  const total_by_fiis = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
-    const {ticker, total_today_brl} = curr
-    return {...acc, [ticker]:total_today_brl}
-  }
-  ,{})
-  const fiis_total = Object.entries(total_by_fiis).map(([name,total_today_brl])=>({name, total_today_brl})) 
-  fiis_total.sort((a, b) => b.total_today_brl - a.total_today_brl)
-  // by Brasilian Stocks
-  const total_by_br_stocks = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
-    const {ticker, total_today_brl} = curr
-    return {...acc, [ticker]:total_today_brl}
-  }
-  ,{})
-  const br_stocks_total = Object.entries(total_by_br_stocks).map(([name,total_today_brl])=>({name, total_today_brl}))
-  br_stocks_total.sort((a, b) => b.total_today_brl - a.total_today_brl)
-  // by REITs
-  const total_by_REITs = portfolio_assets.filter( data => data.category === "REITs").reduce((acc,curr)=>{
-    const {ticker, total_today_brl} = curr
-    return {...acc, [ticker]:total_today_brl}
-  }
-  ,{})
-  const REITs_total = Object.entries(total_by_REITs).map(([name,total_today_brl])=>({name, total_today_brl}))
-  REITs_total.sort((a, b) => b.total_today_brl - a.total_today_brl)
-  // by Stocks
-  const total_by_stocks = portfolio_assets.filter( data => data.category === "Stocks").reduce((acc,curr)=>{
-    const {ticker, total_today_brl} = curr
-    return {...acc, [ticker]:total_today_brl}
-  }
-  ,{})
-  const stocks_total = Object.entries(total_by_stocks).map(([name,total_today_brl])=>({name, total_today_brl}))
-  stocks_total.sort((a, b) => b.total_today_brl - a.total_today_brl)
-
-  // Grouping for Tree Map without filter    
   function treemap_by(group_type){
     // filter data => data.category === Fundos Imobiliários and REITs
     const treemap_by_group_type = portfolio_assets.reduce((acc,curr)=>{
@@ -300,9 +159,6 @@ const Portfolio = () => {
       treemap_group.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
       return treemap_group
   }
-  
-  const treemap_categories = treemap_by("category")
-  const treemap_brokers = treemap_by("broker")
 
   function treemap_subcategory_by(group_type, subcategory){
     // get all data.category === all subcategory
@@ -316,15 +172,81 @@ const Portfolio = () => {
       return treemap_group
   }
 
+  function piechart_by_ticker(subcategory) {
+    const total_by = portfolio_assets.filter( data => data.category === `${subcategory}`).reduce((acc,curr)=>{
+      const {ticker, total_today_brl} = curr
+      return {...acc, [ticker]:total_today_brl}
+    }
+    ,{})
+    const total_today = Object.entries(total_by).map(([name,total_today_brl])=>({name, total_today_brl})) 
+    total_today.sort((a, b) => b.total_today_brl - a.total_today_brl)
+    return total_today
+  }
+
+  const assets_by_category = assets_by('category')
+  const assets_by_broker = assets_by('broker')
+
+  const total_brl_by_category  = total_brl_by('category')
+  const total_brl_by_broker = total_brl_by('broker')
+
+  const total_usd_by_category = total_usd_by('category')
+  const total_usd_by_broker = total_usd_by('broker')
+
+  const treemap_categories = treemap_by("category")
+  const treemap_brokers = treemap_by("broker")
+
+  const fiis_subcategory = assets_by_subcategory('Fundos Imobiliários')
+  const br_stocks_subcategory = assets_by_subcategory('Ações Brasileiras')
+  const REITs_subcategory = assets_by_subcategory('REITs')
+  const stocks_subcategory = assets_by_subcategory('Stocks')
+
+  const fiis_subcategory_total = total_brl_by_subcategory('Fundos Imobiliários')
+  const br_stocks_subcategory_total = total_brl_by_subcategory('Ações Brasileiras')
+  const REITs_subcategory_total = total_brl_by_subcategory('REITs')
+  const stocks_subcategory_total = total_brl_by_subcategory('Stocks')
+
+  const fiis_subcategory_total_usd = total_usd_by_subcategory('Fundos Imobiliários')
+  const br_stocks_subcategory_total_usd = total_usd_by_subcategory('Ações Brasileiras')
+  const REITs_subcategory_total_usd = total_usd_by_subcategory('REITs')
+  const stocks_subcategory_total_usd = total_usd_by_subcategory('Stocks')
+
   const treemap_fiis_subcategory = treemap_subcategory_by("subcategory", "Fundos Imobiliários")
   const treemap_br_stocks_subcategory = treemap_subcategory_by("subcategory", "Ações Brasileiras")
   const treemap_REITs_subcategory = treemap_subcategory_by("subcategory", "REITs")
   const treemap_stocks_subcategory = treemap_subcategory_by("subcategory", "Stocks")
 
-  // sum of all total_dividend_brl
-  // const total_dividend_brl = portfolio_dividends.reduce((acc, {total_dividend_brl}) => acc + total_dividend_brl, 0);
-  // sum of all total_dividend_usd
-  // const total_dividend_usd = portfolio_dividends.reduce((acc, {total_dividend_usd}) => acc + total_dividend_usd, 0);
+  const fiis_piechart = piechart_by_ticker("Fundos Imobiliários")
+  const br_stocks_piechart = piechart_by_ticker("Ações Brasileiras")
+  const REITs_piechart = piechart_by_ticker("REITs")
+  const stocks_piechart = piechart_by_ticker("Stocks")
+
+
+
+// dividends grouping
+  const dividends_by_category = portfolio_dividends.reduce((acc,curr)=>{
+    const {category, id, ticker, subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd} = curr
+    const existing = acc[category]||[]
+    return {...acc, [category]:[...existing, {id, ticker,  subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd}]}
+  }
+  ,{})
+  const category_dividends = Object.entries(dividends_by_category).map(([name,data])=>({name, data}))
+
+  const total_dividends_by_category_brl = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+    const {name, data} = curr
+    const total_dividend_brl = data.map(({ total_dividend_brl }) => total_dividend_brl).reduce((a, e) => a + e, 0)
+    return {...acc, [name]:total_dividend_brl} 
+  }
+  ,{})
+  const total_dividends_by_category_usd = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+    const {name, data} = curr
+    const total_dividend_usd = data.map(({ total_dividend_usd }) => total_dividend_usd).reduce((a, e) => a + e, 0)
+    return {...acc, [name]:total_dividend_usd} 
+  }
+  ,{})
+
+  const dividends_total_by_category_brl = Object.entries(total_dividends_by_category_brl).map(([name,total_dividend_brl])=>({name, total_dividend_brl}))
+  const dividends_total_by_category_usd = Object.entries(total_dividends_by_category_usd).map(([name,total_dividend_usd])=>({name, total_dividend_usd}))
+
 
   return (
     <MainLayout>
@@ -380,20 +302,20 @@ const Portfolio = () => {
                   <Row>
                     <Col lg={3}>
                         <SideModules 
-                        group_total={categories_total}      
-                        group_total_usd={categories_total_usd}
+                        group_total={total_brl_by_category}      
+                        group_total_usd={total_usd_by_category}
                         />
                         <SideDividends 
                           total_dividends_brl={dividends_total_by_category_brl} 
                           total_dividends_usd={dividends_total_by_category_usd}
                         />
                         <PieChart 
-                        total={categories_total}
+                        total={total_brl_by_category}
                         />  
                     </Col> 
                     <Col lg={9}>
                         <GroupedTables
-                        grouped_assets={category_assets}
+                        grouped_assets={assets_by_category}
                         />
                         <TreeMap
                         portfolio_treemap={treemap_categories}
@@ -411,16 +333,16 @@ const Portfolio = () => {
                 <Row>
                     <Col lg={3}>
                         <SideModules 
-                        group_total={brokers_total} 
-                        group_total_usd={brokers_total_usd}     
+                        group_total={total_brl_by_broker} 
+                        group_total_usd={total_usd_by_broker}     
                         />
                         {/* <PieChart
-                        total={brokers_total}
+                        total={total_brl_by_broker}
                         /> */}
                     </Col> 
                     <Col lg={9}>
                         <GroupedTables
-                        grouped_assets={broker_assets}
+                        grouped_assets={assets_by_broker}
                         />
                         <TreeMap
                         portfolio_treemap={treemap_brokers}
@@ -441,7 +363,7 @@ const Portfolio = () => {
                         total={fiis_subcategory_total}
                         /> */}
                         <PieChart 
-                        total={fiis_total}
+                        total={fiis_piechart}
                         />  
                     </Col> 
                     <Col lg={9}>
@@ -464,7 +386,7 @@ const Portfolio = () => {
                         group_total_usd={br_stocks_subcategory_total_usd}  
                         />
                         <PieChart 
-                        total={br_stocks_total}
+                        total={br_stocks_piechart}
                         />  
                         {/* <PieChart
                         total={br_stocks_subcategory_total}
@@ -490,7 +412,7 @@ const Portfolio = () => {
                         group_total_usd={REITs_subcategory_total_usd} 
                         />
                         <PieChart 
-                          total={REITs_total}
+                          total={REITs_piechart}
                         />  
                     </Col> 
                     <Col lg={9}>
@@ -513,7 +435,7 @@ const Portfolio = () => {
                         group_total_usd={stocks_subcategory_total_usd}
                         />
                         <PieChart 
-                          total={stocks_total}
+                          total={stocks_piechart}
                         /> 
                     </Col> 
                     <Col lg={9}>
