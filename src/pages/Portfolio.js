@@ -14,6 +14,7 @@ import TreeMap from '../components/charts/Treemap';
 import LineChart from '../components/charts/LineChart';
 import DividendsTables from '../components/tables/DividendsTables';
 import SideDividends from '../components/sidemodules/SideDividends';
+// import { AiFillLayout } from 'react-icons/ai';
 // import { data } from 'jquery';
 
 const Portfolio = () => {
@@ -61,65 +62,58 @@ const Portfolio = () => {
   // by category
   const assets_by_category = portfolio_assets.reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[category]||[]
     return {...acc, [category]:[...existing, {id, ticker, shares_amount, share_average_price_brl, 
-                                              total_cost_brl, total_today_brl, total_today_usd, profit, 
+                                              total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, 
                                               broker, category, trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
 
-  const dividends_by_category = portfolio_dividends.reduce((acc,curr)=>{
-    const {category, id, ticker, subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd} = curr
-    const existing = acc[category]||[]
-    return {...acc, [category]:[...existing, {id, ticker,  subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd}]}
-  }
-  ,{})
-  const category_assets = Object.entries(assets_by_category).map(([name,data])=>({name, data}))
 
-  const category_dividends = Object.entries(dividends_by_category).map(([name,data])=>({name, data}))
+  const category_assets = Object.entries(assets_by_category).map(([name,data])=>({name, data}))
 
   // by broker
   const assets_by_broker = portfolio_assets.reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
-      total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+      total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
       trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[broker]||[]
     return {...acc, [broker]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-      total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+      total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
       trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
   const broker_assets = Object.entries(assets_by_broker).map(([name,data])=>({name, data}))
   // by subcategory (only for FIIs)
   const fiis_by_subcategory = portfolio_assets.filter( data => data.category === "Fundos Imobiliários").reduce((acc,curr)=>{
     const{category, id, ticker, shares_amount, share_average_price_brl, 
-      total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+      total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
       trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[subcategory]||[]
     return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
   const fiis_subcategory = Object.entries(fiis_by_subcategory).map(([name,data])=>({name, data}))
   // by subcategory (only for Brasilian Stocks)
   const br_stocks_by_subcategory = portfolio_assets.filter( data => data.category === "Ações Brasileiras").reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[subcategory]||[]
     return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   },{})
   const br_stocks_subcategory = Object.entries(br_stocks_by_subcategory).map(([name,data])=>({name, data}))
   // by subcategory (only for REITs)
   const REITs_by_subcategory = portfolio_assets.filter( data => data.category === "REITs").reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[subcategory]||[]
     return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   }
   ,{})
@@ -127,15 +121,23 @@ const Portfolio = () => {
   // by subcategory (only for Stocks)
   const stocks_by_subcategory = portfolio_assets.filter( data => data.category === "Stocks").reduce((acc,curr)=>{
     const {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
     const existing = acc[subcategory]||[]
     return {...acc, [subcategory]:[...existing, {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, profit, broker, 
+        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
         trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
   }
   ,{})
   const stocks_subcategory = Object.entries(stocks_by_subcategory).map(([name,data])=>({name, data}))
+
+  const dividends_by_category = portfolio_dividends.reduce((acc,curr)=>{
+    const {category, id, ticker, subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd} = curr
+    const existing = acc[category]||[]
+    return {...acc, [category]:[...existing, {id, ticker,  subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd}]}
+  }
+  ,{})
+  const category_dividends = Object.entries(dividends_by_category).map(([name,data])=>({name, data}))
 
   // Grouping for Category SideModules Sum Tables and Pie Chart BRL
   // by category
@@ -286,8 +288,9 @@ const Portfolio = () => {
   const stocks_total = Object.entries(total_by_stocks).map(([name,total_today_brl])=>({name, total_today_brl}))
   stocks_total.sort((a, b) => b.total_today_brl - a.total_today_brl)
 
-  // Grouping for Tree Map without filter
+  // Grouping for Tree Map without filter    
   function treemap_by(group_type){
+    // filter data => data.category === Fundos Imobiliários and REITs
     const treemap_by_group_type = portfolio_assets.reduce((acc,curr)=>{
       const { ticker, total_today_brl} = curr
       const existing = acc[curr[group_type]] || []
@@ -297,10 +300,12 @@ const Portfolio = () => {
       treemap_group.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
       return treemap_group
   }
+  
   const treemap_categories = treemap_by("category")
   const treemap_brokers = treemap_by("broker")
 
   function treemap_subcategory_by(group_type, subcategory){
+    // get all data.category === all subcategory
     const treemap_by_group_type = portfolio_assets.filter( data => data.category === `${subcategory}`).reduce((acc,curr)=>{
       const { ticker, total_today_brl} = curr
       const existing = acc[curr[group_type]] || []

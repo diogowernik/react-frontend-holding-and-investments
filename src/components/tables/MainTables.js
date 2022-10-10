@@ -82,6 +82,7 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>Custo</th>
                                   <th>PM</th>
                                   <th>Prov.</th>
+
                                   <th>PM-d</th>
                                   <th>YoC</th>
                                   <th>Lucro</th>
@@ -92,7 +93,7 @@ const GroupedTables = ({grouped_assets}) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, asset_price, dividends_profit_brl })=>(
+                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, total_profit_brl, asset_price, dividends_profit_brl })=>(
                                   // hide if shares_amount == 0
                                   shares_amount > 0 && (
                                   <tr key={id}>
@@ -103,11 +104,12 @@ const GroupedTables = ({grouped_assets}) => {
                                     <td>{total_cost_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{share_average_price_brl}</td>
                                     <td>{dividends_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+
                                     <td>{(share_average_price_brl - (dividends_profit_brl/shares_amount)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{(dividends_profit_brl/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td className={profit>0?'text-primary':'text-warning'}>{profit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td className={total_profit_brl>0?'text-primary':'text-warning'}>{total_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{((total_today_brl-total_cost_brl)/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{(profit/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{(total_profit_brl/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td></td>
                                     <td style={
                                       {display: 'flex',
@@ -117,7 +119,7 @@ const GroupedTables = ({grouped_assets}) => {
 
                                     }>
                                       <Button variant="link" 
-                                        onClick={()=>{setAsset({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, profit, asset_price, dividends_profit_brl }); 
+                                        onClick={()=>{setAsset({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, total_profit_brl, asset_price, dividends_profit_brl }); 
                                         showModal();}}
                                       >
                                         <AiOutlineEdit size={20} color="blue" />
