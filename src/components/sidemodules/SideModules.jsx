@@ -51,7 +51,7 @@ const SideModules = ({ group_total, group_total_usd }) => {
                             />     
                         </Nav.Link>
                     </Nav.Item>
-                </Nav>
+                  </Nav>
                   
                 </Card.Header>
                 <Card.Body>

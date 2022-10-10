@@ -5,6 +5,7 @@ import {  removePortfolioAsset } from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import { useContext, useState } from 'react';
 import PortfolioAssetForm  from '../../containers/PortfolioAssetForm';
+import { AiFillEyeInvisible } from 'react-icons/ai';
 
 const GroupedTables = ({grouped_assets}) => {
   const [portfolioAssetFormShow, setPortfolioAssetFormShow] = useState(false);
@@ -47,8 +48,6 @@ const GroupedTables = ({grouped_assets}) => {
               <Card.Header>
                 <Nav variant="pills">    
                     {grouped_assets.map(({name})=>(
-                      // custom names for tabs
-
                       <Nav.Item key={name}>
                         <Nav.Link eventKey={name}>{name}</Nav.Link>
                       </Nav.Item>
@@ -61,16 +60,31 @@ const GroupedTables = ({grouped_assets}) => {
                 <Tab.Pane eventKey={name} key={name}>
                   <Row>
                   <Col lg={12}>
+                    <Tab.Container defaultActiveKey="hide">
                       <Card  color="gray" className="mb-3">   
                         <Card.Header className="bg-gray-lighter">
-                          <h5 className='float-left'>
+                          <h5 className='float-left mt-2'>
                           {name}
                           </h5>
-                          <h5 className='float-right'>
-                          Total: {data.reduce((acc,{total_today_brl})=>(acc+total_today_brl),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                          </h5>
+                          <Nav variant="pills" className='float-right'>    
+                            <Nav.Item>
+                                <Nav.Link eventKey="BRL">BRL</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="USD">USD</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Nav.Link eventKey="hide">
+                                    <AiFillEyeInvisible 
+                                        size={25}
+                                    />     
+                                </Nav.Link>
+                            </Nav.Item>
+                          </Nav>
                         </Card.Header>
                         <Card.Body>
+                          <Tab.Content>
+                            <Tab.Pane eventKey="BRL" >
                             <Datatable className="table-responsive" options={options1}>
                             <table className="table table-striped table-sm">
                               <thead>
@@ -82,18 +96,45 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>Custo</th>
                                   <th>PM</th>
                                   <th>Prov.</th>
-
                                   <th>PM-d</th>
+
                                   <th>YoC</th>
                                   <th>Lucro</th>
                                   <th>%R</th>
                                   <th>%R-d-t</th>
-                                  <th>%T</th>
+                                  <th>%P</th>
                                   <th></th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, total_profit_brl, asset_price, dividends_profit_brl })=>(
+                                {data.map(({
+                                  id,
+                                  ticker,
+                                  shares_amount,
+                                  asset_price,
+                                  share_average_price_brl,
+                                  share_average_price_usd,
+                                  total_cost_brl,
+                                  total_cost_usd,
+                                  total_today_brl,
+                                  total_today_usd,
+                                  category,
+                                  subcategory,
+                                  total_profit_brl,
+                                  dividends_profit_brl,
+                                  dividends_profit_usd,
+                                  trade_profit_brl,
+                                  trade_profit_usd,
+                                  broker,
+                                  twelve_m_yield,
+                                  twelve_m_dividend,
+                                  p_vpa,
+                                  av_price_brl_minus_div_brl,
+                                  portfolio_percentage,
+                                  yield_on_cost,
+                                  profit_without_div_trade,
+                                  profit_with_div_trade,
+                                 })=>(
                                   // hide if shares_amount == 0
                                   shares_amount > 0 && (
                                   <tr key={id}>
@@ -104,22 +145,42 @@ const GroupedTables = ({grouped_assets}) => {
                                     <td>{total_cost_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{share_average_price_brl}</td>
                                     <td>{dividends_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-
-                                    <td>{(share_average_price_brl - (dividends_profit_brl/shares_amount)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{(dividends_profit_brl/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td className={total_profit_brl>0?'text-primary':'text-warning'}>{total_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{((total_today_brl-total_cost_brl)/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{(total_profit_brl/total_cost_brl).toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td></td>
-                                    <td style={
-                                      {display: 'flex',
-                                      justifyContent: 'space-between',
-                                      alignItems: 'center',
-                                      width: '80px'}
-
-                                    }>
+                                    <td>{av_price_brl_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{yield_on_cost.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td className={total_profit_brl>0?'text-primary':'text-warning'}>{total_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>         
+                                    <td className={profit_without_div_trade>0?'text-primary':'text-warning'}>{profit_without_div_trade.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={profit_with_div_trade>0?'text-primary':'text-warning'}>{profit_with_div_trade.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
-                                        onClick={()=>{setAsset({id, ticker, shares_amount, share_average_price_brl, total_cost_brl ,total_today_brl, total_profit_brl, asset_price, dividends_profit_brl }); 
+                                        onClick={()=>{setAsset({
+                                          id,
+                                          ticker,
+                                          shares_amount,
+                                          asset_price,
+                                          share_average_price_brl,
+                                          share_average_price_usd,
+                                          total_cost_brl,
+                                          total_cost_usd,
+                                          total_today_brl,
+                                          total_today_usd,
+                                          category,
+                                          subcategory,
+                                          total_profit_brl,
+                                          dividends_profit_brl,
+                                          dividends_profit_usd,
+                                          trade_profit_brl,
+                                          trade_profit_usd,
+                                          broker,
+                                          twelve_m_yield,
+                                          twelve_m_dividend,
+                                          p_vpa,
+                                          av_price_brl_minus_div_brl,
+                                          portfolio_percentage,
+                                          yield_on_cost,
+                                          profit_without_div_trade,
+                                          profit_with_div_trade,
+                                         }); 
                                         showModal();}}
                                       >
                                         <AiOutlineEdit size={20} color="blue" />
@@ -133,8 +194,238 @@ const GroupedTables = ({grouped_assets}) => {
                               </tbody>
                             </table>
                             </Datatable>
+                            <div className="float-right">
+                            Total: {data.reduce((acc,{total_today_brl})=>(acc+total_today_brl),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            </div>
+                            </Tab.Pane>
+
+                            <Tab.Pane eventKey="USD" >
+                            <Datatable className="table-responsive" options={options1}>
+                            <table className="table table-striped table-sm">
+                              <thead>
+                                <tr>                              
+                                  <th>Ticker</th>
+                                  <th>Cotação</th>
+                                  <th>Qnt</th>
+                                  <th>Valor</th>
+                                  <th>Custo</th>
+                                  <th>PM</th>
+                                  <th>Prov.</th>
+                                  <th>PM-d</th>
+
+                                  <th>YoC</th>
+                                  <th>Lucro</th>
+                                  <th>%R</th>
+                                  <th>%R-d-t</th>
+                                  <th>%P</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {data.map(({
+                                  id,
+                                  ticker,
+                                  shares_amount,
+                                  asset_price,
+                                  share_average_price_brl,
+                                  share_average_price_usd,
+                                  total_cost_brl,
+                                  total_cost_usd,
+                                  total_today_brl,
+                                  total_today_usd,
+                                  category,
+                                  subcategory,
+                                  total_profit_brl,
+                                  dividends_profit_brl,
+                                  dividends_profit_usd,
+                                  trade_profit_brl,
+                                  trade_profit_usd,
+                                  broker,
+                                  twelve_m_yield,
+                                  twelve_m_dividend,
+                                  p_vpa,
+                                  av_price_brl_minus_div_brl,
+                                  portfolio_percentage,
+                                  yield_on_cost,
+                                  profit_without_div_trade,
+                                  profit_with_div_trade,
+                                 })=>(
+                                  // hide if shares_amount == 0
+                                  shares_amount > 0 && (
+                                  <tr key={id}>
+                                    <td>{ticker}</td>
+                                    <td></td> {/* asset_price_usd create on backend */}
+                                    <td>{shares_amount}</td>
+                                    <td>{total_today_usd.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' })}</td>
+                                    <td></td> {/* total_cost_usd exist need to calculate on backend*/}
+                                    <td></td> {/* share_average_price_usd exist need to calculate on backend*/}
+                                    <td>{dividends_profit_usd.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' })}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>         
+                                    <td></td>   
+                                    <td></td>
+                                    <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
+                                      <Button variant="link" 
+                                        onClick={()=>{setAsset({
+                                          id,
+                                          ticker,
+                                          shares_amount,
+                                          asset_price,
+                                          share_average_price_brl,
+                                          share_average_price_usd,
+                                          total_cost_brl,
+                                          total_cost_usd,
+                                          total_today_brl,
+                                          total_today_usd,
+                                          category,
+                                          subcategory,
+                                          total_profit_brl,
+                                          dividends_profit_brl,
+                                          dividends_profit_usd,
+                                          trade_profit_brl,
+                                          trade_profit_usd,
+                                          broker,
+                                          twelve_m_yield,
+                                          twelve_m_dividend,
+                                          p_vpa,
+                                          av_price_brl_minus_div_brl,
+                                          portfolio_percentage,
+                                          yield_on_cost,
+                                          profit_without_div_trade,
+                                          profit_with_div_trade,
+                                         }); 
+                                        showModal();}}
+                                      >
+                                        <AiOutlineEdit size={20} color="blue" />
+                                      </Button>|<Button variant="link" onClick={() => onRemoveAsset(id)}>
+                                        <AiOutlineDelete size={20} color="red" />
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                  )
+                                ))}
+                              </tbody>
+                            </table>
+                            </Datatable>
+                            </Tab.Pane>
+
+                            <Tab.Pane eventKey="hide" >
+                            <Datatable className="table-responsive" options={options1}>
+                            <table className="table table-striped table-sm">
+                              <thead>
+                                <tr>                              
+                                  <th>Ticker</th>
+                                  <th>Cotação</th>
+                                  <th>Qnt</th>
+                                  <th>Valor</th>
+                                  <th>Custo</th>
+                                  <th>PM</th>
+                                  <th>Prov.</th>
+                                  <th>PM-d</th>
+
+                                  <th>YoC</th>
+                                  <th>Lucro</th>
+                                  <th>%R</th>
+                                  <th>%R-d-t</th>
+                                  <th>%P</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {data.map(({
+                                  id,
+                                  ticker,
+                                  shares_amount,
+                                  asset_price,
+                                  share_average_price_brl,
+                                  share_average_price_usd,
+                                  total_cost_brl,
+                                  total_cost_usd,
+                                  total_today_brl,
+                                  total_today_usd,
+                                  category,
+                                  subcategory,
+                                  total_profit_brl,
+                                  dividends_profit_brl,
+                                  dividends_profit_usd,
+                                  trade_profit_brl,
+                                  trade_profit_usd,
+                                  broker,
+                                  twelve_m_yield,
+                                  twelve_m_dividend,
+                                  p_vpa,
+                                  av_price_brl_minus_div_brl,
+                                  portfolio_percentage,
+                                  yield_on_cost,
+                                  profit_without_div_trade,
+                                  profit_with_div_trade,
+                                 })=>(
+                                  // hide if shares_amount == 0
+                                  shares_amount > 0 && (
+                                  <tr key={id}>
+                                    <td>{ticker}</td>
+                                    <td>{asset_price}</td>
+                                    <td>***</td>
+                                    <td>***</td>
+                                    <td>***</td>
+                                    <td>{share_average_price_brl}</td>
+                                    <td>***</td>
+                                    <td>{av_price_brl_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{yield_on_cost.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>***</td>         
+                                    <td className={profit_without_div_trade>0?'text-primary':'text-warning'}>{profit_without_div_trade.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={profit_with_div_trade>0?'text-primary':'text-warning'}>{profit_with_div_trade.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
+                                      <Button variant="link" 
+                                        onClick={()=>{setAsset({
+                                          id,
+                                          ticker,
+                                          shares_amount,
+                                          asset_price,
+                                          share_average_price_brl,
+                                          share_average_price_usd,
+                                          total_cost_brl,
+                                          total_cost_usd,
+                                          total_today_brl,
+                                          total_today_usd,
+                                          category,
+                                          subcategory,
+                                          total_profit_brl,
+                                          dividends_profit_brl,
+                                          dividends_profit_usd,
+                                          trade_profit_brl,
+                                          trade_profit_usd,
+                                          broker,
+                                          twelve_m_yield,
+                                          twelve_m_dividend,
+                                          p_vpa,
+                                          av_price_brl_minus_div_brl,
+                                          portfolio_percentage,
+                                          yield_on_cost,
+                                          profit_without_div_trade,
+                                          profit_with_div_trade,
+                                         }); 
+                                        showModal();}}
+                                      >
+                                        <AiOutlineEdit size={20} color="blue" />
+                                      </Button>|<Button variant="link" onClick={() => onRemoveAsset(id)}>
+                                        <AiOutlineDelete size={20} color="red" />
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                  )
+                                ))}
+                              </tbody>
+                            </table>
+                            </Datatable>
+                            </Tab.Pane>
+                          </Tab.Content>
                         </Card.Body>
-                      </Card>      
+                      </Card>
+                    </Tab.Container>
                   </Col>
                   </Row>
                 </Tab.Pane>

@@ -60,13 +60,63 @@ const Portfolio = () => {
  
   function assets_by(group_type){
     const assets_by_group_type = portfolio_assets.reduce((acc,curr)=>{
-      const {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
+      const {
+        id,
+        ticker,
+        shares_amount,
+        asset_price,
+        share_average_price_brl,
+        share_average_price_usd,
+        total_cost_brl,
+        total_cost_usd,
+        total_today_brl,
+        total_today_usd,
+        category,
+        subcategory,
+        total_profit_brl,
+        dividends_profit_brl,
+        dividends_profit_usd,
+        trade_profit_brl,
+        trade_profit_usd,
+        broker,
+        twelve_m_yield,
+        twelve_m_dividend,
+        p_vpa,
+        av_price_brl_minus_div_brl,
+        portfolio_percentage,
+        yield_on_cost,
+        profit_without_div_trade,
+        profit_with_div_trade,
+      } = curr
       const existing = acc[curr[group_type]] || []
-      return {...acc, [curr[group_type]]:[...existing, {id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, 
-        broker, category, trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+      return {...acc, [curr[group_type]]:[...existing, {
+        id,
+        ticker,
+        shares_amount,
+        asset_price,
+        share_average_price_brl,
+        share_average_price_usd,
+        total_cost_brl,
+        total_cost_usd,
+        total_today_brl,
+        total_today_usd,
+        category,
+        subcategory,
+        total_profit_brl,
+        dividends_profit_brl,
+        dividends_profit_usd,
+        trade_profit_brl,
+        trade_profit_usd,
+        broker,
+        twelve_m_yield,
+        twelve_m_dividend,
+        p_vpa,
+        av_price_brl_minus_div_brl,
+        portfolio_percentage,
+        yield_on_cost,
+        profit_without_div_trade,
+        profit_with_div_trade,
+      }]}
       },{})
       const assets_group = Object.entries(assets_by_group_type).map(([name,data])=>({name, data}))
       return assets_group
@@ -74,13 +124,63 @@ const Portfolio = () => {
 
   function assets_by_subcategory(subcategory){
     const assets_by_group_type = portfolio_assets.filter(asset => asset.category === `${subcategory}`).reduce((acc,curr)=>{
-      const {category, id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, broker, 
-        trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory} = curr
-      const existing = acc[curr[subcategory]] || []
-      return {...acc, [curr[subcategory]]:[...existing, {id, ticker, shares_amount, share_average_price_brl, 
-        total_cost_brl, total_today_brl, total_today_usd, total_profit_brl, 
-        broker, category, trade_profit_brl, dividends_profit_brl, asset_price, p_vpa, twelve_m_yield, subcategory}]}
+      const {
+        id,
+        ticker,
+        shares_amount,
+        asset_price,
+        share_average_price_brl,
+        share_average_price_usd,
+        total_cost_brl,
+        total_cost_usd,
+        total_today_brl,
+        total_today_usd,
+        category,
+        subcategory,
+        total_profit_brl,
+        dividends_profit_brl,
+        dividends_profit_usd,
+        trade_profit_brl,
+        trade_profit_usd,
+        broker,
+        twelve_m_yield,
+        twelve_m_dividend,
+        p_vpa,
+        av_price_brl_minus_div_brl,
+        portfolio_percentage,
+        yield_on_cost,
+        profit_without_div_trade,
+        profit_with_div_trade,
+      } = curr
+      const existing = acc[[subcategory]] || []
+      return {...acc, [[subcategory]]:[...existing, {
+        id,
+        ticker,
+        shares_amount,
+        asset_price,
+        share_average_price_brl,
+        share_average_price_usd,
+        total_cost_brl,
+        total_cost_usd,
+        total_today_brl,
+        total_today_usd,
+        category,
+        subcategory,
+        total_profit_brl,
+        dividends_profit_brl,
+        dividends_profit_usd,
+        trade_profit_brl,
+        trade_profit_usd,
+        broker,
+        twelve_m_yield,
+        twelve_m_dividend,
+        p_vpa,
+        av_price_brl_minus_div_brl,
+        portfolio_percentage,
+        yield_on_cost,
+        profit_without_div_trade,
+        profit_with_div_trade,
+      }]}
       },{})
       const assets_group = Object.entries(assets_by_group_type).map(([name,data])=>({name, data}))
       return assets_group
@@ -251,7 +351,7 @@ const Portfolio = () => {
   return (
     <MainLayout>
       <Container fluid>
-        <Tab.Container defaultActiveKey="dividends">
+        <Tab.Container defaultActiveKey="dashboard">
       <Row>
         <Col lg={12}>
           <Card className=" mb-3">
