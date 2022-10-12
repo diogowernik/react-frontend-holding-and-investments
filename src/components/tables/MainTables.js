@@ -97,7 +97,6 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>PM</th>
                                   <th>Prov.</th>
                                   <th>PM-d</th>
-
                                   <th>YoC</th>
                                   <th>Lucro</th>
                                   <th>%R</th>
@@ -111,45 +110,40 @@ const GroupedTables = ({grouped_assets}) => {
                                   id,
                                   ticker,
                                   shares_amount,
-                                  asset_price,
+                                  asset_price_brl,
                                   share_average_price_brl,
-                                  share_average_price_usd,
                                   total_cost_brl,
-                                  total_cost_usd,
                                   total_today_brl,
-                                  total_today_usd,
                                   category,
                                   subcategory,
                                   total_profit_brl,
                                   dividends_profit_brl,
-                                  dividends_profit_usd,
                                   trade_profit_brl,
-                                  trade_profit_usd,
                                   broker,
                                   twelve_m_yield,
                                   twelve_m_dividend,
                                   p_vpa,
-                                  av_price_brl_minus_div_brl,
                                   portfolio_percentage,
-                                  yield_on_cost,
-                                  profit_without_div_trade,
-                                  profit_with_div_trade,
+                                  av_price_minus_div_brl,
+                                  yield_on_cost_brl,
+                                  profit_without_div_trade_brl,
+                                  profit_with_div_trade_brl,
                                  })=>(
                                   // hide if shares_amount == 0
                                   shares_amount > 0 && (
                                   <tr key={id}>
                                     <td>{ticker}</td>
-                                    <td>{asset_price}</td>
+                                    <td>{asset_price_brl}</td>
                                     <td>{shares_amount}</td>
                                     <td>{total_today_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{total_cost_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{share_average_price_brl}</td>
                                     <td>{dividends_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{av_price_brl_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{yield_on_cost.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{av_price_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{yield_on_cost_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td className={total_profit_brl>0?'text-primary':'text-warning'}>{total_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>         
-                                    <td className={profit_without_div_trade>0?'text-primary':'text-warning'}>{profit_without_div_trade.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={profit_with_div_trade>0?'text-primary':'text-warning'}>{profit_with_div_trade.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td className={profit_without_div_trade_brl>0?'text-primary':'text-warning'}>{profit_without_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={profit_with_div_trade_brl>0?'text-primary':'text-warning'}>{profit_with_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
@@ -157,29 +151,24 @@ const GroupedTables = ({grouped_assets}) => {
                                           id,
                                           ticker,
                                           shares_amount,
-                                          asset_price,
+                                          asset_price_brl,
                                           share_average_price_brl,
-                                          share_average_price_usd,
                                           total_cost_brl,
-                                          total_cost_usd,
                                           total_today_brl,
-                                          total_today_usd,
                                           category,
                                           subcategory,
                                           total_profit_brl,
                                           dividends_profit_brl,
-                                          dividends_profit_usd,
                                           trade_profit_brl,
-                                          trade_profit_usd,
                                           broker,
                                           twelve_m_yield,
                                           twelve_m_dividend,
                                           p_vpa,
-                                          av_price_brl_minus_div_brl,
                                           portfolio_percentage,
-                                          yield_on_cost,
-                                          profit_without_div_trade,
-                                          profit_with_div_trade,
+                                          av_price_minus_div_brl,
+                                          yield_on_cost_brl,
+                                          profit_without_div_trade_brl,
+                                          profit_with_div_trade_brl,
                                          }); 
                                         showModal();}}
                                       >
@@ -212,7 +201,6 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>PM</th>
                                   <th>Prov.</th>
                                   <th>PM-d</th>
-
                                   <th>YoC</th>
                                   <th>Lucro</th>
                                   <th>%R</th>
@@ -226,45 +214,40 @@ const GroupedTables = ({grouped_assets}) => {
                                   id,
                                   ticker,
                                   shares_amount,
-                                  asset_price,
-                                  share_average_price_brl,
+                                  asset_price_usd,
                                   share_average_price_usd,
-                                  total_cost_brl,
                                   total_cost_usd,
-                                  total_today_brl,
                                   total_today_usd,
+                                  total_profit_usd,
                                   category,
                                   subcategory,
-                                  total_profit_brl,
-                                  dividends_profit_brl,
                                   dividends_profit_usd,
-                                  trade_profit_brl,
                                   trade_profit_usd,
                                   broker,
                                   twelve_m_yield,
                                   twelve_m_dividend,
                                   p_vpa,
-                                  av_price_brl_minus_div_brl,
                                   portfolio_percentage,
-                                  yield_on_cost,
-                                  profit_without_div_trade,
-                                  profit_with_div_trade,
+                                  av_price_minus_div_usd,
+                                  yield_on_cost_usd,
+                                  profit_without_div_trade_usd,
+                                  profit_with_div_trade_usd,
                                  })=>(
                                   // hide if shares_amount == 0
                                   shares_amount > 0 && (
                                   <tr key={id}>
                                     <td>{ticker}</td>
-                                    <td></td> {/* asset_price_usd create on backend */}
+                                    <td>{asset_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
                                     <td>{shares_amount}</td>
-                                    <td>{total_today_usd.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' })}</td>
-                                    <td></td> {/* total_cost_usd exist need to calculate on backend*/}
-                                    <td></td> {/* share_average_price_usd exist need to calculate on backend*/}
-                                    <td>{dividends_profit_usd.toLocaleString('pt-BR', { style: 'currency', currency: 'USD' })}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>         
-                                    <td></td>   
-                                    <td></td>
+                                    <td>{total_today_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{total_cost_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{share_average_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{dividends_profit_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{av_price_minus_div_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{yield_on_cost_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{total_profit_usd}</td>     
+                                    <td className={profit_without_div_trade_usd>0?'text-primary':'text-warning'}>{profit_without_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={profit_with_div_trade_usd>0?'text-primary':'text-warning'}>{profit_with_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
@@ -272,29 +255,24 @@ const GroupedTables = ({grouped_assets}) => {
                                           id,
                                           ticker,
                                           shares_amount,
-                                          asset_price,
-                                          share_average_price_brl,
+                                          asset_price_usd,
                                           share_average_price_usd,
-                                          total_cost_brl,
                                           total_cost_usd,
-                                          total_today_brl,
                                           total_today_usd,
                                           category,
                                           subcategory,
-                                          total_profit_brl,
-                                          dividends_profit_brl,
                                           dividends_profit_usd,
-                                          trade_profit_brl,
                                           trade_profit_usd,
                                           broker,
                                           twelve_m_yield,
                                           twelve_m_dividend,
                                           p_vpa,
-                                          av_price_brl_minus_div_brl,
+                                          total_profit_usd,
                                           portfolio_percentage,
-                                          yield_on_cost,
-                                          profit_without_div_trade,
-                                          profit_with_div_trade,
+                                          av_price_minus_div_usd,
+                                          yield_on_cost_usd,
+                                          profit_without_div_trade_usd,
+                                          profit_with_div_trade_usd,
                                          }); 
                                         showModal();}}
                                       >
@@ -336,77 +314,87 @@ const GroupedTables = ({grouped_assets}) => {
                               <tbody>
                                 {data.map(({
                                   id,
-                                  ticker,
-                                  shares_amount,
-                                  asset_price,
-                                  share_average_price_brl,
-                                  share_average_price_usd,
-                                  total_cost_brl,
-                                  total_cost_usd,
-                                  total_today_brl,
-                                  total_today_usd,
-                                  category,
-                                  subcategory,
-                                  total_profit_brl,
-                                  dividends_profit_brl,
-                                  dividends_profit_usd,
-                                  trade_profit_brl,
-                                  trade_profit_usd,
-                                  broker,
-                                  twelve_m_yield,
-                                  twelve_m_dividend,
-                                  p_vpa,
-                                  av_price_brl_minus_div_brl,
-                                  portfolio_percentage,
-                                  yield_on_cost,
-                                  profit_without_div_trade,
-                                  profit_with_div_trade,
+        ticker,
+        shares_amount,
+        asset_price_brl,
+        asset_price_usd,
+        share_average_price_brl,
+        share_average_price_usd,
+        total_cost_brl,
+        total_cost_usd,
+        total_today_brl,
+        total_today_usd,
+        category,
+        subcategory,
+        total_profit_brl,
+        dividends_profit_brl,
+        dividends_profit_usd,
+        trade_profit_brl,
+        trade_profit_usd,
+        broker,
+        twelve_m_yield,
+        twelve_m_dividend,
+        p_vpa,
+        portfolio_percentage,
+        av_price_minus_div_brl,
+        av_price_minus_div_usd,
+        yield_on_cost_brl,
+        yield_on_cost_usd,
+        profit_without_div_trade_brl,
+        profit_without_div_trade_usd,
+        profit_with_div_trade_brl,
+        profit_with_div_trade_usd,
                                  })=>(
                                   // hide if shares_amount == 0
                                   shares_amount > 0 && (
                                   <tr key={id}>
                                     <td>{ticker}</td>
-                                    <td>{asset_price}</td>
+                                    <td>{asset_price_brl}</td>
                                     <td>***</td>
                                     <td>***</td>
                                     <td>***</td>
                                     <td>{share_average_price_brl}</td>
                                     <td>***</td>
-                                    <td>{av_price_brl_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{yield_on_cost.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{av_price_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{yield_on_cost_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td>***</td>         
-                                    <td className={profit_without_div_trade>0?'text-primary':'text-warning'}>{profit_without_div_trade.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={profit_with_div_trade>0?'text-primary':'text-warning'}>{profit_with_div_trade.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td className={profit_without_div_trade_brl>0?'text-primary':'text-warning'}>{profit_without_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={profit_with_div_trade_brl>0?'text-primary':'text-warning'}>{profit_with_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
                                         onClick={()=>{setAsset({
                                           id,
-                                          ticker,
-                                          shares_amount,
-                                          asset_price,
-                                          share_average_price_brl,
-                                          share_average_price_usd,
-                                          total_cost_brl,
-                                          total_cost_usd,
-                                          total_today_brl,
-                                          total_today_usd,
-                                          category,
-                                          subcategory,
-                                          total_profit_brl,
-                                          dividends_profit_brl,
-                                          dividends_profit_usd,
-                                          trade_profit_brl,
-                                          trade_profit_usd,
-                                          broker,
-                                          twelve_m_yield,
-                                          twelve_m_dividend,
-                                          p_vpa,
-                                          av_price_brl_minus_div_brl,
-                                          portfolio_percentage,
-                                          yield_on_cost,
-                                          profit_without_div_trade,
-                                          profit_with_div_trade,
+        ticker,
+        shares_amount,
+        asset_price_brl,
+        asset_price_usd,
+        share_average_price_brl,
+        share_average_price_usd,
+        total_cost_brl,
+        total_cost_usd,
+        total_today_brl,
+        total_today_usd,
+        category,
+        subcategory,
+        total_profit_brl,
+        dividends_profit_brl,
+        dividends_profit_usd,
+        trade_profit_brl,
+        trade_profit_usd,
+        broker,
+        twelve_m_yield,
+        twelve_m_dividend,
+        p_vpa,
+        portfolio_percentage,
+        av_price_minus_div_brl,
+        av_price_minus_div_usd,
+        yield_on_cost_brl,
+        yield_on_cost_usd,
+        profit_without_div_trade_brl,
+        profit_without_div_trade_usd,
+        profit_with_div_trade_brl,
+        profit_with_div_trade_usd,
                                          }); 
                                         showModal();}}
                                       >
