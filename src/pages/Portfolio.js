@@ -170,12 +170,31 @@ const Portfolio = () => {
 
 // dividends grouping need some refactoring
   const dividends_by_category = portfolio_dividends.reduce((acc,curr)=>{
-    const {category, id, ticker, subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd} = curr
-    const existing = acc[category]||[]
-    return {...acc, [category]:[...existing, {id, ticker,  subcategory, record_date, pay_date, total_dividend_brl, total_dividend_usd}]}
+    const existing = acc[curr.category]||[]
+    return {...acc, [[curr.category]]:[...existing, curr]}
   }
   ,{})
-  const category_dividends = Object.entries(dividends_by_category).map(([name,data])=>({name, data}))
+
+
+  function dividends_by(group_type, subcategory){
+    const dividends_by_group_type = portfolio_dividends.filter(
+      data => group_type === "subcategory" ? data.category === `${subcategory}` : data
+      ).reduce((acc,curr)=>{
+      const existing = acc[curr[group_type]] || []
+      return {...acc, [curr[group_type]]:[...existing, curr]}
+      },{})
+      const dividends_group = Object.entries(dividends_by_group_type).map(([name,data])=>({name, data}))
+      return dividends_group
+  }
+
+  const year_dividends = dividends_by("pay_date_by_year")
+  const month_dividends = dividends_by("pay_date_by_month_year")
+  const category_dividends = dividends_by("category")
+  console.log(category_dividends)
+  console.log(month_dividends)
+  console.log(year_dividends)
+
+
 
   const total_dividends_by_category_brl = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
     const {name, data} = curr

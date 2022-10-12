@@ -26,11 +26,7 @@ const GroupedTables = ({grouped_assets}) => {
       window.location.reload();
     }
   }
-  // sum of all grouped_assets
-  // const total = grouped_assets.reduce((acc, asset) => acc + asset.shares_amount * asset.asset_price, 0);
 
-
-  // options for the datatable
   const options1 = {
     'paging': false, // Table pagination
     'ordering': true, // Column ordering
@@ -106,74 +102,33 @@ const GroupedTables = ({grouped_assets}) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({
-                                  id,
-                                  ticker,
-                                  shares_amount,
-                                  asset_price_brl,
-                                  share_average_price_brl,
-                                  total_cost_brl,
-                                  total_today_brl,
-                                  category,
-                                  subcategory,
-                                  total_profit_brl,
-                                  dividends_profit_brl,
-                                  trade_profit_brl,
-                                  broker,
-                                  twelve_m_yield,
-                                  twelve_m_dividend,
-                                  p_vpa,
-                                  portfolio_percentage,
-                                  av_price_minus_div_brl,
-                                  yield_on_cost_brl,
-                                  profit_without_div_trade_brl,
-                                  profit_with_div_trade_brl,
-                                 })=>(
-                                  // hide if shares_amount == 0
-                                  shares_amount > 0 && (
-                                  <tr key={id}>
-                                    <td>{ticker}</td>
-                                    <td>{asset_price_brl}</td>
-                                    <td>{shares_amount}</td>
-                                    <td>{total_today_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{total_cost_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{share_average_price_brl}</td>
-                                    <td>{dividends_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{av_price_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{yield_on_cost_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td className={total_profit_brl>0?'text-primary':'text-warning'}>{total_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>         
-                                    <td className={profit_without_div_trade_brl>0?'text-primary':'text-warning'}>{profit_without_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={profit_with_div_trade_brl>0?'text-primary':'text-warning'}>{profit_with_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                {data.map((asset) => (
+                                  asset.shares_amount > 0 && (
+                                  <tr key={asset.id}>
+                                    <td>{asset.ticker}</td>
+                                    <td>{asset.asset_price_brl}</td>
+                                    <td>{asset.shares_amount}</td>
+                                    <td>{asset.total_today_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{asset.total_cost_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{asset.share_average_price_brl}</td>
+                                    <td>{asset.dividends_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{asset.av_price_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{asset.yield_on_cost_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td className={asset.total_profit_brl>0?'text-primary':'text-warning'}>{asset.total_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>         
+                                    <td className={asset.profit_without_div_trade_brl>0?'text-primary':'text-warning'}>{asset.profit_without_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={asset.profit_with_div_trade_brl>0?'text-primary':'text-warning'}>{asset.profit_with_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
-                                        onClick={()=>{setAsset({
-                                          id,
-                                          ticker,
-                                          shares_amount,
-                                          asset_price_brl,
-                                          share_average_price_brl,
-                                          total_cost_brl,
-                                          total_today_brl,
-                                          category,
-                                          subcategory,
-                                          total_profit_brl,
-                                          dividends_profit_brl,
-                                          trade_profit_brl,
-                                          broker,
-                                          twelve_m_yield,
-                                          twelve_m_dividend,
-                                          p_vpa,
-                                          portfolio_percentage,
-                                          av_price_minus_div_brl,
-                                          yield_on_cost_brl,
-                                          profit_without_div_trade_brl,
-                                          profit_with_div_trade_brl,
-                                         }); 
-                                        showModal();}}
+                                        // onclick setAsset and show modal
+                                        onClick={() => {
+                                          setAsset(asset);
+                                          showModal();
+                                        }}
+
                                       >
                                         <AiOutlineEdit size={20} color="blue" />
-                                      </Button>|<Button variant="link" onClick={() => onRemoveAsset(id)}>
+                                      </Button>|<Button variant="link" onClick={() => onRemoveAsset(asset.id)}>
                                         <AiOutlineDelete size={20} color="red" />
                                       </Button>
                                     </td>
@@ -210,74 +165,31 @@ const GroupedTables = ({grouped_assets}) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({
-                                  id,
-                                  ticker,
-                                  shares_amount,
-                                  asset_price_usd,
-                                  share_average_price_usd,
-                                  total_cost_usd,
-                                  total_today_usd,
-                                  total_profit_usd,
-                                  category,
-                                  subcategory,
-                                  dividends_profit_usd,
-                                  trade_profit_usd,
-                                  broker,
-                                  twelve_m_yield,
-                                  twelve_m_dividend,
-                                  p_vpa,
-                                  portfolio_percentage,
-                                  av_price_minus_div_usd,
-                                  yield_on_cost_usd,
-                                  profit_without_div_trade_usd,
-                                  profit_with_div_trade_usd,
-                                 })=>(
-                                  // hide if shares_amount == 0
-                                  shares_amount > 0 && (
-                                  <tr key={id}>
-                                    <td>{ticker}</td>
-                                    <td>{asset_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{shares_amount}</td>
-                                    <td>{total_today_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{total_cost_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{share_average_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{dividends_profit_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{av_price_minus_div_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{yield_on_cost_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{total_profit_usd}</td>     
-                                    <td className={profit_without_div_trade_usd>0?'text-primary':'text-warning'}>{profit_without_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={profit_with_div_trade_usd>0?'text-primary':'text-warning'}>{profit_with_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                {data.map((asset) => (  
+                                  asset.shares_amount > 0 && (
+                                  <tr key={asset.id}>
+                                    <td>{asset.ticker}</td>
+                                    <td>{asset.asset_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.shares_amount}</td>
+                                    <td>{asset.total_today_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.total_cost_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.share_average_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.dividends_profit_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.av_price_minus_div_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.yield_on_cost_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.total_profit_usd}</td>     
+                                    <td className={asset.profit_without_div_trade_usd>0?'text-primary':'text-warning'}>{asset.profit_without_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={asset.profit_with_div_trade_usd>0?'text-primary':'text-warning'}>{asset.profit_with_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
-                                        onClick={()=>{setAsset({
-                                          id,
-                                          ticker,
-                                          shares_amount,
-                                          asset_price_usd,
-                                          share_average_price_usd,
-                                          total_cost_usd,
-                                          total_today_usd,
-                                          category,
-                                          subcategory,
-                                          dividends_profit_usd,
-                                          trade_profit_usd,
-                                          broker,
-                                          twelve_m_yield,
-                                          twelve_m_dividend,
-                                          p_vpa,
-                                          total_profit_usd,
-                                          portfolio_percentage,
-                                          av_price_minus_div_usd,
-                                          yield_on_cost_usd,
-                                          profit_without_div_trade_usd,
-                                          profit_with_div_trade_usd,
-                                         }); 
-                                        showModal();}}
+                                        onClick={()=>{
+                                          setAsset(asset);
+                                          showModal();
+                                        }}
                                       >
                                         <AiOutlineEdit size={20} color="blue" />
-                                      </Button>|<Button variant="link" onClick={() => onRemoveAsset(id)}>
+                                      </Button>|<Button variant="link" onClick={() => onRemoveAsset(asset.id)}>
                                         <AiOutlineDelete size={20} color="red" />
                                       </Button>
                                     </td>
@@ -312,94 +224,27 @@ const GroupedTables = ({grouped_assets}) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({
-                                  id,
-        ticker,
-        shares_amount,
-        asset_price_brl,
-        asset_price_usd,
-        share_average_price_brl,
-        share_average_price_usd,
-        total_cost_brl,
-        total_cost_usd,
-        total_today_brl,
-        total_today_usd,
-        category,
-        subcategory,
-        total_profit_brl,
-        dividends_profit_brl,
-        dividends_profit_usd,
-        trade_profit_brl,
-        trade_profit_usd,
-        broker,
-        twelve_m_yield,
-        twelve_m_dividend,
-        p_vpa,
-        portfolio_percentage,
-        av_price_minus_div_brl,
-        av_price_minus_div_usd,
-        yield_on_cost_brl,
-        yield_on_cost_usd,
-        profit_without_div_trade_brl,
-        profit_without_div_trade_usd,
-        profit_with_div_trade_brl,
-        profit_with_div_trade_usd,
-                                 })=>(
-                                  // hide if shares_amount == 0
-                                  shares_amount > 0 && (
-                                  <tr key={id}>
-                                    <td>{ticker}</td>
-                                    <td>{asset_price_brl}</td>
+                                {data.map((asset) => (
+                                  asset.shares_amount > 0 && (
+                                  <tr key={asset.id}>
+                                    <td>{asset.ticker}</td>
                                     <td>***</td>
                                     <td>***</td>
                                     <td>***</td>
-                                    <td>{share_average_price_brl}</td>
                                     <td>***</td>
-                                    <td>{av_price_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{yield_on_cost_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>***</td>
+                                    <td>***</td>
+                                    <td>***</td>
+                                    <td>***</td>
                                     <td>***</td>         
-                                    <td className={profit_without_div_trade_brl>0?'text-primary':'text-warning'}>{profit_without_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={profit_with_div_trade_brl>0?'text-primary':'text-warning'}>{profit_with_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>***</td>   
+                                    <td>***</td>
+                                    <td>***</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
-                                      <Button variant="link" 
-                                        onClick={()=>{setAsset({
-                                          id,
-        ticker,
-        shares_amount,
-        asset_price_brl,
-        asset_price_usd,
-        share_average_price_brl,
-        share_average_price_usd,
-        total_cost_brl,
-        total_cost_usd,
-        total_today_brl,
-        total_today_usd,
-        category,
-        subcategory,
-        total_profit_brl,
-        dividends_profit_brl,
-        dividends_profit_usd,
-        trade_profit_brl,
-        trade_profit_usd,
-        broker,
-        twelve_m_yield,
-        twelve_m_dividend,
-        p_vpa,
-        portfolio_percentage,
-        av_price_minus_div_brl,
-        av_price_minus_div_usd,
-        yield_on_cost_brl,
-        yield_on_cost_usd,
-        profit_without_div_trade_brl,
-        profit_without_div_trade_usd,
-        profit_with_div_trade_brl,
-        profit_with_div_trade_usd,
-                                         }); 
-                                        showModal();}}
-                                      >
+                                      <Button variant="link" onClick={()=>{setAsset(asset);showModal();}}> 
                                         <AiOutlineEdit size={20} color="blue" />
-                                      </Button>|<Button variant="link" onClick={() => onRemoveAsset(id)}>
+                                      </Button>
+                                      <Button variant="link" onClick={() => onRemoveAsset(asset.id)}>
                                         <AiOutlineDelete size={20} color="red" />
                                       </Button>
                                     </td>
