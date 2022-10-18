@@ -4,10 +4,6 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 
 const SideDividends = ({ total_dividends_brl, total_dividends_usd }) => {
 
-    // console.log(total_dividends_brl);
-    // console.log(total_dividends_usd);
-    
-    
 
     return (
         <>

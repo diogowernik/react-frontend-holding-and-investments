@@ -9,8 +9,10 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 
-import Portfolios from '../pages/Portfolios';
-import Portfolio from '../pages/Portfolio';
+import MyPortfolios from '../pages/MyPortfolios';
+import PortfolioBrl from '../pages/PortfolioBrl';
+import PortfolioUsd from '../pages/PortfolioUsd';
+
 import Radar from '../pages/Radar';
 import Dividends from '../pages/Dividends';
 
@@ -38,12 +40,16 @@ function App() {
           </PrivateRoute>
         
 
-          <PrivateRoute exact path='/portfolios/:id'>
-            <Portfolio />
+          <PrivateRoute exact path='/portfolio_brl/:id'>
+            <PortfolioBrl />
+          </PrivateRoute>
+          
+          <PrivateRoute exact path='/portfolio_usd/:id'>
+            <PortfolioUsd />
           </PrivateRoute>
           
           <PrivateRoute exact path='/portfolios'>
-            <Portfolios />
+            <MyPortfolios />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>

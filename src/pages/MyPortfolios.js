@@ -2,18 +2,9 @@ import { Row, Col, Modal, Container, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
-import { 
-  AiOutlineDelete, 
-  // AiFillEdit 
-} from 'react-icons/ai';
-
-import { 
-  fetchPortfolios, 
-  removePortfolio,
-  // updatePortfolio 
-} from '../apis';
+import { AiOutlineDelete} from 'react-icons/ai';
+import { fetchPortfolios, removePortfolio} from '../apis';
 import AuthContext from '../contexts/AuthContext';
-
 import MainLayout from '../layouts/MainLayout';
 import PortfolioForm from '../containers/PortfolioForm';
 
@@ -97,7 +88,7 @@ const Portfolios = () => {
       <Row>
         {portfolios.map((portfolio) => (
           <Col key={portfolio.id} lg={4}>
-            <Portfolio onClick={() => history.push(`/portfolios/${portfolio.id}`)}>
+            <Portfolio onClick={() => history.push(`/portfolio_usd/${portfolio.id}`)}>
               <div style={{ backgroundImage: `url(${portfolio.image})` }}></div>
               <p>{portfolio.name} | 
               <Button variant="link" onClick={() => onRemovePortfolio(portfolio.id)}>

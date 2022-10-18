@@ -1,25 +1,20 @@
 import { Row, Col, Container, Nav, Card, Tab} from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
-import SideModules from '../components/sidemodules/SideModules'
-import { 
-  fetchPortfolioAssets, 
-  fetchPortfolioDividends,
-  fetchPortfolioQuotas} from '../apis';
+
+import { fetchPortfolioAssets, fetchPortfolioDividends} from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-import { useParams} from 'react-router-dom';
-import GroupedTables from '../components/tables/MainTables';
+import { useParams } from 'react-router-dom';
+import GroupedTables from '../components/tables/MainTablesBrl';
 import PieChart from '../components/charts/PieChart';
 import TreeMap from '../components/charts/Treemap';
-import LineChart from '../components/charts/LineChart';
 import DividendsTables from '../components/tables/DividendsTables';
-import SideDividends from '../components/sidemodules/SideDividends';
-// import { AiFillLayout } from 'react-icons/ai';
-// import { data } from 'jquery';
+import SideModules from '../components/sidemodules/SidePatrimonialBrl'
+import SideDividends from '../components/sidemodules/SideDividendsBrl';
+
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
-  const [portfolio_quotas, setPortfolioQuotas] = useState([]);
   const [portfolio_dividends, setPortfolioDividends] = useState([]);
 
   const auth = useContext(AuthContext);
@@ -36,15 +31,6 @@ const Portfolio = () => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
 
-  const onFetchPortfolioQuotas = useCallback(async () => {
-      const json = await fetchPortfolioQuotas(params.id, auth.token);
-      if (json) {
-          setPortfolioQuotas(json);
-      }
-      }, [params.id, auth.token]);
-      useEffect(() => {
-      onFetchPortfolioQuotas();
-      }, [onFetchPortfolioQuotas]);
 
   const onFetchPortfolioDividends = useCallback(async () => {
     const json = await fetchPortfolioDividends(params.id, auth.token);
@@ -55,6 +41,7 @@ const Portfolio = () => {
     useEffect(() => {
     onFetchPortfolioDividends();
     }, [onFetchPortfolioDividends]);
+
 
   // end of Fetchs
   // Side Module Patrimony BRL and Pie Chart by Category
@@ -75,25 +62,7 @@ const Portfolio = () => {
       return by_group
   }
 
-  // Side Module Patrimony USD 
-  function total_usd_by(group_type, subcategory){
-    const total_by_group_type = portfolio_assets.filter( 
-      data => group_type === "subcategory" ? data.category === `${subcategory}` : data
-      ).reduce((acc,curr)=>{
-    const {total_today_usd} = curr
-    const existing = acc[curr[group_type]] || []
-    return {...acc, [curr[group_type]]:[...existing, {total_today_usd}]}
-    }
-    ,{})
-    const total_group = Object.entries(total_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-      const {name, data} = curr
-      const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
-      return {...acc, [name]:total_today_usd}
-    }
-    ,{})
-    const by_group = Object.entries(total_group).map(([name,total_today_usd])=>({name, total_today_usd}))
-    return by_group
-  }
+
 
   // Treemap Module Percentage
   function treemap_by(group_type, subcategory){
@@ -135,12 +104,7 @@ const Portfolio = () => {
     return total_today
   }
 
-  const total_usd_by_category = total_usd_by('category')
-  const total_usd_by_broker = total_usd_by('broker')
-  const fiis_subcategory_total_usd = total_usd_by('subcategory','Fundos Imobiliários')
-  const br_stocks_subcategory_total_usd = total_usd_by('subcategory','Ações Brasileiras')
-  const REITs_subcategory_total_usd = total_usd_by('subcategory','REITs')
-  const stocks_subcategory_total_usd = total_usd_by('subcategory','Stocks')
+
 
   const fiis_subcategory = assets_by('subcategory', 'Fundos Imobiliários')
   const br_stocks_subcategory = assets_by('subcategory', 'Ações Brasileiras')
@@ -149,12 +113,12 @@ const Portfolio = () => {
   const assets_by_category = assets_by('category')
   const assets_by_broker = assets_by('broker')
 
-  const fiis_subcategory_total = total_brl_by('subcategory', 'Fundos Imobiliários')
-  const br_stocks_subcategory_total = total_brl_by('subcategory','Ações Brasileiras')
-  const REITs_subcategory_total = total_brl_by('subcategory','REITs')
-  const stocks_subcategory_total = total_brl_by('subcategory','Stocks')
-  const total_brl_by_category  = total_brl_by('category')
-  const total_brl_by_broker = total_brl_by('broker')
+  const fiis_total_brl = total_brl_by('subcategory', 'Fundos Imobiliários')
+  const br_stocks_total_brl = total_brl_by('subcategory','Ações Brasileiras')
+  const REITs_total_brl = total_brl_by('subcategory','REITs')
+  const stocks_total_brl = total_brl_by('subcategory','Stocks')
+  const categories_total_brl  = total_brl_by('category')
+  const brokers_total_brl = total_brl_by('broker')
 
   const treemap_fiis_subcategory = treemap_by("subcategory", "Fundos Imobiliários")
   const treemap_br_stocks_subcategory = treemap_by("subcategory", "Ações Brasileiras")
@@ -187,12 +151,12 @@ const Portfolio = () => {
       return dividends_group
   }
 
-  const year_dividends = dividends_by("pay_date_by_year")
-  const month_dividends = dividends_by("pay_date_by_month_year")
+  // const year_dividends = dividends_by("pay_date_by_year")
+  // const month_dividends = dividends_by("pay_date_by_month_year")
   const category_dividends = dividends_by("category")
-  console.log(category_dividends)
-  console.log(month_dividends)
-  console.log(year_dividends)
+  // console.log(category_dividends)
+  // console.log(month_dividends)
+  // console.log(year_dividends)
 
 
 
@@ -202,15 +166,8 @@ const Portfolio = () => {
     return {...acc, [name]:total_dividend_brl} 
   }
   ,{})
-  const total_dividends_by_category_usd = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr
-    const total_dividend_usd = data.map(({ total_dividend_usd }) => total_dividend_usd).reduce((a, e) => a + e, 0)
-    return {...acc, [name]:total_dividend_usd} 
-  }
-  ,{})
 
   const dividends_total_by_category_brl = Object.entries(total_dividends_by_category_brl).map(([name,total_dividend_brl])=>({name, total_dividend_brl}))
-  const dividends_total_by_category_usd = Object.entries(total_dividends_by_category_usd).map(([name,total_dividend_usd])=>({name, total_dividend_usd}))
 
 
   return (
@@ -221,7 +178,7 @@ const Portfolio = () => {
         <Col lg={12}>
           <Card className=" mb-3">
               <Card.Header>
-                <Nav variant="pills">    
+                <Nav variant="pills" className="flex-row">   
                     <Nav.Item>
                         <Nav.Link eventKey="dashboard">Inicio</Nav.Link>
                     </Nav.Item>
@@ -267,15 +224,13 @@ const Portfolio = () => {
                   <Row>
                     <Col lg={3}>
                         <SideModules 
-                        group_total={total_brl_by_category}      
-                        group_total_usd={total_usd_by_category}
+                        group_total={categories_total_brl}    
                         />
                         <SideDividends 
                           total_dividends_brl={dividends_total_by_category_brl} 
-                          total_dividends_usd={dividends_total_by_category_usd}
                         />
                         <PieChart 
-                        total={total_brl_by_category}
+                        total={categories_total_brl}
                         />  
                     </Col> 
                     <Col lg={9}>
@@ -284,9 +239,6 @@ const Portfolio = () => {
                         />
                         <TreeMap
                         portfolio_treemap={treemap_categories}
-                        />    
-                        <LineChart
-                        portfolio_linechart={portfolio_quotas}
                         /> 
                          
                     </Col>
@@ -298,12 +250,11 @@ const Portfolio = () => {
                 <Row>
                     <Col lg={3}>
                         <SideModules 
-                        group_total={total_brl_by_broker} 
-                        group_total_usd={total_usd_by_broker}     
+                        group_total={brokers_total_brl}
                         />
-                        {/* <PieChart
-                        total={total_brl_by_broker}
-                        /> */}
+                        <PieChart
+                        total={brokers_total_brl}
+                        />
                     </Col> 
                     <Col lg={9}>
                         <GroupedTables
@@ -321,12 +272,11 @@ const Portfolio = () => {
                 <Row>
                     <Col lg={3}>
                         <SideModules 
-                        group_total={fiis_subcategory_total}  
-                        group_total_usd={fiis_subcategory_total_usd}    
+                        group_total={fiis_total_brl}  
                         />
-                        {/* <PieChart
-                        total={fiis_subcategory_total}
-                        /> */}
+                        <PieChart
+                        total={fiis_total_brl}
+                        />
                         <PieChart 
                         total={fiis_piechart}
                         />  
@@ -347,14 +297,13 @@ const Portfolio = () => {
                 <Row>
                     <Col lg={3}>
                         <SideModules 
-                        group_total={br_stocks_subcategory_total}    
-                        group_total_usd={br_stocks_subcategory_total_usd}  
+                        group_total={br_stocks_total_brl}    
                         />
                         <PieChart 
                         total={br_stocks_piechart}
                         />  
                         {/* <PieChart
-                        total={br_stocks_subcategory_total}
+                        total={br_stocks_total}
                         /> */}
                     </Col> 
                     <Col lg={9}>
@@ -373,8 +322,7 @@ const Portfolio = () => {
                 <Row>
                     <Col lg={3}>
                         <SideModules 
-                        group_total={REITs_subcategory_total}  
-                        group_total_usd={REITs_subcategory_total_usd} 
+                        group_total={REITs_total_brl}  
                         />
                         <PieChart 
                           total={REITs_piechart}
@@ -396,8 +344,7 @@ const Portfolio = () => {
                 <Row>
                     <Col lg={3}> 
                         <SideModules 
-                        group_total={stocks_subcategory_total}   
-                        group_total_usd={stocks_subcategory_total_usd}
+                        group_total={stocks_total_brl}   
                         />
                         <PieChart 
                           total={stocks_piechart}
@@ -420,7 +367,6 @@ const Portfolio = () => {
                     <Col lg={3}> 
                         <SideDividends 
                           total_dividends_brl={dividends_total_by_category_brl} 
-                          total_dividends_usd={dividends_total_by_category_usd}
                         />
                         
                     </Col> 
