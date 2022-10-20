@@ -1,13 +1,11 @@
-import { Navbar, Nav } from 'react-bootstrap';
-import { useHistory, useParams } from 'react-router-dom';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import React, { useContext } from 'react';
 import AuthContext from '../contexts/AuthContext';
 
 const MainLayout = ({ children }) => {
   const history = useHistory();
   const auth = useContext(AuthContext);
-  const params = useParams();
-
 
   const onSignIn = () => {
     history.replace('/login');
@@ -36,15 +34,6 @@ const MainLayout = ({ children }) => {
           <Nav.Link onClick={gotoPortfolios}>Portfolios</Nav.Link>
           <Nav.Link onClick={gotoRadar}>Radar</Nav.Link>
         </Nav>
-        <Nav variant="pills" className="justify-content-end">
-            <Nav.Item>
-                <Nav.Link onClick={() => history.push(`/portfolio_usd/${params.id}`)}>Usd</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link onClick={() => history.push(`/portfolio_brl/${params.id}`)}>Brl</Nav.Link>
-            </Nav.Item>
-        </Nav>
-
         <Nav className='flex-grow-1 justify-content-end'>
           {auth.token ? (
             <Nav.Link onClick={onSignOut}>Logout</Nav.Link>
@@ -60,7 +49,7 @@ const MainLayout = ({ children }) => {
           )}
         </Nav>
       </Navbar>
-      <>{children}</>
+      <Container fluid>{children}</Container>
     </>
   );
 };

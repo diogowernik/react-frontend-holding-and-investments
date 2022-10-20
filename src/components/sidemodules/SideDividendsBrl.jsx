@@ -2,6 +2,8 @@ import { Card, Table } from 'react-bootstrap';
 import React from 'react';
 
 const SideDividends = ({ total_dividends_brl }) => {
+    const dividends_sum = total_dividends_brl.reduce((acc, dividend) => acc + dividend.total_dividend_brl, 0)
+    const dividends_order = total_dividends_brl.sort((a, b) => b.total_dividend_brl - a.total_dividend_brl);
     return (
         <>
           <Card  color="gray" className="mb-3">
@@ -11,12 +13,17 @@ const SideDividends = ({ total_dividends_brl }) => {
                 <Card.Body>
                     <Table responsive>
                         <tbody>
-                            {total_dividends_brl.map((dividend) => (
+                            {dividends_order.map((dividend) => (
                                 <tr key={dividend.name}>
                                     <td>{dividend.name}</td>
-                                    <td>
-                                      <span className="float-right">
+                                    <td className='text-right mr-2'>
+                                      <span>
                                         {dividend.total_dividend_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                      </span>
+                                      {/* percentage */}
+                                      <span className="text-muted ml-2">
+                                        {/* dividend.total/ dividends_sum */}
+                                        ( {((dividend.total_dividend_brl / dividends_sum) * 100).toFixed(2)} % )
                                       </span>
                                     </td>
                                 </tr>
@@ -25,7 +32,7 @@ const SideDividends = ({ total_dividends_brl }) => {
                                 <th><div className="mt-2 strong">Total</div></th>
                                 <th className="text-right">
                                   <div className="mt-2 strong">
-                                     {total_dividends_brl.reduce((acc, dividend) => acc + dividend.total_dividend_brl, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                                     {dividends_sum.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                                   </div>
                                 </th>
                             </tr>

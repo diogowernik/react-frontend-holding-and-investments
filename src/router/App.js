@@ -10,11 +10,15 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 
 import MyPortfolios from '../pages/MyPortfolios';
-import PortfolioBrl from '../pages/PortfolioBrl';
+
 import PortfolioUsd from '../pages/PortfolioUsd';
 
-import Radar from '../pages/Radar';
-import Dividends from '../pages/Dividends';
+import RadarBrl from '../pages/Brl/Radar';
+import DividendsBrl from '../pages/Brl/Dividends';
+import PortfolioBrl from '../pages/Brl/Portfolio';
+import BrokersBrl from '../pages/Brl/Brokers';
+import FiisBrl from '../pages/Brl/Fiis';
+
 
 function App() {
   return (
@@ -31,20 +35,26 @@ function App() {
             <Register />
           </Route>
           {/* Radar */}
-          <PrivateRoute exact path='/radar'>
-            <Radar />
+          <PrivateRoute exact path='/radar/brl'>
+            <RadarBrl />
           </PrivateRoute>
           {/* Dividends */}
-          <PrivateRoute exact path='/dividends/:id'>
-            <Dividends />
+          <PrivateRoute exact path='/dividends/:id/brl'>
+            <DividendsBrl />
+          </PrivateRoute>
+          <PrivateRoute exact path='/brokers/:id/brl'>
+            <BrokersBrl />
+          </PrivateRoute>
+          <PrivateRoute exact path='/fiis/:id/brl'>
+            <FiisBrl />
           </PrivateRoute>
         
 
-          <PrivateRoute exact path='/portfolio_brl/:id'>
+          <PrivateRoute exact path='/portfolio/:id/brl'>
             <PortfolioBrl />
           </PrivateRoute>
           
-          <PrivateRoute exact path='/portfolio_usd/:id'>
+          <PrivateRoute exact path='/portfolio/:id/usd'>
             <PortfolioUsd />
           </PrivateRoute>
           

@@ -88,7 +88,7 @@ const Portfolios = () => {
       <Row>
         {portfolios.map((portfolio) => (
           <Col key={portfolio.id} lg={4}>
-            <Portfolio onClick={() => history.push(`/portfolio_usd/${portfolio.id}`)}>
+            <Portfolio onClick={() => history.push(`/portfolio/${portfolio.id}/brl`)}>
               <div style={{ backgroundImage: `url(${portfolio.image})` }}></div>
               <p>{portfolio.name} | 
               <Button variant="link" onClick={() => onRemovePortfolio(portfolio.id)}>
@@ -97,9 +97,6 @@ const Portfolios = () => {
               
               </p>
             </Portfolio>
-            <Button variant="link" onClick={() => history.push(`/dividends/${portfolio.id}`)}>
-                  Dividends
-              </Button>
           </Col>
         ))}
         <Col lg={4}>

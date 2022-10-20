@@ -48,20 +48,35 @@ const DividendsTables = ({dividends_category}) => {
                             <table className="table table-striped table-sm">
                               <thead>
                                 <tr>
-                                  <th>Ticker</th>
-                                  <th>Tipo</th>
-                                  <th>Record Date</th>
-                                  <th>Pay Date</th>
+                                  {/* display hidden */}
+                                <th>Ticker</th>
+                                <th>Record Date</th>
+                                <th>Pay Date</th>
+                                <th>Shares Amount</th>
+                                <th>Average Price Brl</th>
+                                <th>Average Price Usd</th>
+                                <th>Total Dividend Brl</th>
+                                <th>Total Dividend Usd</th>
+                                <th>Value per share Brl</th>
+                                <th>Value per share Usd</th>
+                                <th>Yield on Cost</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map(({id,ticker,subcategory,record_date,pay_date})=>(
-                                  <tr key={id}>
-                                    <td>{ticker}</td>
-                                    <td>{subcategory}</td>
-                                    <td>{record_date}</td>
-                                    <td>{pay_date}</td>
-                                  </tr>
+                                {data.map((dividend) => (
+                                <tr key={dividend.id}>
+                                  <td>{dividend.ticker}</td>
+                                  <td>{dividend.record_date}</td>
+                                  <td>{dividend.pay_date}</td>
+                                  <td>{dividend.shares_amount}</td>
+                                  <td>{dividend.average_price_brl}</td>
+                                  <td>{dividend.average_price_usd}</td>
+                                  <td>{dividend.total_dividend_brl}</td>
+                                  <td>{dividend.total_dividend_usd}</td>
+                                  <td>{dividend.value_per_share_brl}</td>
+                                  <td>{dividend.value_per_share_usd}</td>
+                                  <td>{dividend.yield_on_cost}</td>
+                                </tr>
                                 ))}
                               </tbody>
                             </table>

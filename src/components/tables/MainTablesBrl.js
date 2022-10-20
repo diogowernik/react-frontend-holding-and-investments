@@ -30,7 +30,7 @@ const GroupedTables = ({grouped_assets}) => {
     'paging': false, // Table pagination
     'ordering': true, // Column ordering
     'info': false, // Bottom left status text
-    "order": [[ 4, "asc" ]],
+    "order": [[ 3, "asc" ]],
     "dom": '<"float-left"f><"clear">',
   }
 

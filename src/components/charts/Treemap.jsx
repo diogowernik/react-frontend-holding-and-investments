@@ -72,13 +72,15 @@ class TreeMap extends React.Component {
     return ( 
         <>
         <Card  color="gray" className="mb-3">
-            <CardHeader className="bg-gray-lighter">Meus Investimentos</CardHeader>
+            <CardHeader className="bg-gray-lighter">
+              <h4>Investimentos</h4>
+            </CardHeader>
             <Card body>
                 <Chart
                     options={this.state.options}
                     series={this.props.portfolio_treemap}
                     type='treemap'
-                    height="450"
+                    height="570"
                     width="100%"
                 />
                 </Card>

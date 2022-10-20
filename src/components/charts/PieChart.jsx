@@ -64,7 +64,9 @@ class PieChart extends React.Component {
 
 
         <Card  color="gray" className="mb-3">
-            <CardHeader className="bg-gray-lighter">PieChart</CardHeader>
+            <CardHeader className="bg-gray-lighter">
+            <h4 className="float-left mt-2">Gráfico</h4>
+            </CardHeader>
             <Card body>
                 <div 
                 id="chart3" 
@@ -73,7 +75,7 @@ class PieChart extends React.Component {
                   options={this.state.options} 
                   series={this.props.total.map(a=>a.total_today_brl)} 
                   type="pie" 
-                  // height={450} 
+                  height={555} 
                   />
                 </div>
                 </Card>

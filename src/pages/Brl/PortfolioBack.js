@@ -1,16 +1,15 @@
 import { Row, Col, Container, Nav, Card, Tab} from 'react-bootstrap';
-import MainLayout from '../layouts/MainLayout';
+import MainLayout from '../../layouts/MainLayout';
 
-import { fetchPortfolioAssets, fetchPortfolioDividends} from '../apis';
-import AuthContext from '../contexts/AuthContext';
+import { fetchPortfolioAssets, fetchPortfolioDividends} from '../../apis';
+import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import GroupedTables from '../components/tables/MainTablesBrl';
-import PieChart from '../components/charts/PieChart';
-import TreeMap from '../components/charts/Treemap';
-import DividendsTables from '../components/tables/DividendsTables';
-import SideModules from '../components/sidemodules/SidePatrimonialBrl'
-import SideDividends from '../components/sidemodules/SideDividendsBrl';
+import { useParams, useHistory } from 'react-router-dom';
+import GroupedTables from '../../components/tables/MainTablesBrl';
+import PieChart from '../../components/charts/PieChart';
+import TreeMap from '../../components/charts/Treemap';
+import SideModules from '../../components/sidemodules/SidePatrimonialBrl'
+import SideDividends from '../../components/sidemodules/SideDividendsBrl';
 
 
 const Portfolio = () => {
@@ -19,6 +18,7 @@ const Portfolio = () => {
 
   const auth = useContext(AuthContext);
   const params = useParams();
+  const history = useHistory();
 
   // Fetchs
   const onFetchPortfolioAssets = useCallback(async () => {
@@ -138,35 +138,12 @@ const Portfolio = () => {
     return {...acc, [[curr.category]]:[...existing, curr]}
   }
   ,{})
-
-
-  function dividends_by(group_type, subcategory){
-    const dividends_by_group_type = portfolio_dividends.filter(
-      data => group_type === "subcategory" ? data.category === `${subcategory}` : data
-      ).reduce((acc,curr)=>{
-      const existing = acc[curr[group_type]] || []
-      return {...acc, [curr[group_type]]:[...existing, curr]}
-      },{})
-      const dividends_group = Object.entries(dividends_by_group_type).map(([name,data])=>({name, data}))
-      return dividends_group
-  }
-
-  // const year_dividends = dividends_by("pay_date_by_year")
-  // const month_dividends = dividends_by("pay_date_by_month_year")
-  const category_dividends = dividends_by("category")
-  // console.log(category_dividends)
-  // console.log(month_dividends)
-  // console.log(year_dividends)
-
-
-
   const total_dividends_by_category_brl = Object.entries(dividends_by_category).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
     const {name, data} = curr
     const total_dividend_brl = data.map(({ total_dividend_brl }) => total_dividend_brl).reduce((a, e) => a + e, 0)
     return {...acc, [name]:total_dividend_brl} 
   }
   ,{})
-
   const dividends_total_by_category_brl = Object.entries(total_dividends_by_category_brl).map(([name,total_dividend_brl])=>({name, total_dividend_brl}))
 
 
@@ -178,7 +155,10 @@ const Portfolio = () => {
         <Col lg={12}>
           <Card className=" mb-3">
               <Card.Header>
-                <Nav variant="pills" className="flex-row">   
+                {/* row and col 10 */}
+                <Row>
+                  <Col lg={11}>
+                  <Nav variant="pills" className="flex-row">   
                     <Nav.Item>
                         <Nav.Link eventKey="dashboard">Inicio</Nav.Link>
                     </Nav.Item>
@@ -209,9 +189,22 @@ const Portfolio = () => {
                       </Nav.Item>
                     )}
                     <Nav.Item>
-                        <Nav.Link eventKey="dividends">Dividendos</Nav.Link>
+                        <Nav.Link onClick={() => history.push(`/dividends/${params.id}/brl`)}>Dividends</Nav.Link>
+                    </Nav.Item>
+                  </Nav>
+                  </Col>
+                  <Col lg={1}>
+                  <Nav variant="pills" className="flex-row">   
+                    <Nav.Item>
+                        <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/usd`)}>Usd</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/brl`)}>Brl</Nav.Link>
                     </Nav.Item>
                 </Nav>
+                  </Col>
+
+                </Row>
               </Card.Header>
           </Card>
         </Col>
@@ -222,18 +215,23 @@ const Portfolio = () => {
             <Tab.Content>
                 <Tab.Pane eventKey="dashboard" >
                   <Row>
-                    <Col lg={3}>
+                    <Col lg={4}>
                         <SideModules 
                         group_total={categories_total_brl}    
                         />
-                        <SideDividends 
-                          total_dividends_brl={dividends_total_by_category_brl} 
-                        />
+                    </Col> 
+                    <Col lg={5}>
                         <PieChart 
                         total={categories_total_brl}
                         />  
                     </Col> 
-                    <Col lg={9}>
+                    
+                    <Col lg={3}>
+                        <SideDividends 
+                          total_dividends_brl={dividends_total_by_category_brl} 
+                        />
+                    </Col> 
+                    <Col lg={12}>
                         <GroupedTables
                         grouped_assets={assets_by_category}
                         />
@@ -360,29 +358,7 @@ const Portfolio = () => {
                     </Col>
                   </Row>              
                 </Tab.Pane>
-            </Tab.Content>
-            <Tab.Content>
-                <Tab.Pane eventKey="dividends" >
-                <Row>
-                    <Col lg={3}> 
-                        <SideDividends 
-                          total_dividends_brl={dividends_total_by_category_brl} 
-                        />
-                        
-                    </Col> 
-                    <Col lg={9}>
-                        <DividendsTables
-                        dividends_category={category_dividends}
-                        />
-                    </Col>
-                  </Row>              
-                </Tab.Pane>
-            </Tab.Content>
-            
-
-
-            
-                        
+            </Tab.Content>                   
         </Col>
       </Row>
       </Tab.Container>
