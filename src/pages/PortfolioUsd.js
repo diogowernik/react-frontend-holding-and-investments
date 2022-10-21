@@ -8,8 +8,8 @@ import PieChart from '../components/charts/PieChart';
 import TreeMap from '../components/charts/Treemap';
 import LineChart from '../components/charts/LineChart';
 import DividendsTables from '../components/tables/DividendsTables';
-import SideDividends from '../components/sidemodules/SideDividendsUsd';
-import SideModules from '../components/sidemodules/SidePatrimonialUsd'
+import SideDividends from '../components/sidemodules/Usd/SideDividends';
+import SideModules from '../components/sidemodules/Usd/SidePatrimonial'
 import GroupedTables from '../components/tables/MainTablesUsd';
 
 const Portfolio = () => {

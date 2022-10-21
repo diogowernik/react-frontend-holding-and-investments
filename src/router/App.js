@@ -18,9 +18,13 @@ import DividendsBrl from '../pages/Brl/Dividends';
 import PortfolioBrl from '../pages/Brl/Portfolio';
 import BrokersBrl from '../pages/Brl/Brokers';
 import FiisBrl from '../pages/Brl/Fiis';
+import BrStocksBrl from '../pages/Brl/BrStocks';
+import StocksBrl from '../pages/Brl/Stocks';
+import ReitsBrl from '../pages/Brl/Reits';
 
 
 function App() {
+  
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -48,6 +52,16 @@ function App() {
           <PrivateRoute exact path='/fiis/:id/brl'>
             <FiisBrl />
           </PrivateRoute>
+          <PrivateRoute exact path='/br_stocks/:id/brl'>
+            <BrStocksBrl />
+          </PrivateRoute>
+          <PrivateRoute exact path='/stocks/:id/brl'>
+            <StocksBrl />
+          </PrivateRoute>
+          <PrivateRoute exact path='/reits/:id/brl'>
+            <ReitsBrl />
+          </PrivateRoute>
+
         
 
           <PrivateRoute exact path='/portfolio/:id/brl'>

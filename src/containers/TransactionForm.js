@@ -12,6 +12,7 @@ const TransactionForm = ({ onDone }) => {
     const [broker, setBroker] = useState("");
     const [shares_amount, setSharesAmount] = useState("");
     const [share_cost_brl, setShareCostBrl] = useState("");
+    const [share_cost_usd, setShareCostUsd] = useState("");
     const auth = useContext(AuthContext);
     const params = useParams();
    
@@ -37,7 +38,7 @@ const TransactionForm = ({ onDone }) => {
     const assets_options = assets.map(asset => {
         return {
             value: asset.id,
-            label: asset.ticker + " - " + asset.price.toFixed(2) + " BRL"
+            label: asset.ticker + " - " + asset.price_brl.toFixed(2) + " BRL" + " | " + asset.price_usd.toFixed(2) + " USD"
         }
     });
 
@@ -70,6 +71,7 @@ const TransactionForm = ({ onDone }) => {
             broker,
             shares_amount,
             share_cost_brl,
+            share_cost_usd
         }, auth.token);
         if (json) {
             setOrder("");
@@ -78,8 +80,9 @@ const TransactionForm = ({ onDone }) => {
             setBroker("");
             setSharesAmount("");
             setShareCostBrl("");
-            console.log("created, need to refresh, but not implemented yet")
+            setShareCostUsd("");
             // solução tabajara
+            console.log("created, need to refresh, but not implemented yet")
             window.location.reload();
         }
     };
@@ -107,8 +110,8 @@ return (
                 onChange={e => setOrder(e.target.value)}
             >                
                 <option value="">Tipo de Ordem</option>
-                <option value="Buy">Buy</option>
-                <option value="Sell">Sell</option>
+                <option value="C">Buy</option>
+                <option value="V">Sell</option>
             </Form.Control>
         </Form.Group>
         <Form.Group>
@@ -134,12 +137,13 @@ return (
             />
         </Form.Group>
         <Form.Group>
-            {/* float number */}
             <Form.Control type="number" placeholder='Shares Amount' value={shares_amount} onChange={e => setSharesAmount(e.target.value)} />
         </Form.Group>
         <Form.Group>
-            {/* float number */}
             <Form.Control type="number" placeholder='Share Cost Brl' value={share_cost_brl} onChange={e => setShareCostBrl(e.target.value)} />
+        </Form.Group>
+        <Form.Group>
+            <Form.Control type="number" placeholder='Share Cost Usd' value={share_cost_usd} onChange={e => setShareCostUsd(e.target.value)} />
         </Form.Group>
         
         <Button variant="primary" block onClick={onClick}>

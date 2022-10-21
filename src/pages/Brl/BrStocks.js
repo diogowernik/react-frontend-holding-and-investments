@@ -11,7 +11,6 @@ import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
 import PortfolioNav from '../../components/nav/PortfolioNav';
 import { assets_by, piechart_by_ticker, total_brl_by, treemap_by} from '../../group_functions';
 
-
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
 
@@ -28,10 +27,10 @@ const Portfolio = () => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
 
-  const fiis_subcategory = assets_by(portfolio_assets,'subcategory', 'Fundos Imobiliários')
-  const fiis_total_brl = total_brl_by(portfolio_assets,'subcategory', 'Fundos Imobiliários')
-  const treemap_fiis_subcategory = treemap_by(portfolio_assets,"subcategory", "Fundos Imobiliários")
-  const fiis_piechart = piechart_by_ticker(portfolio_assets,"Fundos Imobiliários")
+  const br_stocks_subcategory = assets_by(portfolio_assets,'subcategory', 'Ações Brasileiras')
+  const br_stocks_total_brl = total_brl_by(portfolio_assets,'subcategory', 'Ações Brasileiras')
+  const treemap_br_stocks_subcategory = treemap_by(portfolio_assets,"subcategory", "Ações Brasileiras")
+  const br_stocks_piechart = piechart_by_ticker(portfolio_assets,"Ações Brasileiras")
 
   return (
     <MainLayout>
@@ -39,25 +38,25 @@ const Portfolio = () => {
       <Row>
         <Col lg={4}>
             <SideModules 
-            group_total={fiis_total_brl}  
+            group_total={br_stocks_total_brl}  
             />
         </Col> 
         <Col lg={4}>
             <PieChart 
-            total={fiis_piechart}
+            total={br_stocks_piechart}
             />  
         </Col> 
         <Col lg={4}>
             <PieChart
-            total={fiis_total_brl}
+            total={br_stocks_total_brl}
             />
         </Col> 
         <Col lg={12}>
             <GroupedTables
-            grouped_assets={fiis_subcategory}
+            grouped_assets={br_stocks_subcategory}
             />
             <TreeMap
-            portfolio_treemap={treemap_fiis_subcategory}
+            portfolio_treemap={treemap_br_stocks_subcategory}
             />  
         </Col>
       </Row>                   

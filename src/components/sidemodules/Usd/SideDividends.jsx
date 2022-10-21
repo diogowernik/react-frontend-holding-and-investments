@@ -11,7 +11,6 @@ const SideDividends = ({ total_dividends_usd }) => {
                 <Card.Body>
                   <Table responsive>
                         <tbody>
-                            {/* map total_dividends_usd */} 
                             {total_dividends_usd.map((dividend) => (
                                 <tr key={dividend.name}>
                                     <td>{dividend.name}</td>

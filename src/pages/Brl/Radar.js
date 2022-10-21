@@ -3,7 +3,6 @@ import MainLayout from '../../layouts/MainLayout';
 import { fetchFiis, fetchBrStocks } from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-// import { useParams} from 'react-router-dom';
 import FiiGroupedRadar from '../../components/tables/FiiRadar';
 import BrStocksGroupedRadar from '../../components/tables/BrStocksRadar';
 

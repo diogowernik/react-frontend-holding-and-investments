@@ -87,7 +87,7 @@ export function addPortfolio(data, token) {
   return request('/api/portfolios/', { data, token, method: 'POST', message: 'portfolio criado com sucesso' });
 }
 export function addTransaction(data, token) {
-  return request('/api/transactions/', { 
+  return request('/api/trade/', { 
     data, 
     token,
     method: 'POST', 

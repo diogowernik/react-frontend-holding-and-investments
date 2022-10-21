@@ -41,13 +41,13 @@ const PortfolioNav = () => {
                           <Nav.Link onClick={() => history.push(`/fiis/${params.id}/brl`)}>Fiis</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                          <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/brl`)}>Ações</Nav.Link>
+                          <Nav.Link onClick={() => history.push(`/br_stocks/${params.id}/brl`)}>Ações</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                          <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/brl`)}>Stocks</Nav.Link>
+                          <Nav.Link onClick={() => history.push(`/stocks/${params.id}/brl`)}>Stocks</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                          <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/brl`)}>Reits</Nav.Link>
+                          <Nav.Link onClick={() => history.push(`/reits/${params.id}/brl`)}>Reits</Nav.Link>
                       </Nav.Item>
                     </Nav>
                   </Col>

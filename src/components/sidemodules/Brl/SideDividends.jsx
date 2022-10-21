@@ -1,9 +1,30 @@
 import { Card, Table } from 'react-bootstrap';
-import React from 'react';
+import AuthContext from '../../../contexts/AuthContext';
+import { fetchPortfolioDividends} from '../../../apis';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
+import { useParams} from 'react-router-dom';
+import { dividends_total_by } from '../../../group_functions';
 
-const SideDividends = ({ total_dividends_brl }) => {
-    const dividends_sum = total_dividends_brl.reduce((acc, dividend) => acc + dividend.total_dividend_brl, 0)
-    const dividends_order = total_dividends_brl.sort((a, b) => b.total_dividend_brl - a.total_dividend_brl);
+const SideDividends = () => {
+    const [portfolio_dividends, setPortfolioDividends] = useState([]);
+
+    const auth = useContext(AuthContext);
+    const params = useParams();
+
+    const onFetchPortfolioDividends = useCallback(async () => {
+      const json = await fetchPortfolioDividends(params.id, auth.token);
+      if (json) {
+          setPortfolioDividends(json);
+      }
+      }, [params.id, auth.token]);
+      useEffect(() => {
+      onFetchPortfolioDividends();
+      }, [onFetchPortfolioDividends]);
+
+    const total_dividends_by_category = dividends_total_by(portfolio_dividends,"category")
+    
+    const dividends_sum = total_dividends_by_category.reduce((acc, dividend) => acc + dividend.total_dividend_brl, 0)
+    const dividends_order = total_dividends_by_category.sort((a, b) => b.total_dividend_brl - a.total_dividend_brl);
     return (
         <>
           <Card  color="gray" className="mb-3">

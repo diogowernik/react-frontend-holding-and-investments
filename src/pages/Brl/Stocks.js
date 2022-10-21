@@ -1,6 +1,5 @@
-import { Row, Col, Container} from 'react-bootstrap';
+import { Row, Col} from 'react-bootstrap';
 import MainLayout from '../../layouts/MainLayout';
-
 import { fetchPortfolioAssets} from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
@@ -9,9 +8,8 @@ import GroupedTables from '../../components/tables/MainTablesBrl';
 import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
 import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
-import SideDividends from '../../components/sidemodules/Brl/SideDividends';
 import PortfolioNav from '../../components/nav/PortfolioNav';
-import { assets_by, total_brl_by, treemap_by} from '../../group_functions';
+import { assets_by, piechart_by_ticker, total_brl_by, treemap_by} from '../../group_functions';
 
 
 const Portfolio = () => {
@@ -20,7 +18,6 @@ const Portfolio = () => {
   const auth = useContext(AuthContext);
   const params = useParams();
 
-  // Fetchs
   const onFetchPortfolioAssets = useCallback(async () => {
       const json = await fetchPortfolioAssets(params.id, auth.token);
       if (json) {
@@ -31,43 +28,39 @@ const Portfolio = () => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
 
-  const assets_by_category = assets_by(portfolio_assets,'category')
-  const categories_total_brl  = total_brl_by(portfolio_assets,'category')
-  const treemap_categories = treemap_by(portfolio_assets,"category")
+  const stocks_subcategory = assets_by(portfolio_assets, 'subcategory', 'Stocks')
+  const stocks_total_brl = total_brl_by(portfolio_assets,'subcategory', 'Stocks')
+  const treemap_stocks_subcategory = treemap_by(portfolio_assets, 'subcategory', 'Stocks')
+  const stocks_piechart = piechart_by_ticker(portfolio_assets, 'Stocks')
 
   return (
     <MainLayout>
-      <Container fluid>
-        <PortfolioNav />
-
-        <Row>
-          <Col lg={4}>
-              <SideModules 
-              group_total={categories_total_brl}    
-              />
-          </Col> 
-          <Col lg={5}>
-              <PieChart 
-              total={categories_total_brl}
-              />  
-          </Col> 
-          
-          <Col lg={3}>
-              <SideDividends />
-          </Col> 
-          <Col lg={12}>
-              <GroupedTables
-              grouped_assets={assets_by_category}
-              />
-              <TreeMap
-              portfolio_treemap={treemap_categories}
-              /> 
-                
-          </Col>
-        </Row>
-                
-      </Container>
-      
+      <PortfolioNav />
+      <Row>
+        <Col lg={4}>
+            <SideModules 
+            group_total={stocks_total_brl}  
+            />
+        </Col> 
+        <Col lg={4}>
+            <PieChart 
+            total={stocks_piechart}
+            />  
+        </Col> 
+        <Col lg={4}>
+            <PieChart
+            total={stocks_total_brl}
+            />
+        </Col> 
+        <Col lg={12}>
+            <GroupedTables
+            grouped_assets={stocks_subcategory}
+            />
+            <TreeMap
+            portfolio_treemap={treemap_stocks_subcategory}
+            />  
+        </Col>
+      </Row>                   
     </MainLayout>
   )
 };
