@@ -11,7 +11,7 @@ import Register from '../pages/Register';
 
 import MyPortfolios from '../pages/MyPortfolios';
 
-import PortfolioUsd from '../pages/PortfolioUsd';
+// import PortfolioUsd from '../pages/PortfolioUsd';
 
 import RadarBrl from '../pages/Brl/Radar';
 import DividendsBrl from '../pages/Brl/Dividends';
@@ -21,6 +21,15 @@ import FiisBrl from '../pages/Brl/Fiis';
 import BrStocksBrl from '../pages/Brl/BrStocks';
 import StocksBrl from '../pages/Brl/Stocks';
 import ReitsBrl from '../pages/Brl/Reits';
+
+import RadarUsd from '../pages/Usd/Radar';
+import DividendsUsd from '../pages/Usd/Dividends';
+import PortfolioUsd from '../pages/Usd/Portfolio';
+import BrokersUsd from '../pages/Usd/Brokers';
+import FiisUsd from '../pages/Usd/Fiis';
+import BrStocksUsd from '../pages/Usd/BrStocks';
+import StocksUsd from '../pages/Usd/Stocks';
+import ReitsUsd from '../pages/Usd/Reits';
 
 
 function App() {
@@ -38,11 +47,10 @@ function App() {
           <Route exact path='/register'>
             <Register />
           </Route>
-          {/* Radar */}
+
           <PrivateRoute exact path='/radar/brl'>
             <RadarBrl />
           </PrivateRoute>
-          {/* Dividends */}
           <PrivateRoute exact path='/dividends/:id/brl'>
             <DividendsBrl />
           </PrivateRoute>
@@ -61,13 +69,31 @@ function App() {
           <PrivateRoute exact path='/reits/:id/brl'>
             <ReitsBrl />
           </PrivateRoute>
-
-        
-
           <PrivateRoute exact path='/portfolio/:id/brl'>
             <PortfolioBrl />
           </PrivateRoute>
           
+          <PrivateRoute exact path='/radar/usd'>
+            <RadarUsd />
+          </PrivateRoute>
+          <PrivateRoute exact path='/dividends/:id/usd'>
+            <DividendsUsd />
+          </PrivateRoute>
+          <PrivateRoute exact path='/brokers/:id/usd'>
+            <BrokersUsd />
+          </PrivateRoute>
+          <PrivateRoute exact path='/fiis/:id/usd'>
+            <FiisUsd />
+          </PrivateRoute>
+          <PrivateRoute exact path='/br_stocks/:id/usd'>
+            <BrStocksUsd />
+          </PrivateRoute>
+          <PrivateRoute exact path='/stocks/:id/usd'>
+            <StocksUsd />
+          </PrivateRoute>
+          <PrivateRoute exact path='/reits/:id/usd'>
+            <ReitsUsd />
+          </PrivateRoute>
           <PrivateRoute exact path='/portfolio/:id/usd'>
             <PortfolioUsd />
           </PrivateRoute>

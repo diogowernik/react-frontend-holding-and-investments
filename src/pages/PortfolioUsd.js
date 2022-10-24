@@ -14,7 +14,6 @@ import GroupedTables from '../components/tables/MainTablesUsd';
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
-  const [portfolio_quotas, setPortfolioQuotas] = useState([]);
   const [portfolio_dividends, setPortfolioDividends] = useState([]);
 
   const auth = useContext(AuthContext);
@@ -31,15 +30,6 @@ const Portfolio = () => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
 
-  const onFetchPortfolioQuotas = useCallback(async () => {
-      const json = await fetchPortfolioQuotas(params.id, auth.token);
-      if (json) {
-          setPortfolioQuotas(json);
-      }
-      }, [params.id, auth.token]);
-      useEffect(() => {
-      onFetchPortfolioQuotas();
-      }, [onFetchPortfolioQuotas]);
 
   const onFetchPortfolioDividends = useCallback(async () => {
     const json = await fetchPortfolioDividends(params.id, auth.token);
@@ -280,10 +270,7 @@ const Portfolio = () => {
                         />
                         <TreeMap
                         portfolio_treemap={treemap_categories}
-                        />    
-                        <LineChart
-                        portfolio_linechart={portfolio_quotas}
-                        /> 
+                        />  
                          
                     </Col>
                   </Row>

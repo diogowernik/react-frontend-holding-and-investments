@@ -81,3 +81,37 @@ export function dividends_total_by(portfolio_dividends, group_type, subcategory)
     const total_dividends_by_group_type = Object.entries(total_dividends_by).map(([name,total_dividend_brl])=>({name, total_dividend_brl}))
     return total_dividends_by_group_type
 }
+
+export function dividends_total_usd_by(portfolio_dividends, group_type, subcategory){
+  const dividends_by_group_type = portfolio_dividends.filter(
+    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
+    ).reduce((acc,curr)=>{
+    const existing = acc[curr[group_type]] || []
+    return {...acc, [curr[group_type]]:[...existing, curr]}
+    },{})
+    const total_dividends_by = Object.entries(dividends_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+      const {name, data} = curr
+      const total_dividend_usd = data.map(({ total_dividend_usd }) => total_dividend_usd).reduce((a, e) => a + e, 0)
+      return {...acc, [name]:total_dividend_usd} 
+    }
+    ,{})
+    const total_dividends_by_group_type = Object.entries(total_dividends_by).map(([name,total_dividend_usd])=>({name, total_dividend_usd}))
+    return total_dividends_by_group_type
+}
+
+export function total_usd_by(portfolio_assets, group_type, subcategory){
+  const total_by_group_type = portfolio_assets.filter( 
+    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
+    ).reduce((acc,curr)=>{
+    const {total_today_usd} = curr
+    const existing = acc[curr[group_type]] || []
+    return {...acc, [curr[group_type]]:[...existing, {total_today_usd}]}
+    },{})
+    const total_group = Object.entries(total_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+      const {name, data} = curr
+      const total_today_usd = data.map(({ total_today_usd }) => total_today_usd).reduce((a, e) => a + e, 0)
+      return {...acc, [name]:total_today_usd}
+    },{})
+    const by_group = Object.entries(total_group).map(([name,total_today_usd])=>({name, total_today_usd}))
+    return by_group
+}

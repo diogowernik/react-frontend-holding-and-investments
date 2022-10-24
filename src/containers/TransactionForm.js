@@ -1,5 +1,5 @@
 import {Form, Button} from 'react-bootstrap';
-import React, {useEffect, useState, useContext, useCallback} from 'react';
+import React, {useEffect, useState, useContext, useCallback, useMemo} from 'react';
 import { useParams} from 'react-router-dom';
 import { fetchAssets ,fetchBrokers, addTransaction} from '../apis';
 import AuthContext from '../contexts/AuthContext';
@@ -60,6 +60,14 @@ const TransactionForm = ({ onDone }) => {
             label: broker.name
         }
     });
+
+    const calculateUsdShareCost = (shares_amount, asset_price_usd) => {
+        return (shares_amount * asset_price_usd).toFixed(2)
+    }
+
+    const calculateBrlShareCost = (shares_amount, asset_price_brl) => {
+        return (shares_amount * asset_price_brl).toFixed(2)
+    }
     
     // Add Transaction
      const onClick = async () => {
@@ -149,7 +157,6 @@ return (
         <Button variant="primary" block onClick={onClick}>
             Submit
         </Button>
-        
     </div>
     );
 };

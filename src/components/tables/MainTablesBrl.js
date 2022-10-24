@@ -71,7 +71,8 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>Valor</th>
                                   <th>Custo</th>
                                   <th>PM</th>
-                                  <th>Prov.</th>
+                                  <th>Div.</th>
+                                  <th>Trade</th>
                                   <th>PM-d</th>
                                   <th>YoC</th>
                                   <th>Lucro</th>
@@ -86,18 +87,19 @@ const GroupedTables = ({grouped_assets}) => {
                                   asset.shares_amount > 0 && (
                                   <tr key={asset.id}>
                                     <td>{asset.ticker}</td>
-                                    <td>{asset.asset_price_brl}</td>
+                                    <td>{asset.asset_price_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                                     <td>{asset.shares_amount}</td>
-                                    <td>{asset.total_today_brl.toLocaleString('en-us', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{asset.total_cost_brl.toLocaleString('en-us', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{asset.share_average_price_brl}</td>
-                                    <td>{asset.dividends_profit_brl.toLocaleString('en-us', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{asset.av_price_minus_div_brl.toLocaleString('en-us', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{asset.yield_on_cost_brl.toLocaleString('en-us', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td className={asset.total_profit_brl>0?'text-primary':'text-warn'}>{asset.total_profit_brl.toLocaleString('en-us', { style: 'currency', currency: 'BRL' })}</td>         
-                                    <td className={asset.profit_without_div_trade_brl>0?'text-primary':'text-warn'}>{asset.profit_without_div_trade_brl.toLocaleString('en-us', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={asset.profit_with_div_trade_brl>0?'text-primary':'text-warn'}>{asset.profit_with_div_trade_brl.toLocaleString('en-us', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{asset.portfolio_percentage.toLocaleString('en-us', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.total_today_brl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{asset.total_cost_brl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{asset.share_average_price_brl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td className="text-primary">{asset.dividends_profit_brl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td className={asset.trade_profit_brl > -0.001 ? 'text-primary' : 'text-warn'}>{asset.trade_profit_brl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{asset.av_price_minus_div_brl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>
+                                    <td>{asset.yield_on_cost_brl.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td className={asset.total_profit_brl>0?'text-primary':'text-warn'}>{asset.total_profit_brl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>         
+                                    <td className={asset.profit_without_div_trade_brl>0?'text-primary':'text-warn'}>{asset.profit_without_div_trade_brl.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={asset.profit_with_div_trade_brl>0?'text-primary':'text-warn'}>{asset.profit_with_div_trade_brl.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.portfolio_percentage.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
                                         // onclick setAsset and show modal
@@ -119,7 +121,7 @@ const GroupedTables = ({grouped_assets}) => {
                             </table>
                             </Datatable>
                             <div className="float-right">
-                            Total: {data.reduce((acc,{total_today_brl})=>(acc+total_today_brl),0).toLocaleString('en-us', { style: 'currency', currency: 'BRL' })}
+                            Total: {data.reduce((acc,{total_today_brl})=>(acc+total_today_brl),0).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                             </div>
                             
                         </Card.Body>

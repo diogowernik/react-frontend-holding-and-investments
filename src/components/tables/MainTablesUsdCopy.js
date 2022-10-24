@@ -55,10 +55,11 @@ const GroupedTables = ({grouped_assets}) => {
                 <Tab.Pane eventKey={name} key={name}>
                   <Row>
                   <Col lg={12}>
-                    <Tab.Container defaultActiveKey="hide">
                       <Card  color="gray" className="mb-3">   
                         <Card.Header className="bg-gray-lighter">
-                          <h5 className='float-left mt-2'> {name} </h5>
+                          <h5 className='float-left mt-2'>
+                          {name}
+                          </h5>
                         </Card.Header>
                         <Card.Body>
                             <Datatable className="table-responsive" options={options1}>
@@ -71,8 +72,7 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>Valor</th>
                                   <th>Custo</th>
                                   <th>PM</th>
-                                  <th>Div.</th>
-                                  <th>Trade</th>
+                                  <th>Prov.</th>
                                   <th>PM-d</th>
                                   <th>YoC</th>
                                   <th>Lucro</th>
@@ -83,31 +83,28 @@ const GroupedTables = ({grouped_assets}) => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {data.map((asset) => (
+                                {data.map((asset) => (  
                                   asset.shares_amount > 0 && (
                                   <tr key={asset.id}>
                                     <td>{asset.ticker}</td>
-                                    <td>U$ {asset.asset_price_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
+                                    <td>{asset.asset_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
                                     <td>{asset.shares_amount}</td>
-                                    <td>U$ {asset.total_today_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
-                                    <td>U$ {asset.total_cost_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
-                                    <td>U$ {asset.share_average_price_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
-                                    <td className="text-primary">U$ {asset.dividends_profit_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
-                                    <td className={asset.trade_profit_usd > -0.001 ? 'text-primary' : 'text-warn'}> U$ {asset.trade_profit_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
-                                    <td>U$ {asset.av_price_minus_div_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
-                                    <td>{asset.yield_on_cost_usd.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td className={asset.total_profit_usd>0?'text-primary':'text-warn'}>U$ {asset.total_profit_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>         
-                                    <td className={asset.profit_without_div_trade_usd>0?'text-primary':'text-warn'}>{asset.profit_without_div_trade_usd.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={asset.profit_with_div_trade_usd>0?'text-primary':'text-warn'}>{asset.profit_with_div_trade_usd.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{asset.portfolio_percentage.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.total_today_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.total_cost_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.share_average_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.dividends_profit_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.av_price_minus_div_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>{asset.yield_on_cost_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.total_profit_usd}</td>     
+                                    <td className={asset.profit_without_div_trade_usd>0?'text-primary':'text-warning'}>{asset.profit_without_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={asset.profit_with_div_trade_usd>0?'text-primary':'text-warning'}>{asset.profit_with_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
-                                        // onclick setAsset and show modal
-                                        onClick={() => {
+                                        onClick={()=>{
                                           setAsset(asset);
                                           showModal();
                                         }}
-
                                       >
                                         <AiOutlineEdit size={20} color="blue" />
                                       </Button>|<Button variant="link" onClick={() => onRemoveAsset(asset.id)}>
@@ -119,14 +116,9 @@ const GroupedTables = ({grouped_assets}) => {
                                 ))}
                               </tbody>
                             </table>
-                            </Datatable>
-                            <div className="float-right">
-                            Total: {data.reduce((acc,{total_today_usd})=>(acc+total_today_usd),0).toLocaleString('en-US', { maximumFractionDigits: 2 })}
-                            </div>
-                            
+                            </Datatable> 
                         </Card.Body>
                       </Card>
-                    </Tab.Container>
                   </Col>
                   </Row>
                 </Tab.Pane>

@@ -1,5 +1,5 @@
 import { Row, Col, Nav, Card, Tab } from "react-bootstrap";
-import Datatable from '../../contexts/Datatable';
+import Datatable from '../../../contexts/Datatable';
 
 const DividendsTables = ({year_dividends, month_dividends}) => {
   // only last 12 months_dividends
@@ -44,19 +44,19 @@ const DividendsTables = ({year_dividends, month_dividends}) => {
                     {year_dividends.map(({name,data})=>(
                       <tr key={name}>
                         <td>{name}</td>                        
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `01/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })}</td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `02/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `03/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `04/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `05/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `06/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `07/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `08/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `09/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `10/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `11/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `12/${name}`).reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} </td>
-                        <td>{data.reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { maximumFractionDigits: 0 })}</td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `01/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })}</td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `02/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `03/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `04/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `05/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `06/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `07/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `08/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `09/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `10/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `11/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td> {data.filter(({pay_date_by_month_year})=>pay_date_by_month_year === `12/${name}`).reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })} </td>
+                        <td>{data.reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US', { maximumFractionDigits: 0 })}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -85,7 +85,7 @@ const DividendsTables = ({year_dividends, month_dividends}) => {
                           {name}
                           </h5>
                           <h5 className='float-right'>
-                          Total: {data.reduce((acc,{total_dividend_brl})=>(acc+total_dividend_brl),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                          Total: U$ {data.reduce((acc,{total_dividend_usd})=>(acc+total_dividend_usd),0).toLocaleString('en-US') }
                           </h5>
                         </Card.Header>
                         <Card.Body>
@@ -98,9 +98,9 @@ const DividendsTables = ({year_dividends, month_dividends}) => {
                                 <th>Record Date</th>
                                 <th>Pay Date</th>
                                 <th>Shares Amount</th>
-                                <th>Average Price Brl</th>
-                                <th>Total Dividend Brl</th>
-                                <th>Value per share Brl</th>
+                                <th>Average Price Usd</th>
+                                <th>Total Dividend Usd</th>
+                                <th>Value per share Usd</th>
                                 <th>Yield on Cost</th>
                                 </tr>
                               </thead>
@@ -111,9 +111,9 @@ const DividendsTables = ({year_dividends, month_dividends}) => {
                                   <td>{dividend.record_date}</td>
                                   <td>{dividend.pay_date}</td>
                                   <td>{dividend.shares_amount}</td>
-                                  <td>{dividend.average_price_brl}</td>
-                                  <td>{dividend.total_dividend_brl}</td>
-                                  <td>{dividend.value_per_share_brl}</td>
+                                  <td>{dividend.average_price_usd}</td>
+                                  <td>{dividend.total_dividend_usd}</td>
+                                  <td>{dividend.value_per_share_usd}</td>
                                   <td>{dividend.yield_on_cost}</td>
                                 </tr>
                                 ))}
