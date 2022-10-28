@@ -36,6 +36,7 @@ export function total_brl_by(portfolio_assets, group_type, subcategory){
       return {...acc, [name]:total_today_brl}
     },{})
     const by_group = Object.entries(total_group).map(([name,total_today_brl])=>({name, total_today_brl}))
+    by_group.sort((a, b) => b.total_today_brl - a.total_today_brl)
     return by_group
 }
 

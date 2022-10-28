@@ -57,7 +57,7 @@ const PortfolioNav = () => {
                           <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/usd`)}>Usd</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
-                          <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/usd`)}>Brl</Nav.Link>
+                          <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/brl`)}>Brl</Nav.Link>
                       </Nav.Item>
                       <Nav.Item>
                           <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/usd`)}>

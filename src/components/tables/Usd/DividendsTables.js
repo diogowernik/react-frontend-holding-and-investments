@@ -114,7 +114,7 @@ const DividendsTables = ({year_dividends, month_dividends}) => {
                                   <td>{dividend.average_price_usd}</td>
                                   <td>{dividend.total_dividend_usd}</td>
                                   <td>{dividend.value_per_share_usd}</td>
-                                  <td>{dividend.yield_on_cost}</td>
+                                  <td>{(dividend.yield_on_cost_usd * 100).toFixed(2)}</td>
                                 </tr>
                                 ))}
                               </tbody>
