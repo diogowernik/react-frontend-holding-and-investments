@@ -37,7 +37,7 @@ const TransactionForm = ({ onDone }) => {
 
     const assets_options = assets.map(asset => {
         return {
-            value: asset.id,
+            value: asset.ticker,
             label: asset.ticker + " - " + asset.price_brl.toFixed(2) + " BRL" + " | " + asset.price_usd.toFixed(2) + " USD"
         }
     });
@@ -101,7 +101,7 @@ const TransactionForm = ({ onDone }) => {
         setDate(defaultDate);
     }, [defaultDate]);
 
-    const defaultOrder = "Buy";
+    const defaultOrder = "C";
     useEffect(() => {
         setOrder(defaultOrder);
     }, [defaultOrder]);
@@ -118,8 +118,8 @@ return (
                 onChange={e => setOrder(e.target.value)}
             >                
                 <option value="">Tipo de Ordem</option>
-                <option value="C">Buy</option>
-                <option value="V">Sell</option>
+                <option value="C">Comprar</option>
+                <option value="V">Vender</option>
             </Form.Control>
         </Form.Group>
         <Form.Group>
