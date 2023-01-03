@@ -8,7 +8,7 @@ const GroupedRadar = ({fiis_for_radar, fiis}) => {
     'paging': false, // Table pagination
     'ordering': true, // Column ordering
     'info': false, // Bottom left status text
-    "order": [[ 6, "asc" ]],
+    "order": [[ 5, "asc" ]],
     "dom": '<"float-left"f><"clear">',
   }
   const fiis_data = fiis.sort((a,b)=>(a.ranking > b.ranking) ? 1 : -1).slice(0,10);
@@ -51,7 +51,7 @@ const GroupedRadar = ({fiis_for_radar, fiis}) => {
                               <thead>
                                 <tr className='text-center'>                              
                                   <th>Ticker</th>
-                                  <th>Cotação</th>
+                                  {/* <th>Cotação</th> */}
                                   <th>Ultimo Yield</th>
                                   <th>Yield 6m</th>
                                   <th>Yield 12m</th>
@@ -64,7 +64,7 @@ const GroupedRadar = ({fiis_for_radar, fiis}) => {
                                   <tr className='text-center' key={id}>
                                     
                                     <td>{ticker}</td>
-                                    <td>{price}</td>
+                                    {/* <td>{price}</td> */}
                                     <td
                                       style={last_yield < 0.7 ? {backgroundColor: ''} : {backgroundColor: 'lightblue'}}
                                     >{last_yield}</td>
@@ -105,7 +105,7 @@ const GroupedRadar = ({fiis_for_radar, fiis}) => {
                               <thead>
                                 <tr className='text-center'>                              
                                   <th>Ticker</th>
-                                  <th>Cotação</th>
+                                  {/* <th>Cotação</th> */}
                                   <th>Ultimo Yield</th>
                                   <th>Yield 6m</th>
                                   <th>Yield 12m</th>
@@ -118,7 +118,7 @@ const GroupedRadar = ({fiis_for_radar, fiis}) => {
                                   <tr className='text-center' key={id}>
                                     
                                     <td>{ticker}</td>
-                                    <td>{price}</td>
+                                    {/* <td>{price}</td> */}
                                     <td
                                       style={last_yield < 0.7 ? {backgroundColor: ''} : {backgroundColor: 'lightblue'}}
                                     >{last_yield}</td>

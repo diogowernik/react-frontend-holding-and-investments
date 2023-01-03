@@ -13,7 +13,7 @@ import MyPortfolios from '../pages/MyPortfolios';
 
 // import PortfolioUsd from '../pages/PortfolioUsd';
 
-import RadarBrl from '../pages/Brl/Radar';
+import Radar from '../pages/Radar';
 import DividendsBrl from '../pages/Brl/Dividends';
 import PortfolioBrl from '../pages/Brl/Portfolio';
 import BrokersBrl from '../pages/Brl/Brokers';
@@ -48,8 +48,8 @@ function App() {
             <Register />
           </Route>
 
-          <PrivateRoute exact path='/radar/brl'>
-            <RadarBrl />
+          <PrivateRoute exact path='/radar'>
+            <Radar />
           </PrivateRoute>
           <PrivateRoute exact path='/dividends/:id/brl'>
             <DividendsBrl />

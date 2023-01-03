@@ -96,9 +96,9 @@ const GroupedTables = ({grouped_assets}) => {
                                     <td className={asset.trade_profit_usd > -0.001 ? 'text-primary' : 'text-warn'}> U$ {asset.trade_profit_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
                                     <td>U$ {asset.av_price_minus_div_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>
                                     <td>{asset.yield_on_cost_usd.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td className={asset.total_profit_usd>0?'text-primary':'text-warn'}>U$ {asset.total_profit_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>         
-                                    <td className={asset.profit_without_div_trade_usd>0?'text-primary':'text-warn'}>{asset.profit_without_div_trade_usd.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={asset.profit_with_div_trade_usd>0?'text-primary':'text-warn'}>{asset.profit_with_div_trade_usd.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td className={asset.total_profit_usd> -0.001?'text-primary':'text-warn'}>U$ {asset.total_profit_usd.toLocaleString('en-US', { maximumFractionDigits: 2 })}</td>         
+                                    <td className={asset.profit_without_div_trade_usd> -0.001?'text-primary':'text-warn'}>{asset.profit_without_div_trade_usd.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>   
+                                    <td className={asset.profit_with_div_trade_usd> -0.001?'text-primary':'text-warn'}>{asset.profit_with_div_trade_usd.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td>{asset.portfolio_percentage.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 

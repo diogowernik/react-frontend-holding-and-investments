@@ -7,7 +7,7 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar, br_stocks}) => {
     'paging': false, // Table pagination
     'ordering': true, // Column ordering
     'info': false, // Bottom left status text
-    "order": [[ 8, "asc" ]],
+    "order": [[ 7, "asc" ]],
     "dom": '<"float-left"f><"clear">',
   }
   const brstocks_data = br_stocks.sort((a,b)=>(a.ranking > b.ranking) ? 1 : -1);
@@ -48,7 +48,7 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar, br_stocks}) => {
                                 <thead>
                                   <tr className='text-center'>                              
                                   <th>Ticker</th>
-                                  <th>Cotação</th>                                 
+                                  {/* <th>Cotação</th>                                  */}
                                   <th>Yield 12m</th>
                                   <th>P/VPA</th>                                 
                                   <th>P/L</th>
@@ -61,7 +61,7 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar, br_stocks}) => {
                                     <tr className='text-center' key={id}>
                                       
                                       <td>{ticker}</td>
-                                      <td>{price}</td>
+                                      {/* <td>{price}</td> */}
                                       <td
                                         style={twelve_m_yield < 8 ? {backgroundColor: ''} : {backgroundColor: 'lightblue'}}                                    
                                       >{twelve_m_yield}</td>
@@ -74,7 +74,8 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar, br_stocks}) => {
                                       <td
                                         style={roe > 12 ? {backgroundColor: 'lightblue'} : {backgroundColor: ''}}
                                       >{roe}</td>
-                                      <td>{ranking}</td>
+                                      {/* ranking 001 to 999 */}
+                                      <td>{ranking.toString().padStart(3, '0')}</td>
                                     </tr>
                                   ))}
                                 </tbody>
@@ -102,7 +103,7 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar, br_stocks}) => {
                               <thead>
                                 <tr className='text-center'>                              
                                   <th>Ticker</th>
-                                  <th>Cotação</th>                                 
+                                  {/* <th>Cotação</th>                                  */}
                                   <th>Yield 12m</th>
                                   <th>P/VPA</th>                                 
                                   <th>P/L</th>
@@ -122,7 +123,7 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar, br_stocks}) => {
                                   <tr className='text-center' key={id}>
                                     
                                     <td>{ticker}</td>
-                                    <td>{price}</td>
+                                    {/* <td>{price}</td> */}
                                     <td
                                       style={twelve_m_yield < 8 ? {backgroundColor: ''} : {backgroundColor: 'lightblue'}}                                    
                                     >{twelve_m_yield}</td>
@@ -145,7 +146,7 @@ const BrStocksGroupedRadar = ({br_stocks_for_radar, br_stocks}) => {
                                       // className={name === 'Bancos' ? 'd-none' : ''}
                                     >{roic}</td>
                                     {/* <td>{ranking}</td> */}
-                                    <td>{ranking_all}</td>
+                                    <td>{ranking.toString().padStart(3, '0')}</td>
 
                                   </tr>
                                 ))}

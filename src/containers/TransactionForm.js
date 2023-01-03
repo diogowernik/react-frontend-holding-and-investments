@@ -1,5 +1,5 @@
 import {Form, Button} from 'react-bootstrap';
-import React, {useEffect, useState, useContext, useCallback, useMemo} from 'react';
+import React, {useEffect, useState, useContext, useCallback} from 'react';
 import { useParams} from 'react-router-dom';
 import { fetchAssets ,fetchBrokers, addTransaction} from '../apis';
 import AuthContext from '../contexts/AuthContext';
@@ -38,7 +38,7 @@ const TransactionForm = ({ onDone }) => {
     const assets_options = assets.map(asset => {
         return {
             value: asset.ticker,
-            label: asset.ticker + " - " + asset.price_brl.toFixed(2) + " BRL" + " | " + asset.price_usd.toFixed(2) + " USD"
+            label: `${asset.ticker} - ${asset.price_brl.toFixed(2)} BRL | ${asset.price_usd.toFixed(2)} USD`
         }
     });
 
@@ -61,13 +61,13 @@ const TransactionForm = ({ onDone }) => {
         }
     });
 
-    const calculateUsdShareCost = (shares_amount, asset_price_usd) => {
-        return (shares_amount * asset_price_usd).toFixed(2)
-    }
+    // const calculateUsdShareCost = (shares_amount, asset_price_usd) => {
+    //     return (shares_amount * asset_price_usd).toFixed(2)
+    // }
 
-    const calculateBrlShareCost = (shares_amount, asset_price_brl) => {
-        return (shares_amount * asset_price_brl).toFixed(2)
-    }
+    // const calculateBrlShareCost = (shares_amount, asset_price_brl) => {
+    //     return (shares_amount * asset_price_brl).toFixed(2)
+    // }
     
     // Add Transaction
      const onClick = async () => {
