@@ -52,7 +52,23 @@ export function treemap_by(portfolio_assets, group_type, subcategory){
     },{})
     const treemap_group = Object.entries(treemap_by_group_type).map(([name,data])=>({name, data})).filter( data => data.name !== "Dividas")
     treemap_group.sort((a,b)=>b.data.map(({y})=>y).reduce((a, e) => a + e, 0)-a.data.map(({y})=>y).reduce((a, e) => a + e, 0))
-    return treemap_group
+    // if ticker is the same merge the values
+    const treemap_group_merged = treemap_group.map((data)=>{
+      const {name, data: data_array} = data
+      const data_array_merged = data_array.reduce((acc,curr)=>{
+        const {x, y} = curr
+        const existing = acc[x] || []
+        return {...acc, [x]:[...existing, {x, y}]}
+      },{})
+      const data_array_merged_array = Object.entries(data_array_merged).map(([name,data])=>({name, data})).map((data)=>{
+        const {name, data: data_array} = data
+        const y = data_array.map(({y})=>y).reduce((a, e) => a + e, 0)
+        return {x: name, y}
+      })
+      return {name, data: data_array_merged_array}
+    })
+    return treemap_group_merged
+    // return treemap_group
 }
 
 export function dividends_by(portfolio_dividends, group_type, subcategory){

@@ -1,14 +1,17 @@
 import { Row, Col, Container, Nav, Card, Tab} from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
-import { fetchFiis, fetchBrStocks } from '../apis';
+import { fetchFiis, fetchBrStocks, fetchAssets } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import FiiGroupedRadar from '../components/tables/FiiRadar';
 import BrStocksGroupedRadar from '../components/tables/BrStocksRadar';
+import AssetRadar from '../components/tables/AssetRadar';
+import { assets_by} from '../group_functions';
 
 const Radar = () => {
   const [fiis, setFiis] = useState([]);
   const [br_stocks, setBrStocks] = useState([]);
+  const [assets, setAssets] = useState([]);
 
 
   const auth = useContext(AuthContext);
@@ -34,6 +37,17 @@ const Radar = () => {
       onFetchBrStocks();
       }, [onFetchBrStocks]);
 
+  const onFetchAssets = useCallback(async () => {
+      const json = await fetchAssets(auth.token);
+      if (json) {
+          setAssets(json);
+      }
+      }, [auth.token]);
+      useEffect(() => {
+      onFetchAssets();
+      }, [onFetchAssets]);
+  
+
   // end of Fetchs
 
 
@@ -46,7 +60,6 @@ const Radar = () => {
   ,{})
   const fiis_for_radar = Object.entries(grouped_fiis_for_radar).map(([name,data])=>({name, data}))
 
-  console.log(fiis_for_radar)
 
   // Grouping BrStocks for Radar
   const grouped_br_stocks_for_radar = br_stocks.reduce((acc,curr)=>{
@@ -57,7 +70,10 @@ const Radar = () => {
   ,{})
   const br_stocks_for_radar = Object.entries(grouped_br_stocks_for_radar).map(([name,data])=>({name, data}))
 
-  // Grouping for Fiis by Setor table Sum
+  // Grouping Assets for Radar
+  
+  const assets_for_radar = assets_by(assets,'category')
+
  
 
   return (
@@ -75,9 +91,9 @@ const Radar = () => {
                     <Nav.Item>
                         <Nav.Link eventKey="radar-br-stocks">Radar Ações</Nav.Link>
                     </Nav.Item>
-                    {/* <Nav.Item>
-                        <Nav.Link eventKey="tradingview">Trading View</Nav.Link>
-                    </Nav.Item> */}
+                    <Nav.Item>
+                        <Nav.Link eventKey="radar-assets">Radar Assets</Nav.Link>
+                    </Nav.Item>
                 </Nav>
               </Card.Header>
           </Card>
@@ -111,16 +127,21 @@ const Radar = () => {
                 </Row>
                 </Tab.Pane>
             </Tab.Content>
-            {/* <Tab.Content>
-                <Tab.Pane eventKey="tradingview" >
-                <iframe 
-                  src="http://localhost:3000/tradingview.html"
-                  width="100%"
-                  height="650px"
-                  
-                ></iframe>
+            <Tab.Content>
+                <Tab.Pane eventKey="radar-assets" >
+                <Row>
+                    <Col lg={12}>
+                        <AssetRadar
+                        assets_for_radar={assets_for_radar}
+                        assets={assets}
+                        />
+                    </Col>
+                    
+
+                </Row>
                 </Tab.Pane>
-            </Tab.Content> */}
+            </Tab.Content>
+
         
         </Col>
       </Row>
