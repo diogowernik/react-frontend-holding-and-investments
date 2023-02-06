@@ -95,6 +95,7 @@ const DividendsTables = ({year_dividends, month_dividends}) => {
                                 <tr>
                                   {/* display hidden */}
                                 <th>Ticker</th>
+                                <th>Categoria</th>
                                 <th>Record Date</th>
                                 <th>Pay Date</th>
                                 <th>Shares Amount</th>
@@ -108,6 +109,7 @@ const DividendsTables = ({year_dividends, month_dividends}) => {
                                 {data.map((dividend) => (
                                 <tr key={dividend.id}>
                                   <td>{dividend.ticker}</td>
+                                  <td>{dividend.category}</td>
                                   <td>{dividend.record_date}</td>
                                   <td>{dividend.pay_date}</td>
                                   <td>{dividend.shares_amount}</td>

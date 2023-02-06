@@ -119,6 +119,12 @@ export function fetchPortfolioDividends(id, token) {
   return request(`/api/portfolios/${id}/dividends`, { token });
 }
 
+// fetchPortfolioEvolution
+
+export function fetchPortfolioEvolution(id, token) {
+  return request(`/api/portfolio/${id}/evolution`, { token });
+}
+
 export function removePortfolioAsset(id, token) {
   return request(`/api/portfolio_assets/${id}`, { token, method: "DELETE", message: 'Ativo deletado com sucesso' });
 }

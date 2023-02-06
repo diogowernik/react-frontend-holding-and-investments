@@ -1,27 +1,74 @@
 import { Row, Col, Nav, Card, Tab } from "react-bootstrap";
 import Datatable from '../../contexts/Datatable';
 
-const DividendsTables = ({dividends_category}) => {
+const DividendsTables = ({currency, year_dividends, month_dividends}) => {
+  const last_12_months_dividends = month_dividends.slice(0,12)
+  const months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
   const options1 = {
     'paging': true, // Table pagination
     'ordering': true, // Column ordering
     'info': false, // Bottom left status text
-    "order": [[ 3, "asc" ]],
-    // show 25 rows
+    "order": [[ 4, "asc" ]],
     "pageLength": 25,
-    // "dom": '<"float-left"f><"clear">',
   }
-  // console.log(dividends_category);
 
   return (
     <>
-        <Tab.Container defaultActiveKey="FII">
+      <Tab.Container defaultActiveKey="">
         <Row>
           <Col lg={12}>
+            <Card className=" mb-3">
+              <Card.Header>
+                <h4>Dividendos</h4>
+                </Card.Header>
+              <Card.Body>
+                <table className="table table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th>Year</th>
+                      <th>01</th>
+                      <th>02</th>
+                      <th>03</th>
+                      <th>04</th>
+                      <th>05</th>
+                      <th>06</th>
+                      <th>07</th>
+                      <th>08</th>
+                      <th>09</th>
+                      <th>10</th>
+                      <th>11</th>
+                      <th>12</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {year_dividends.map(({ name, data }) => (
+                    <tr key={name}>
+                      <td>{name}</td>
+                      {months.map((month) => (
+                        <td key={month + name}>
+                          {data
+                            .filter(({ pay_date_by_month_year }) => pay_date_by_month_year === `${month}/${name}`)
+                            .reduce((acc, { total_dividend_brl }) => (acc + total_dividend_brl), 0)
+                            .toLocaleString('pt-BR', { maximumFractionDigits: 0 })}
+                        </td>
+                      ))}
+                      <td>
+                        {data.reduce((acc, { total_dividend_brl }) => (acc + total_dividend_brl), 0).toLocaleString(
+                          'pt-BR',
+                          { maximumFractionDigits: 0 }
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                  </tbody>
+                </table>
+              </Card.Body>
+            </Card>
           <Card className=" mb-3">
               <Card.Header>
                 <Nav variant="pills">    
-                    {dividends_category.map(({name})=>(
+                    {last_12_months_dividends.map(({name})=>(
                       <Nav.Item key={name}>
                         <Nav.Link eventKey={name}>{name}</Nav.Link>
                       </Nav.Item>
@@ -30,7 +77,7 @@ const DividendsTables = ({dividends_category}) => {
               </Card.Header>
           </Card>
           <Tab.Content>
-              {dividends_category.map(({name,data})=>(
+              {last_12_months_dividends.map(({name,data})=>(
                 <Tab.Pane eventKey={name} key={name}>
                   <Row>
                     <Col lg={12}>
@@ -40,7 +87,7 @@ const DividendsTables = ({dividends_category}) => {
                           {name}
                           </h5>
                           <h5 className='float-right'>
-                          {/* Total: {data.reduce((acc,{total_today_brl})=>(acc+total_today_brl),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} */}
+                          Total: {data.reduce((acc, dividend) => (acc + dividend[`total_dividend_${currency.toLowerCase()}`]), 0).toLocaleString('pt-BR', { style: 'currency', currency: `${currency.toUpperCase()}` })}
                           </h5>
                         </Card.Header>
                         <Card.Body>
@@ -50,15 +97,13 @@ const DividendsTables = ({dividends_category}) => {
                                 <tr>
                                   {/* display hidden */}
                                 <th>Ticker</th>
+                                <th>Categoria</th>
                                 <th>Record Date</th>
                                 <th>Pay Date</th>
                                 <th>Shares Amount</th>
                                 <th>Average Price Brl</th>
-                                <th>Average Price Usd</th>
                                 <th>Total Dividend Brl</th>
-                                <th>Total Dividend Usd</th>
                                 <th>Value per share Brl</th>
-                                <th>Value per share Usd</th>
                                 <th>Yield on Cost</th>
                                 </tr>
                               </thead>
@@ -66,16 +111,14 @@ const DividendsTables = ({dividends_category}) => {
                                 {data.map((dividend) => (
                                 <tr key={dividend.id}>
                                   <td>{dividend.ticker}</td>
+                                  <td>{dividend.category}</td>
                                   <td>{dividend.record_date}</td>
                                   <td>{dividend.pay_date}</td>
                                   <td>{dividend.shares_amount}</td>
-                                  <td>{dividend.average_price_brl}</td>
-                                  <td>{dividend.average_price_usd}</td>
-                                  <td>{dividend.total_dividend_brl}</td>
-                                  <td>{dividend.total_dividend_usd}</td>
-                                  <td>{dividend.value_per_share_brl}</td>
-                                  <td>{dividend.value_per_share_usd}</td>
-                                  <td>{dividend.yield_on_cost}</td>
+                                  <td>{dividend[`average_price_${currency}`]}</td>
+                                  <td>{dividend[`total_dividend_${currency}`]}</td>
+                                  <td>{dividend[`value_per_share_${currency}`]}</td>
+                                  <td>{(dividend[`yield_on_cost_${currency}`] * 100).toFixed(2)}</td>
                                 </tr>
                                 ))}
                               </tbody>
@@ -86,17 +129,14 @@ const DividendsTables = ({dividends_category}) => {
                     </Col>
                   </Row>
                 </Tab.Pane>
-              ))}
-
-
-            
-             
+              ))}       
           </Tab.Content>
           </Col>
         </Row>
         </Tab.Container>
+        
        
-      </>
+    </>
   )
 };
 

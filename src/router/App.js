@@ -10,6 +10,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 
 import MyPortfolios from '../pages/MyPortfolios';
+import PortfolioEvolution from '../pages/Evolution';
 
 // import PortfolioUsd from '../pages/PortfolioUsd';
 
@@ -100,6 +101,9 @@ function App() {
           
           <PrivateRoute exact path='/portfolios'>
             <MyPortfolios />
+          </PrivateRoute>
+          <PrivateRoute exact path='/evolution/:id'>
+            <PortfolioEvolution />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>

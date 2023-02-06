@@ -132,3 +132,4 @@ export function total_usd_by(portfolio_assets, group_type, subcategory){
     const by_group = Object.entries(total_group).map(([name,total_today_usd])=>({name, total_today_usd}))
     return by_group
 }
+
