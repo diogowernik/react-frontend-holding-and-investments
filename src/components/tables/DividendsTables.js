@@ -26,18 +26,9 @@ const DividendsTables = ({currency, year_dividends, month_dividends}) => {
                   <thead>
                     <tr>
                       <th>Year</th>
-                      <th>01</th>
-                      <th>02</th>
-                      <th>03</th>
-                      <th>04</th>
-                      <th>05</th>
-                      <th>06</th>
-                      <th>07</th>
-                      <th>08</th>
-                      <th>09</th>
-                      <th>10</th>
-                      <th>11</th>
-                      <th>12</th>
+                      {months.map((month) => (
+                        <th key={month}>{month}</th>
+                      ))}
                       <th>Total</th>
                     </tr>
                   </thead>
@@ -49,12 +40,12 @@ const DividendsTables = ({currency, year_dividends, month_dividends}) => {
                         <td key={month + name}>
                           {data
                             .filter(({ pay_date_by_month_year }) => pay_date_by_month_year === `${month}/${name}`)
-                            .reduce((acc, { total_dividend_brl }) => (acc + total_dividend_brl), 0)
+                            .reduce((acc, { [`total_dividend_${currency}`]: total_dividend }) => (acc + total_dividend), 0)
                             .toLocaleString('pt-BR', { maximumFractionDigits: 0 })}
                         </td>
                       ))}
                       <td>
-                        {data.reduce((acc, { total_dividend_brl }) => (acc + total_dividend_brl), 0).toLocaleString(
+                        {data.reduce((acc, { [`total_dividend_${currency}`]: total_dividend }) => (acc + total_dividend), 0).toLocaleString(
                           'pt-BR',
                           { maximumFractionDigits: 0 }
                         )}
@@ -95,7 +86,6 @@ const DividendsTables = ({currency, year_dividends, month_dividends}) => {
                             <table className="table table-striped table-sm">
                               <thead>
                                 <tr>
-                                  {/* display hidden */}
                                 <th>Ticker</th>
                                 <th>Categoria</th>
                                 <th>Record Date</th>

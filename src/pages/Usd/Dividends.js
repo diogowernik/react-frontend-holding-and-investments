@@ -5,7 +5,7 @@ import { fetchPortfolioDividends} from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
-import DividendsTables from '../../components/tables/Usd/DividendsTables';
+import DividendsTables from '../../components/tables/DividendsTables';
 import SideDividends from '../../components/sidemodules/Usd/SideDividends';
 import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
 import { dividends_by } from '../../group_functions';
@@ -45,6 +45,7 @@ const Portfolio = () => {
                 <DividendsTables
                 year_dividends={year_dividends}
                 month_dividends={month_dividends}
+                currency="usd"
                 category_dividends={category_dividends}
                 />
             </Col>
