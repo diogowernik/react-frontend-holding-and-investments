@@ -5,9 +5,9 @@ const DividendsTables = ({currency, year_dividends, month_dividends}) => {
   const last_12_months_dividends = month_dividends.slice(0,12)
   const months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
   const options1 = {
-    'paging': true, // Table pagination
-    'ordering': true, // Column ordering
-    'info': false, // Bottom left status text
+    'paging': true, 
+    'ordering': true, 
+    'info': false,
     "order": [[ 4, "asc" ]],
     "pageLength": 25,
   }

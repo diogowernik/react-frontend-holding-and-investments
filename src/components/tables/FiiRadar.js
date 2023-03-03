@@ -11,7 +11,7 @@ const GroupedRadar = ({fiis_for_radar, fiis}) => {
     "order": [[ 5, "asc" ]],
     "dom": '<"float-left"f><"clear">',
   }
-  const fiis_data = fiis.sort((a,b)=>(a.ranking > b.ranking) ? 1 : -1).slice(0,10);
+  const fiis_data = fiis.sort((a,b)=>(a.ranking > b.ranking) ? 1 : -1);
 
   return (
 
