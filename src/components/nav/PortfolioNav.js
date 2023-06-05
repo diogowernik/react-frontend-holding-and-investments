@@ -16,24 +16,18 @@ const PortfolioNav = () => {
         <Col lg={12}>
           <Card className=" mb-3">
               <Card.Header>
-                {/* row and col 10 */}
                 <Row>
                   <Col lg={5}>
                   <Nav variant="pills" className="flex-row">   
                     <Nav.Item>
                         <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/brl`)}>Portfolio</Nav.Link>
                     </Nav.Item>
-                    {/* brokers  */}
                     <Nav.Item>
                         <Nav.Link onClick={() => history.push(`/brokers/${params.id}/brl`)}>Corretoras</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link onClick={() => history.push(`/dividends/${params.id}/brl`)}>Dividendos</Nav.Link>
                     </Nav.Item>
-                    {/* <Nav.Item>
-                        <Nav.Link onClick={() => history.push(`/radar/${params.id}/brl`)}>Radar</Nav.Link>
-                    </Nav.Item> */}
-                    {/* portfolio evolution */}
                     <Nav.Item>
                         <Nav.Link onClick={() => history.push(`/evolution/${params.id}`)}>Evolução</Nav.Link>
                     </Nav.Item>
