@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import GroupedTables from '../../components/tables/MainTables';
 import TreeMap from '../../components/charts/Treemap';
 import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
-import PortfolioNav from '../../components/nav/PortfolioNav';
+import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
 import { assets_by, total_brl_by, treemap_by} from '../../group_functions';
 
 const Portfolio = () => {

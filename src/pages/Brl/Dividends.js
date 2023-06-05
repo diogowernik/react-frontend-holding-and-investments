@@ -7,7 +7,7 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import DividendsTables from '../../components/tables/DividendsTables';
 import SideDividends from '../../components/sidemodules/Brl/SideDividends';
-import PortfolioNav from '../../components/nav/PortfolioNav';
+import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
 import { dividends_by } from '../../group_functions';
 
 

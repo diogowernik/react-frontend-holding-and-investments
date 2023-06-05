@@ -10,7 +10,7 @@ import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
 import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
 import SideDividends from '../../components/sidemodules/Brl/SideDividends';
-import PortfolioNav from '../../components/nav/PortfolioNav';
+import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
 import { assets_by, total_brl_by, treemap_by} from '../../group_functions';
 
 
