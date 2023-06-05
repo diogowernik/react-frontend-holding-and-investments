@@ -4,11 +4,11 @@ import { fetchPortfolioAssets} from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import GroupedTables from '../../components/tables/MainTablesUsd';
+import GroupedTables from '../../components/tables/MainTables';
 import TreeMap from '../../components/charts/Treemap';
 import SideModules from '../../components/sidemodules/Usd/SidePatrimonial'
 import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
-import { assets_by, piechart_by_ticker, total_usd_by, treemap_by} from '../../group_functions';
+import { assets_by, total_usd_by, treemap_by} from '../../group_functions';
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
@@ -54,6 +54,7 @@ const Portfolio = () => {
           <Col lg={12}>
               <GroupedTables
               grouped_assets={assets_by_broker}
+              currency="usd"
               />
           </Col>
         </Row>              

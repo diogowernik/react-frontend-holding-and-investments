@@ -88,13 +88,13 @@ const DividendsTables = ({currency, year_dividends, month_dividends}) => {
                                 <tr>
                                 <th>Ticker</th>
                                 <th>Categoria</th>
-                                <th>Record Date</th>
-                                <th>Pay Date</th>
-                                <th>Shares Amount</th>
-                                <th>Average Price Brl</th>
-                                <th>Total Dividend Brl</th>
-                                <th>Value per share Brl</th>
-                                <th>Yield on Cost</th>
+                                <th>Data Com</th>
+                                <th>Data Pg</th>
+                                <th>Quotas</th>
+                                <th>PM</th>
+                                <th>Dividendos Total</th>
+                                <th>Dividendo</th>
+                                <th>YoC</th>
                                 </tr>
                               </thead>
                               <tbody>

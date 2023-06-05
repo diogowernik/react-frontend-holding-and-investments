@@ -30,9 +30,9 @@ const PortfolioNav = () => {
                     <Nav.Item>
                         <Nav.Link onClick={() => history.push(`/dividends/${params.id}/usd`)}>Dividendos</Nav.Link>
                     </Nav.Item>
-                    {/* <Nav.Item>
-                        <Nav.Link onClick={() => history.push(`/radar/${params.id}/usd`)}>Radar</Nav.Link>
-                    </Nav.Item> */}
+                    <Nav.Item>
+                        <Nav.Link onClick={() => history.push(`/evolution/${params.id}`)}>Evolução</Nav.Link>
+                    </Nav.Item>
                   </Nav>
                   </Col>
                   <Col lg={5}>

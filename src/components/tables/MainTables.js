@@ -5,9 +5,8 @@ import {  removePortfolioAsset } from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import { useContext, useState } from 'react';
 import PortfolioAssetForm  from '../../containers/PortfolioAssetForm';
-import { AiFillEyeInvisible } from 'react-icons/ai';
 
-const GroupedTables = ({grouped_assets}) => {
+const GroupedTables = ({currency, grouped_assets}) => {
   const [portfolioAssetFormShow, setPortfolioAssetFormShow] = useState(false);
   const [Asset, setAsset] = useState(null);
 
@@ -31,7 +30,7 @@ const GroupedTables = ({grouped_assets}) => {
     'paging': false, // Table pagination
     'ordering': true, // Column ordering
     'info': false, // Bottom left status text
-    "order": [[ 5, "asc" ]],
+    "order": [[ 3, "asc" ]],
     "dom": '<"float-left"f><"clear">',
   }
 
@@ -59,28 +58,9 @@ const GroupedTables = ({grouped_assets}) => {
                     <Tab.Container defaultActiveKey="hide">
                       <Card  color="gray" className="mb-3">   
                         <Card.Header className="bg-gray-lighter">
-                          <h5 className='float-left mt-2'>
-                          {name}
-                          </h5>
-                          <Nav variant="pills" className='float-right'>    
-                            <Nav.Item>
-                                <Nav.Link eventKey="BRL">BRL</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="USD">USD</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
-                                <Nav.Link eventKey="hide">
-                                    <AiFillEyeInvisible 
-                                        size={25}
-                                    />     
-                                </Nav.Link>
-                            </Nav.Item>
-                          </Nav>
+                          <h5 className='float-left mt-2'> {name} </h5>
                         </Card.Header>
                         <Card.Body>
-                          <Tab.Content>
-                            <Tab.Pane eventKey="BRL" >
                             <Datatable className="table-responsive" options={options1}>
                             <table className="table table-striped table-sm">
                               <thead>
@@ -91,13 +71,15 @@ const GroupedTables = ({grouped_assets}) => {
                                   <th>Valor</th>
                                   <th>Custo</th>
                                   <th>PM</th>
-                                  <th>Prov.</th>
+                                  <th>Div.</th>
+                                  <th>Trade</th>
                                   <th>PM-d</th>
                                   <th>YoC</th>
                                   <th>Lucro</th>
                                   <th>%R</th>
                                   <th>%R-d-t</th>
                                   <th>%P</th>
+                                  <th>Corretora</th>
                                   <th></th>
                                 </tr>
                               </thead>
@@ -106,18 +88,20 @@ const GroupedTables = ({grouped_assets}) => {
                                   asset.shares_amount > 0 && (
                                   <tr key={asset.id}>
                                     <td>{asset.ticker}</td>
-                                    <td>{asset.asset_price_brl}</td>
+                                    <td>{asset[`asset_price_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
                                     <td>{asset.shares_amount}</td>
-                                    <td>{asset.total_today_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{asset.total_cost_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{asset.share_average_price_brl}</td>
-                                    <td>{asset.dividends_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{asset.av_price_minus_div_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                                    <td>{asset.yield_on_cost_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td className={asset.total_profit_brl>0?'text-primary':'text-warning'}>{asset.total_profit_brl.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>         
-                                    <td className={asset.profit_without_div_trade_brl>0?'text-primary':'text-warning'}>{asset.profit_without_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={asset.profit_with_div_trade_brl>0?'text-primary':'text-warning'}>{asset.profit_with_div_trade_brl.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{asset.portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset[`total_today_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
+                                    <td>{asset[`total_cost_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
+                                    <td>{asset[`share_average_price_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
+                                    <td className="text-primary">{asset[`dividends_profit_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
+                                    <td className={asset[`trade_profit_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`trade_profit_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>            
+                                    <td>{asset[`av_price_minus_div_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
+                                    <td>{asset[`yield_on_cost_${currency}`].toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td className={asset[`total_profit_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`total_profit_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
+                                    <td className={asset[`profit_without_div_trade_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`profit_without_div_trade_${currency}`].toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td className={asset[`profit_with_div_trade_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`profit_with_div_trade_${currency}`].toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.portfolio_percentage.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
+                                    <td>{asset.broker}</td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
                                         // onclick setAsset and show modal
@@ -139,123 +123,11 @@ const GroupedTables = ({grouped_assets}) => {
                             </table>
                             </Datatable>
                             <div className="float-right">
-                            Total: {data.reduce((acc,{total_today_brl})=>(acc+total_today_brl),0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                              
+                            Total: {data.reduce((acc, asset) => acc + asset[`total_today_${currency}`], 0).toLocaleString('pt-br', { style: 'currency', currency: currency })}
+
                             </div>
-                            </Tab.Pane>
-
-                            <Tab.Pane eventKey="USD" >
-                            <Datatable className="table-responsive" options={options1}>
-                            <table className="table table-striped table-sm">
-                              <thead>
-                                <tr>                              
-                                  <th>Ticker</th>
-                                  <th>Cotação</th>
-                                  <th>Qnt</th>
-                                  <th>Valor</th>
-                                  <th>Custo</th>
-                                  <th>PM</th>
-                                  <th>Prov.</th>
-                                  <th>PM-d</th>
-                                  <th>YoC</th>
-                                  <th>Lucro</th>
-                                  <th>%R</th>
-                                  <th>%R-d-t</th>
-                                  <th>%P</th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {data.map((asset) => (  
-                                  asset.shares_amount > 0 && (
-                                  <tr key={asset.id}>
-                                    <td>{asset.ticker}</td>
-                                    <td>{asset.asset_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{asset.shares_amount}</td>
-                                    <td>{asset.total_today_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{asset.total_cost_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{asset.share_average_price_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{asset.dividends_profit_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{asset.av_price_minus_div_usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td>{asset.yield_on_cost_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{asset.total_profit_usd}</td>     
-                                    <td className={asset.profit_without_div_trade_usd>0?'text-primary':'text-warning'}>{asset.profit_without_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>   
-                                    <td className={asset.profit_with_div_trade_usd>0?'text-primary':'text-warning'}>{asset.profit_with_div_trade_usd.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{asset.portfolio_percentage.toLocaleString('pt-BR', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
-                                      <Button variant="link" 
-                                        onClick={()=>{
-                                          setAsset(asset);
-                                          showModal();
-                                        }}
-                                      >
-                                        <AiOutlineEdit size={20} color="blue" />
-                                      </Button>|<Button variant="link" onClick={() => onRemoveAsset(asset.id)}>
-                                        <AiOutlineDelete size={20} color="red" />
-                                      </Button>
-                                    </td>
-                                  </tr>
-                                  )
-                                ))}
-                              </tbody>
-                            </table>
-                            </Datatable>
-                            </Tab.Pane>
-
-                            <Tab.Pane eventKey="hide" >
-                            <Datatable className="table-responsive" options={options1}>
-                            <table className="table table-striped table-sm">
-                              <thead>
-                                <tr>                              
-                                  <th>Ticker</th>
-                                  <th>Cotação</th>
-                                  <th>Qnt</th>
-                                  <th>Valor</th>
-                                  <th>Custo</th>
-                                  <th>PM</th>
-                                  <th>Prov.</th>
-                                  <th>PM-d</th>
-
-                                  <th>YoC</th>
-                                  <th>Lucro</th>
-                                  <th>%R</th>
-                                  <th>%R-d-t</th>
-                                  <th>%P</th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {data.map((asset) => (
-                                  asset.shares_amount > 0 && (
-                                  <tr key={asset.id}>
-                                    <td>{asset.ticker}</td>
-                                    <td>***</td>
-                                    <td>***</td>
-                                    <td>***</td>
-                                    <td>***</td>
-                                    <td>***</td>
-                                    <td>***</td>
-                                    <td>***</td>
-                                    <td>***</td>
-                                    <td>***</td>         
-                                    <td>***</td>   
-                                    <td>***</td>
-                                    <td>***</td>
-                                    <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
-                                      <Button variant="link" onClick={()=>{setAsset(asset);showModal();}}> 
-                                        <AiOutlineEdit size={20} color="blue" />
-                                      </Button>
-                                      <Button variant="link" onClick={() => onRemoveAsset(asset.id)}>
-                                        <AiOutlineDelete size={20} color="red" />
-                                      </Button>
-                                    </td>
-                                  </tr>
-                                  )
-                                ))}
-                              </tbody>
-                            </table>
-                            </Datatable>
-                            </Tab.Pane>
-                          </Tab.Content>
+                            
                         </Card.Body>
                       </Card>
                     </Tab.Container>
@@ -270,7 +142,12 @@ const GroupedTables = ({grouped_assets}) => {
         <Modal show={portfolioAssetFormShow} onHide={hideModal}>
           <Modal.Header closeButton>
             {/* asset name */}
-            <Modal.Title>Editar {Asset?.ticker}</Modal.Title>
+            <Modal.Title>
+              Editar {Asset?.ticker}{'\u00A0'} 
+              | R$ {Asset?.asset_price_brl}{'\u00A0'}
+              | U$ {Asset?.asset_price_usd} 
+            
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <PortfolioAssetForm asset={Asset} onHide={hideModal} />
