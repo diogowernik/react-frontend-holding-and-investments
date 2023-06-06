@@ -4,7 +4,7 @@ import { fetchPortfolioAssets} from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import GroupedTables from '../../components/tables/MainTables';
+import GroupedTables from '../../components/tables/Usd/MainTable';
 import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
 import SideModules from '../../components/sidemodules/Usd/SidePatrimonial'
