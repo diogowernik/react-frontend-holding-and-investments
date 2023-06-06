@@ -7,8 +7,8 @@ import { useParams } from 'react-router-dom';
 import GroupedTables from '../../components/tables/MainTables';
 import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
-import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
-import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
+import SideModules from '../../components/sidemodules/Usd/SidePatrimonial'
+import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
 import { assets_by, piechart_by_ticker, total_by, treemap_by} from '../../group_functions';
 
 

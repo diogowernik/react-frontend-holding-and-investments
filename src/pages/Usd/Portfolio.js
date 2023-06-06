@@ -5,12 +5,12 @@ import { fetchPortfolioAssets} from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import MainTable from '../../components/tables/Brl/MainTable';
+import MainTable from '../../components/tables/Usd/MainTable';
 import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
-import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
-import SideDividends from '../../components/sidemodules/Brl/SideDividends';
-import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
+import SideModules from '../../components/sidemodules/Usd/SidePatrimonial'
+import SideDividends from '../../components/sidemodules/Usd/SideDividends';
+import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
 import { assets_by, total_by, treemap_by} from '../../group_functions';
 
 
@@ -32,7 +32,7 @@ const Portfolio = () => {
       }, [onFetchPortfolioAssets]);
 
   const assets = assets_by(portfolio_assets,'category')
-  const total  = total_by(portfolio_assets,'category', 'brl')
+  const total  = total_by(portfolio_assets,'category', 'usd')
   const treemaps = treemap_by(portfolio_assets,"category")
 
   return (

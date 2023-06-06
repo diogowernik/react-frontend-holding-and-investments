@@ -6,8 +6,8 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import GroupedTables from '../../components/tables/MainTables';
 import TreeMap from '../../components/charts/Treemap';
-import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
-import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
+import SideModules from '../../components/sidemodules/Usd/SidePatrimonial'
+import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
 import { assets_by, total_by, treemap_by} from '../../group_functions';
 
 const Portfolio = () => {
@@ -31,7 +31,7 @@ const Portfolio = () => {
   // end of Fetchs
 
   const assets = assets_by(portfolio_assets, 'broker')
-  const total = total_by(portfolio_assets, 'broker', 'brl')
+  const total = total_by(portfolio_assets, 'broker', 'usd')
   const treemap = treemap_by(portfolio_assets, 'broker')
 
 
