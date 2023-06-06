@@ -9,7 +9,7 @@ import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
 import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
 import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
-import { assets_by, piechart_by_ticker, total_brl_by, treemap_by} from '../../group_functions';
+import { assets_by, piechart_by_ticker, total_by, treemap_by} from '../../group_functions';
 
 
 const Portfolio = () => {
@@ -28,10 +28,10 @@ const Portfolio = () => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
 
-  const fiis_subcategory = assets_by(portfolio_assets,'subcategory', 'Fundos Imobiliários')
-  const fiis_total_brl = total_brl_by(portfolio_assets,'subcategory', 'Fundos Imobiliários')
-  const treemap_fiis_subcategory = treemap_by(portfolio_assets,"subcategory", "Fundos Imobiliários")
-  const fiis_piechart = piechart_by_ticker(portfolio_assets,"Fundos Imobiliários")
+  const subcategory = assets_by(portfolio_assets,'subcategory', 'Fundos Imobiliários')
+  const total = total_by(portfolio_assets,'subcategory', 'brl', 'Fundos Imobiliários')
+  const treemap_subcategory = treemap_by(portfolio_assets,"subcategory", "Fundos Imobiliários")
+  const piechart = piechart_by_ticker(portfolio_assets,"Fundos Imobiliários")
 
   return (
     <MainLayout>
@@ -39,26 +39,26 @@ const Portfolio = () => {
       <Row>
         <Col lg={4}>
             <SideModules 
-            group_total={fiis_total_brl}  
+            group_total={total}  
             />
         </Col> 
         <Col lg={4}>
             <PieChart 
-            total={fiis_piechart}
+            total={piechart}
             />  
         </Col> 
         <Col lg={4}>
             <PieChart
-            total={fiis_total_brl}
+            total={total}
             />
         </Col> 
         <Col lg={12}>
             <GroupedTables
-            grouped_assets={fiis_subcategory}
+            grouped_assets={subcategory}
             currency="brl"
             />
             <TreeMap
-            portfolio_treemap={treemap_fiis_subcategory}
+            portfolio_treemap={treemap_subcategory}
             />  
         </Col>
       </Row>                   

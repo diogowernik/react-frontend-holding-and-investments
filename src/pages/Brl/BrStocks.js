@@ -9,7 +9,7 @@ import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
 import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
 import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
-import { assets_by, piechart_by_ticker, total_brl_by, treemap_by} from '../../group_functions';
+import { assets_by, piechart_by_ticker, total_by, treemap_by} from '../../group_functions';
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
@@ -27,10 +27,10 @@ const Portfolio = () => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
 
-  const br_stocks_subcategory = assets_by(portfolio_assets,'subcategory', 'Ações Brasileiras')
-  const br_stocks_total_brl = total_brl_by(portfolio_assets,'subcategory', 'Ações Brasileiras')
-  const treemap_br_stocks_subcategory = treemap_by(portfolio_assets,"subcategory", "Ações Brasileiras")
-  const br_stocks_piechart = piechart_by_ticker(portfolio_assets,"Ações Brasileiras")
+  const subcategory = assets_by(portfolio_assets,'subcategory', 'Ações Brasileiras')
+  const total = total_by(portfolio_assets,'subcategory', 'brl','Ações Brasileiras')
+  const treemap_subcategory = treemap_by(portfolio_assets,"subcategory", "Ações Brasileiras")
+  const piechart = piechart_by_ticker(portfolio_assets,"Ações Brasileiras")
 
   return (
     <MainLayout>
@@ -38,26 +38,26 @@ const Portfolio = () => {
       <Row>
         <Col lg={4}>
             <SideModules 
-            group_total={br_stocks_total_brl}  
+            group_total={total}  
             />
         </Col> 
         <Col lg={4}>
             <PieChart 
-            total={br_stocks_piechart}
+            total={piechart}
             />  
         </Col> 
         <Col lg={4}>
             <PieChart
-            total={br_stocks_total_brl}
+            total={total}
             />
         </Col> 
         <Col lg={12}>
             <GroupedTables
-            grouped_assets={br_stocks_subcategory}
+            grouped_assets={subcategory}
             currency="brl"
             />
             <TreeMap
-            portfolio_treemap={treemap_br_stocks_subcategory}
+            portfolio_treemap={treemap_subcategory}
             />  
         </Col>
       </Row>                   

@@ -22,24 +22,6 @@ export function assets_by(portfolio_assets, group_type, subcategory){
     return assets_group
 }
 
-export function total_brl_by(portfolio_assets, group_type, subcategory){
-  const total_by_group_type = portfolio_assets.filter( 
-    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
-    ).reduce((acc,curr)=>{
-    const {total_today_brl} = curr
-    const existing = acc[curr[group_type]] || []
-    return {...acc, [curr[group_type]]:[...existing, {total_today_brl}]}
-    },{})
-    const total_group = Object.entries(total_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-      const {name, data} = curr
-      const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
-      return {...acc, [name]:total_today_brl}
-    },{})
-    const by_group = Object.entries(total_group).map(([name,total_today_brl])=>({name, total_today_brl}))
-    by_group.sort((a, b) => b.total_today_brl - a.total_today_brl)
-    return by_group
-}
-
 export function treemap_by(portfolio_assets, group_type, subcategory){
   const treemap_by_group_type = portfolio_assets.filter( 
     // if group_type is subcategory, filter by subcategory if not, no filter
@@ -116,6 +98,25 @@ export function dividends_total_usd_by(portfolio_dividends, group_type, subcateg
     return total_dividends_by_group_type
 }
 
+
+export function total_brl_by(portfolio_assets, group_type, subcategory){
+  const total_by_group_type = portfolio_assets.filter( 
+    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
+    ).reduce((acc,curr)=>{
+    const {total_today_brl} = curr
+    const existing = acc[curr[group_type]] || []
+    return {...acc, [curr[group_type]]:[...existing, {total_today_brl}]}
+    },{})
+    const total_group = Object.entries(total_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+      const {name, data} = curr
+      const total_today_brl = data.map(({ total_today_brl }) => total_today_brl).reduce((a, e) => a + e, 0)
+      return {...acc, [name]:total_today_brl}
+    },{})
+    const by_group = Object.entries(total_group).map(([name,total_today_brl])=>({name, total_today_brl}))
+    by_group.sort((a, b) => b.total_today_brl - a.total_today_brl)
+    return by_group
+}
+
 export function total_usd_by(portfolio_assets, group_type, subcategory){
   const total_by_group_type = portfolio_assets.filter( 
     data => group_type === "subcategory" ? data.category === `${subcategory}` : data
@@ -133,3 +134,24 @@ export function total_usd_by(portfolio_assets, group_type, subcategory){
     return by_group
 }
 
+export function total_by(portfolio_assets, group_type, currency, subcategory){
+  const total_today_currency = `total_today_${currency}`; 
+
+  const total_by_group_type = portfolio_assets.filter( 
+    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
+    ).reduce((acc,curr)=>{
+      const value = curr[total_today_currency];
+      const existing = acc[curr[group_type]] || [];
+      return {...acc, [curr[group_type]]:[...existing, {value}]};
+    },{});
+
+  const total_group = Object.entries(total_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
+    const {name, data} = curr;
+    const total = data.map(({ value }) => value).reduce((a, e) => a + e, 0);
+    return {...acc, [name]:total};
+  },{});
+
+  const by_group = Object.entries(total_group).map(([name,value])=>({name, [total_today_currency]: value}));
+  by_group.sort((a, b) => b[total_today_currency] - a[total_today_currency]);
+  return by_group;
+}

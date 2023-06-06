@@ -9,7 +9,7 @@ import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
 import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
 import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
-import { assets_by, piechart_by_ticker, total_brl_by, treemap_by} from '../../group_functions';
+import { assets_by, piechart_by_ticker, total_by, treemap_by} from '../../group_functions';
 
 
 const Portfolio = () => {
@@ -29,7 +29,7 @@ const Portfolio = () => {
       }, [onFetchPortfolioAssets]);
 
   const stocks_subcategory = assets_by(portfolio_assets, 'subcategory', 'Stocks')
-  const stocks_total_brl = total_brl_by(portfolio_assets,'subcategory', 'Stocks')
+  const stocks_total = total_by(portfolio_assets,'subcategory', 'brl', 'Stocks')
   const treemap_stocks_subcategory = treemap_by(portfolio_assets, 'subcategory', 'Stocks')
   const stocks_piechart = piechart_by_ticker(portfolio_assets, 'Stocks')
 
@@ -39,7 +39,7 @@ const Portfolio = () => {
       <Row>
         <Col lg={4}>
             <SideModules 
-            group_total={stocks_total_brl}  
+            group_total={stocks_total}  
             />
         </Col> 
         <Col lg={4}>
@@ -49,7 +49,7 @@ const Portfolio = () => {
         </Col> 
         <Col lg={4}>
             <PieChart
-            total={stocks_total_brl}
+            total={stocks_total}
             />
         </Col> 
         <Col lg={12}>
