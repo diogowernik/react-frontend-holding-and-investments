@@ -7,9 +7,9 @@ import { useParams } from 'react-router-dom';
 import GroupedTables from '../../components/tables/MainTables';
 import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
-import SideModules from '../../components/sidemodules/Usd/SidePatrimonial'
-import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
-import { assets_by, piechart_by_ticker, total_usd_by, treemap_by, total_brl_by} from '../../group_functions';
+import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
+import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
+import { assets_by, piechart_by_ticker, total_by, treemap_by} from '../../group_functions';
 
 
 const Portfolio = () => {
@@ -29,8 +29,7 @@ const Portfolio = () => {
       }, [onFetchPortfolioAssets]);
 
   const stocks_subcategory = assets_by(portfolio_assets, 'subcategory', 'Stocks')
-  const stocks_total_usd = total_usd_by(portfolio_assets,'subcategory', 'Stocks')
-  const stocks_total_brl = total_brl_by(portfolio_assets,'subcategory', 'Stocks')
+  const stocks_total = total_by(portfolio_assets,'subcategory', 'usd', 'Stocks')
   const treemap_stocks_subcategory = treemap_by(portfolio_assets, 'subcategory', 'Stocks')
   const stocks_piechart = piechart_by_ticker(portfolio_assets, 'Stocks')
 
@@ -40,7 +39,7 @@ const Portfolio = () => {
       <Row>
         <Col lg={4}>
             <SideModules 
-            group_total={stocks_total_usd}  
+            group_total={stocks_total}  
             />
         </Col> 
         <Col lg={4}>
@@ -50,13 +49,12 @@ const Portfolio = () => {
         </Col> 
         <Col lg={4}>
             <PieChart
-            total={stocks_total_brl}
+            total={stocks_total}
             />
         </Col> 
         <Col lg={12}>
             <GroupedTables
             grouped_assets={stocks_subcategory}
-            currency="usd"
             />
             <TreeMap
             portfolio_treemap={treemap_stocks_subcategory}

@@ -54,7 +54,6 @@ const Portfolio = () => {
           <Col lg={12}>
               <GroupedTables
               grouped_assets={assets}
-              currency="brl"
               />
           </Col>
         </Row>              

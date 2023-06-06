@@ -6,9 +6,9 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import GroupedTables from '../../components/tables/MainTables';
 import TreeMap from '../../components/charts/Treemap';
-import SideModules from '../../components/sidemodules/Usd/SidePatrimonial'
-import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
-import { assets_by, total_usd_by, treemap_by} from '../../group_functions';
+import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
+import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
+import { assets_by, total_by, treemap_by} from '../../group_functions';
 
 const Portfolio = () => {
   const [portfolio_assets, setPortfolioAssets] = useState([]);
@@ -30,9 +30,9 @@ const Portfolio = () => {
 
   // end of Fetchs
 
-  const assets_by_broker = assets_by(portfolio_assets, 'broker')
-  const brokers_total_usd = total_usd_by(portfolio_assets, 'broker')
-  const treemap_brokers = treemap_by(portfolio_assets, 'broker')
+  const assets = assets_by(portfolio_assets, 'broker')
+  const total = total_by(portfolio_assets, 'broker', 'brl')
+  const treemap = treemap_by(portfolio_assets, 'broker')
 
 
 
@@ -43,18 +43,17 @@ const Portfolio = () => {
         <Row>
           <Col lg={4}>
               <SideModules 
-              group_total={brokers_total_usd}
+              group_total={total}
               />
           </Col> 
           <Col lg={8}>
               <TreeMap
-              portfolio_treemap={treemap_brokers}
+              portfolio_treemap={treemap}
               />  
           </Col>
           <Col lg={12}>
               <GroupedTables
-              grouped_assets={assets_by_broker}
-              currency="usd"
+              grouped_assets={assets}
               />
           </Col>
         </Row>              

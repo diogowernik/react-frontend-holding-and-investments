@@ -5,13 +5,13 @@ import { fetchPortfolioAssets} from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import GroupedTables from '../../components/tables/MainTables';
+import MainTable from '../../components/tables/Brl/MainTable';
 import PieChart from '../../components/charts/PieChart';
 import TreeMap from '../../components/charts/Treemap';
-import SideModules from '../../components/sidemodules/Usd/SidePatrimonial'
-import SideDividends from '../../components/sidemodules/Usd/SideDividends';
-import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
-import { assets_by, total_usd_by, treemap_by, total_brl_by} from '../../group_functions';
+import SideModules from '../../components/sidemodules/Brl/SidePatrimonial'
+import SideDividends from '../../components/sidemodules/Brl/SideDividends';
+import PortfolioNav from '../../components/nav/Brl/PortfolioNav';
+import { assets_by, total_by, treemap_by} from '../../group_functions';
 
 
 const Portfolio = () => {
@@ -31,10 +31,9 @@ const Portfolio = () => {
       onFetchPortfolioAssets();
       }, [onFetchPortfolioAssets]);
 
-  const assets_by_category = assets_by(portfolio_assets,'category')
-  const categories_total_usd  = total_usd_by(portfolio_assets,'category')
-  const categories_total_brl  = total_brl_by(portfolio_assets,'category') // piechart, need to change the field to portfolio_percentage.
-  const treemap_categories = treemap_by(portfolio_assets,"category")
+  const assets = assets_by(portfolio_assets,'category')
+  const total  = total_by(portfolio_assets,'category', 'brl')
+  const treemaps = treemap_by(portfolio_assets,"category")
 
   return (
     <MainLayout>
@@ -44,12 +43,12 @@ const Portfolio = () => {
         <Row>
           <Col lg={4}>
               <SideModules 
-              group_total={categories_total_usd}    
+              group_total={total}    
               />
           </Col> 
           <Col lg={5}>
               <PieChart 
-              total={categories_total_brl}
+              total={total}
               />  
           </Col> 
           
@@ -57,12 +56,11 @@ const Portfolio = () => {
               <SideDividends />
           </Col> 
           <Col lg={12}>
-              <GroupedTables
-              grouped_assets={assets_by_category}
-              currency="usd"
+              <MainTable
+              grouped_assets={assets}
               />
               <TreeMap
-              portfolio_treemap={treemap_categories}
+              portfolio_treemap={treemaps}
               /> 
                 
           </Col>

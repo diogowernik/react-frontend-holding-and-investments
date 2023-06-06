@@ -23,7 +23,6 @@ import BrStocksBrl from '../pages/Brl/BrStocks';
 import StocksBrl from '../pages/Brl/Stocks';
 import ReitsBrl from '../pages/Brl/Reits';
 
-import RadarUsd from '../pages/Usd/Radar';
 import DividendsUsd from '../pages/Usd/Dividends';
 import PortfolioUsd from '../pages/Usd/Portfolio';
 import BrokersUsd from '../pages/Usd/Brokers';
@@ -72,10 +71,6 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path='/portfolio/:id/brl'>
             <PortfolioBrl />
-          </PrivateRoute>
-          
-          <PrivateRoute exact path='/radar/usd'>
-            <RadarUsd />
           </PrivateRoute>
           <PrivateRoute exact path='/dividends/:id/usd'>
             <DividendsUsd />

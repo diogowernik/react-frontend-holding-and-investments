@@ -55,7 +55,6 @@ const Portfolio = () => {
         <Col lg={12}>
             <GroupedTables
             grouped_assets={stocks_subcategory}
-            currency="brl"
             />
             <TreeMap
             portfolio_treemap={treemap_stocks_subcategory}
