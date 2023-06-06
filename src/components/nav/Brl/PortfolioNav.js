@@ -5,9 +5,12 @@ const PortfolioNav = () => {
 
   return (
     <>
+
      <PortfolioNavTemplate
         currency="brl"
       />
+
+      
     </>
   )
 };
