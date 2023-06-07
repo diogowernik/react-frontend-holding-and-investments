@@ -1,4 +1,4 @@
-import Portfolio from "./PortfolioBroker";
+import Portfolio from '../PortfolioTemplate';
 
-const Broker = () => <Portfolio groupBy="broker" currency="brl" />;
+const Broker = () => <Portfolio groupBy="broker" currency="brl" layout="twoColumns" />;
 export default Broker;

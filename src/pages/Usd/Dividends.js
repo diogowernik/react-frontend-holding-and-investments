@@ -7,7 +7,7 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import DividendsTables from '../../components/tables/DividendsTables';
 import SideDividends from '../../components/sidemodules/Usd/SideDividends';
-import PortfolioNav from '../../components/nav/Usd/PortfolioNav';
+import PortfolioNav from '../../components/nav/PortfolioNavTemplate';
 import { dividends_by } from '../../group_functions';
 
 
@@ -36,7 +36,9 @@ const Portfolio = () => {
   return (
     <MainLayout>
       <Container fluid>
-          <PortfolioNav/>
+          <PortfolioNav
+            currency="usd"
+          />
           <Row>
             <Col lg={3}> 
                 <SideDividends />

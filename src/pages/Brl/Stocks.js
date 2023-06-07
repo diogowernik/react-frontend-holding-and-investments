@@ -1,4 +1,4 @@
-import AssetTemplate from "./AssetTemplate";
+import Portfolio from '../PortfolioTemplate';
 
-const Stocks = () => <AssetTemplate assetType="Ações Brasileiras" />;
+const Stocks = () => <Portfolio assetType="Stocks" groupBy="subcategory" currency="brl" layout="threeColumns" />;
 export default Stocks;

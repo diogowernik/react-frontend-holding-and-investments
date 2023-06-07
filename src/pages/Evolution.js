@@ -5,6 +5,7 @@ import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
 import { assets_by } from '../group_functions';
+import PortfolioNavTemplate from '../components/nav/PortfolioNavTemplate';
 
 const Radar = () => {
     const [portfolio_evolution, setPortfolioEvolution] = useState([]);
@@ -70,6 +71,7 @@ const Radar = () => {
 
   return (
     <MainLayout>
+    <PortfolioNavTemplate currency="brl" />
       <Container fluid>
         <Row>
             <Col md={12}>

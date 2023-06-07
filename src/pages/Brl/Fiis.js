@@ -1,5 +1,5 @@
-import PortfolioTemplate from './AssetTemplate';
+import Portfolio from '../PortfolioTemplate';
 
-const Fiis = () => <PortfolioTemplate currency="brl" assetType="Fundos Imobiliários" />;
+const Fiis = () => <Portfolio assetType="Fundos Imobiliários" groupBy="subcategory" currency="brl" layout="threeColumns" />;
 export default Fiis;
 
