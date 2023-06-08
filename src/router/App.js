@@ -12,8 +12,6 @@ import Register from '../pages/Register';
 import Portfolios from '../pages/Portfolios';
 import PortfolioEvolution from '../pages/Evolution';
 
-// import PortfolioUsd from '../pages/PortfolioUsd';
-
 import Radar from '../pages/Radar';
 import DividendsBrl from '../pages/Brl/Dividends';
 import CategoryBrl from '../pages/Brl/Category';
@@ -22,6 +20,7 @@ import FiisBrl from '../pages/Brl/Fiis';
 import BrStocksBrl from '../pages/Brl/BrStocks';
 import StocksBrl from '../pages/Brl/Stocks';
 import ReitsBrl from '../pages/Brl/Reits';
+import EvolutionBrl from '../pages/Brl/Evolution';
 
 import DividendsUsd from '../pages/Usd/Dividends';
 import CategoryUsd from '../pages/Usd/Category';
@@ -30,6 +29,7 @@ import FiisUsd from '../pages/Usd/Fiis';
 import BrStocksUsd from '../pages/Usd/BrStocks';
 import StocksUsd from '../pages/Usd/Stocks';
 import ReitsUsd from '../pages/Usd/Reits';
+import EvolutionUsd from '../pages/Usd/Evolution';
 
 
 function App() {
@@ -72,6 +72,10 @@ function App() {
           <PrivateRoute exact path='/portfolio/:id/brl'>
             <CategoryBrl />
           </PrivateRoute>
+          <PrivateRoute exact path='/evolution/:id/brl'>
+            <EvolutionBrl />
+          </PrivateRoute>
+
           <PrivateRoute exact path='/dividends/:id/usd'>
             <DividendsUsd />
           </PrivateRoute>
@@ -92,6 +96,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path='/portfolio/:id/usd'>
             <CategoryUsd />
+          </PrivateRoute>
+          <PrivateRoute exact path='/evolution/:id/usd'>
+            <EvolutionUsd />
           </PrivateRoute>
           
           <PrivateRoute exact path='/portfolios'>

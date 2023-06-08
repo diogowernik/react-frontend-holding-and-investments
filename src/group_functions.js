@@ -1,13 +1,17 @@
 
-export function piechart_by_ticker(portfolio_assets, subcategory){
+export function tickers_piechart(portfolio_assets, subcategory, currency){
+
+  const totalKey = currency === 'brl' ? 'total_today_brl' : 'total_today_usd';
 
   const total_by = portfolio_assets.filter( data => data.category === `${subcategory}`).reduce((acc,curr)=>{
-    const {ticker, total_today_brl} = curr
-    return {...acc, [ticker]:total_today_brl}
+    const {ticker} = curr
+    const total_today = curr[totalKey]
+    return {...acc, [ticker]:total_today}
   }
   ,{})
-  const total_today = Object.entries(total_by).map(([name,total_today_brl])=>({name, total_today_brl})) 
-  total_today.sort((a, b) => b.total_today_brl - a.total_today_brl)
+  
+  const total_today = Object.entries(total_by).map(([name, total]) => ({name, total}));
+  total_today.sort((a, b) => b.total - a.total)
   return total_today
 }
 
@@ -64,7 +68,7 @@ export function dividends_by(portfolio_dividends, group_type, subcategory){
     return dividends_group
 }
 
-export function dividends_total_by(portfolio_dividends, group_type, subcategory){
+export function dividends_total_by(portfolio_dividends, group_type, subcategory, currency){
   const dividends_by_group_type = portfolio_dividends.filter(
     data => group_type === "subcategory" ? data.category === `${subcategory}` : data
     ).reduce((acc,curr)=>{
@@ -73,38 +77,22 @@ export function dividends_total_by(portfolio_dividends, group_type, subcategory)
     },{})
     const total_dividends_by = Object.entries(dividends_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
       const {name, data} = curr
-      const total_dividend_brl = data.map(({ total_dividend_brl }) => total_dividend_brl).reduce((a, e) => a + e, 0)
-      return {...acc, [name]:total_dividend_brl} 
+      const total_dividend = data.map((item) => item[`total_dividend_${currency}`]).reduce((a, e) => a + e, 0)
+      return {...acc, [name]:total_dividend} 
     }
     ,{})
-    const total_dividends_by_group_type = Object.entries(total_dividends_by).map(([name,total_dividend_brl])=>({name, total_dividend_brl}))
+    const total_dividends_by_group_type = Object.entries(total_dividends_by).map(([name,total_dividend])=>({name, [`total_dividend_${currency}`]: total_dividend}))
     return total_dividends_by_group_type
 }
 
-export function dividends_total_usd_by(portfolio_dividends, group_type, subcategory){
-  const dividends_by_group_type = portfolio_dividends.filter(
-    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
-    ).reduce((acc,curr)=>{
-    const existing = acc[curr[group_type]] || []
-    return {...acc, [curr[group_type]]:[...existing, curr]}
-    },{})
-    const total_dividends_by = Object.entries(dividends_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-      const {name, data} = curr
-      const total_dividend_usd = data.map(({ total_dividend_usd }) => total_dividend_usd).reduce((a, e) => a + e, 0)
-      return {...acc, [name]:total_dividend_usd} 
-    }
-    ,{})
-    const total_dividends_by_group_type = Object.entries(total_dividends_by).map(([name,total_dividend_usd])=>({name, total_dividend_usd}))
-    return total_dividends_by_group_type
-}
 
 export function total_by(portfolio_assets, group_type, currency, subcategory){
-  const total_today_currency = `total_today_${currency}`; 
+  const totalKey = `total_today_${currency}`; 
 
   const total_by_group_type = portfolio_assets.filter( 
     data => group_type === "subcategory" ? data.category === `${subcategory}` : data
     ).reduce((acc,curr)=>{
-      const value = curr[total_today_currency];
+      const value = curr[totalKey];
       const existing = acc[curr[group_type]] || [];
       return {...acc, [curr[group_type]]:[...existing, {value}]};
     },{});
@@ -115,7 +103,8 @@ export function total_by(portfolio_assets, group_type, currency, subcategory){
     return {...acc, [name]:total};
   },{});
 
-  const by_group = Object.entries(total_group).map(([name,value])=>({name, [total_today_currency]: value}));
-  by_group.sort((a, b) => b[total_today_currency] - a[total_today_currency]);
+  const by_group = Object.entries(total_group).map(([name,total])=>({name, total}));
+  by_group.sort((a, b) => b.total - a.total);
   return by_group;
 }
+

@@ -44,7 +44,6 @@ class PieChart extends React.Component {
     };
   }
 
-
   componentDidUpdate(prevProps) {
     if (this.props.total !== prevProps.total) {
       this.setState((prevState)=> ({
@@ -56,13 +55,9 @@ class PieChart extends React.Component {
     }    
   }
 
-
   render() {
     return (
         <>
-       
-
-
         <Card  color="gray" className="mb-3">
             <CardHeader className="bg-gray-lighter">
             <h4 className="float-left mt-2">Gráfico</h4>
@@ -73,7 +68,7 @@ class PieChart extends React.Component {
                 >
                   <Chart 
                   options={this.state.options} 
-                  series={this.props.total.map(a=>a.total_today_brl)} 
+                  series={this.props.total.map(a=>a.total)} 
                   type="pie" 
                   height={555} 
                   />

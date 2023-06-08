@@ -21,7 +21,9 @@ const SideDividendsTemplate = ({currency}) => {
       onFetchPortfolioDividends();
       }, [onFetchPortfolioDividends]);
 
-    const total_dividends_by_category = dividends_total_by(portfolio_dividends,"category")
+    // const total_dividends_by_category = dividends_total_by(portfolio_dividends,"category")
+    const total_dividends_by_category = dividends_total_by(portfolio_dividends,"category", null, currency)
+
     
     const dividends_sum = total_dividends_by_category.reduce((acc, dividend) => acc + dividend["total_dividend_"+currency], 0)
     const dividends_order = total_dividends_by_category.sort((a, b) => b["total_dividend_"+currency] - a["total_dividend_"+currency]);
