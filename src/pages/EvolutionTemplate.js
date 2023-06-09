@@ -4,7 +4,7 @@ import { fetchPortfolioEvolution } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams} from 'react-router-dom';
-import { assets_by } from '../group_functions';
+import { filterGroupMap } from '../group_functions';
 import PortfolioNavTemplate from '../components/nav/PortfolioNavTemplate';
 
 const EvolutionTemplate = ({ currency }) => {
@@ -25,7 +25,7 @@ const EvolutionTemplate = ({ currency }) => {
 
     
     
-    const category_evolution = assets_by(portfolio_evolution, "date")
+    const category_evolution = filterGroupMap(portfolio_evolution, "date")
     // order categories data by category
     category_evolution.forEach((category) => {
         category.data.sort((a, b) => {

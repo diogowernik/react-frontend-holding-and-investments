@@ -1,34 +1,33 @@
-
-export function tickers_piechart(portfolio_assets, subcategory, currency){
-
-  const totalKey = currency === 'brl' ? 'total_today_brl' : 'total_today_usd';
-
-  const total_by = portfolio_assets.filter( data => data.category === `${subcategory}`).reduce((acc,curr)=>{
-    const {ticker} = curr
-    const total_today = curr[totalKey]
-    return {...acc, [ticker]:total_today}
-  }
-  ,{})
-  
-  const total_today = Object.entries(total_by).map(([name, total]) => ({name, total}));
-  total_today.sort((a, b) => b.total - a.total)
-  return total_today
+export function groupBy(data, key) {
+  return data.reduce((acc, curr) => {
+    const existing = acc[curr[key]] || [];
+    return { ...acc, [curr[key]]: [...existing, curr] };
+  }, {});
 }
 
-export function assets_by(portfolio_assets, group_type, subcategory){
-  const assets_by_group_type = portfolio_assets.filter(
-    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
-    ).reduce((acc,curr)=>{
-    const existing = acc[curr[group_type]] || []
-    return {...acc, [curr[group_type]]:[...existing, curr]}
-    },{})
-    const assets_group = Object.entries(assets_by_group_type).map(([name,data])=>({name, data}))
-    return assets_group
+export function filterBy(data, key, value) {
+  return data.filter(item => item[key] === value);
+}
+
+export function mapToObject(data) {
+  return Object.entries(data).map(([name, data]) => ({ name, data }));
+}
+
+export function groupMap(data, key) {
+  const grouped = groupBy(data, key);
+  return mapToObject(grouped);
+}
+
+export function filterGroupMap(data, key, value) {
+  const filtered = key === "subcategory"
+    ? filterBy(data, 'category', value)
+    : data;
+  const grouped = groupBy(filtered, key);
+  return mapToObject(grouped);
 }
 
 export function treemap_by(portfolio_assets, group_type, subcategory){
   const treemap_by_group_type = portfolio_assets.filter( 
-    // if group_type is subcategory, filter by subcategory if not, no filter
     data => group_type === "subcategory" ? data.category === `${subcategory}` : data
     ).reduce((acc,curr)=>{
     const { ticker, portfolio_percentage} = curr
@@ -54,57 +53,58 @@ export function treemap_by(portfolio_assets, group_type, subcategory){
       return {name, data: data_array_merged_array}
     })
     return treemap_group_merged
-    // return treemap_group
-}
-
-export function dividends_by(portfolio_dividends, group_type, subcategory){
-  const dividends_by_group_type = portfolio_dividends.filter(
-    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
-    ).reduce((acc,curr)=>{
-    const existing = acc[curr[group_type]] || []
-    return {...acc, [curr[group_type]]:[...existing, curr]}
-    },{})
-    const dividends_group = Object.entries(dividends_by_group_type).map(([name,data])=>({name, data}))
-    return dividends_group
 }
 
 export function dividends_total_by(portfolio_dividends, group_type, subcategory, currency){
-  const dividends_by_group_type = portfolio_dividends.filter(
-    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
-    ).reduce((acc,curr)=>{
-    const existing = acc[curr[group_type]] || []
-    return {...acc, [curr[group_type]]:[...existing, curr]}
-    },{})
-    const total_dividends_by = Object.entries(dividends_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-      const {name, data} = curr
-      const total_dividend = data.map((item) => item[`total_dividend_${currency}`]).reduce((a, e) => a + e, 0)
-      return {...acc, [name]:total_dividend} 
-    }
-    ,{})
-    const total_dividends_by_group_type = Object.entries(total_dividends_by).map(([name,total_dividend])=>({name, [`total_dividend_${currency}`]: total_dividend}))
-    return total_dividends_by_group_type
-}
+  const filtered = group_type === "subcategory"
+    ? filterBy(portfolio_dividends, 'category', subcategory)
+    : portfolio_dividends;
+  const grouped = groupBy(filtered, group_type);
 
+  const total_dividends_by = Object.entries(grouped).reduce((acc, [name, data]) => {
+    const total_dividend = data.map((item) => item[`total_dividend_${currency}`]).reduce((a, e) => a + e, 0)
+    return {...acc, [name]:total_dividend};
+  }, {});
+
+  const total_dividends_by_group_type = Object.entries(total_dividends_by).map(([name,total_dividend])=>({
+    name, 
+    [`total_dividend_${currency}`]: total_dividend
+  }));
+
+  return total_dividends_by_group_type;
+}
 
 export function total_by(portfolio_assets, group_type, currency, subcategory){
   const totalKey = `total_today_${currency}`; 
 
-  const total_by_group_type = portfolio_assets.filter( 
-    data => group_type === "subcategory" ? data.category === `${subcategory}` : data
-    ).reduce((acc,curr)=>{
-      const value = curr[totalKey];
-      const existing = acc[curr[group_type]] || [];
-      return {...acc, [curr[group_type]]:[...existing, {value}]};
-    },{});
+  const filtered = group_type === "subcategory"
+    ? filterBy(portfolio_assets, 'category', subcategory)
+    : portfolio_assets;
+  const grouped = groupBy(filtered, group_type);
 
-  const total_group = Object.entries(total_by_group_type).map(([name,data])=>({name, data})).reduce((acc,curr)=>{
-    const {name, data} = curr;
-    const total = data.map(({ value }) => value).reduce((a, e) => a + e, 0);
-    return {...acc, [name]:total};
-  },{});
+  const total_group = Object.entries(grouped).reduce((acc, [name, data]) => {
+    const total = data.map((item) => item[totalKey]).reduce((a, e) => a + e, 0);
+    return {...acc, [name]: total};
+  }, {});
 
   const by_group = Object.entries(total_group).map(([name,total])=>({name, total}));
   by_group.sort((a, b) => b.total - a.total);
+
   return by_group;
 }
 
+export function tickers_piechart(portfolio_assets, subcategory, currency){
+
+  const totalKey = currency === 'brl' ? 'total_today_brl' : 'total_today_usd';
+
+  const total_by = portfolio_assets.filter( data => data.category === `${subcategory}`).reduce((acc,curr)=>{
+    const {ticker} = curr
+    const total_today = curr[totalKey]
+    return {...acc, [ticker]:total_today}
+  }
+  ,{})
+  
+  const total_today = Object.entries(total_by).map(([name, total]) => ({name, total}));
+  total_today.sort((a, b) => b.total - a.total)
+  return total_today
+}

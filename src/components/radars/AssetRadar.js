@@ -1,4 +1,3 @@
-import { data } from 'jquery';
 import { Row, Col, Nav, Card, Tab} from 'react-bootstrap';
 import Datatable from '../../contexts/Datatable';
 
@@ -14,8 +13,6 @@ const AssetRadar = ({assets_for_radar, assets}) => {
   }
 
   assets = assets.filter(({name})=>(name === 'Stocks' || name === 'REITs'));
-  const assets_data = assets.sort((a,b)=>(a.ranking > b.ranking) ? 1 : -1).slice(0,10);
-  // filter only categories stocks and reits and Açoes Brasileiras and Fundos Imobiliarios
   assets_for_radar = assets_for_radar.filter(({name})=>(name === 'Stocks' || name === 'REITs' || name === 'Ações Brasileiras' || name === 'Fundos Imobiliários'
   ));
 

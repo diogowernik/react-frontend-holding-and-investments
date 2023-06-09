@@ -9,7 +9,7 @@ import GroupedTables from '../components/tables/MainTables';
 import TreeMap from '../components/charts/Treemap';
 import SideModules from '../components/sidemodules/SidePatrimonialTemplate';
 import PortfolioNav from '../components/nav/PortfolioNavTemplate';
-import { assets_by, total_by, treemap_by, tickers_piechart } from '../group_functions';
+import { total_by, treemap_by, tickers_piechart, filterGroupMap } from '../group_functions';
 import PieChart from '../components/charts/PieChart';
 
 const Portfolio = ({assetType, groupBy, currency, layout}) => {
@@ -29,7 +29,7 @@ const Portfolio = ({assetType, groupBy, currency, layout}) => {
       onFetchPortfolioAssets();
   }, [onFetchPortfolioAssets]);
 
-  const assets = assets_by(portfolio_assets, groupBy, assetType);
+  const assets = filterGroupMap(portfolio_assets, groupBy, assetType);
   const total = total_by(portfolio_assets, groupBy, currency, assetType);
   const treemap = treemap_by(portfolio_assets, groupBy, assetType);
   const piechart = tickers_piechart(portfolio_assets, assetType, currency);

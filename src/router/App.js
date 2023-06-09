@@ -10,9 +10,9 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 
 import Portfolios from '../pages/Portfolios';
-import PortfolioEvolution from '../pages/Evolution';
 
 import Radar from '../pages/Radar';
+
 import DividendsBrl from '../pages/Brl/Dividends';
 import CategoryBrl from '../pages/Brl/Category';
 import BrokersBrl from '../pages/Brl/Brokers';
@@ -38,6 +38,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Switch>
+          
           <Route exact path='/'>
             <Home />
           </Route>
@@ -47,10 +48,13 @@ function App() {
           <Route exact path='/register'>
             <Register />
           </Route>
-
           <PrivateRoute exact path='/radar'>
             <Radar />
           </PrivateRoute>
+          <PrivateRoute exact path='/portfolios'>
+            <Portfolios />
+          </PrivateRoute>
+
           <PrivateRoute exact path='/dividends/:id/brl'>
             <DividendsBrl />
           </PrivateRoute>
@@ -100,13 +104,7 @@ function App() {
           <PrivateRoute exact path='/evolution/:id/usd'>
             <EvolutionUsd />
           </PrivateRoute>
-          
-          <PrivateRoute exact path='/portfolios'>
-            <Portfolios />
-          </PrivateRoute>
-          <PrivateRoute exact path='/evolution/:id'>
-            <PortfolioEvolution />
-          </PrivateRoute>
+
         </Switch>
       </BrowserRouter>
       <ToastContainer />

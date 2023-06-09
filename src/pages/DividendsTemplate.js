@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import DividendsTables from '../components/tables/DividendsTables';
 import SideDividends from '../components/sidemodules/SideDividendsTemplate';
 import PortfolioNav from '../components/nav/PortfolioNavTemplate';
-import { dividends_by } from '../group_functions';
+import { filterGroupMap } from '../group_functions';
 
 const Dividends = ({currency}) => {
   const [portfolio_dividends, setPortfolioDividends] = useState([]);
@@ -26,9 +26,9 @@ const Dividends = ({currency}) => {
     onFetchPortfolioDividends();
   }, [onFetchPortfolioDividends]);
 
-  const year_dividends = dividends_by(portfolio_dividends,"pay_date_by_year");
-  const month_dividends = dividends_by(portfolio_dividends,"pay_date_by_month_year");
-  const category_dividends = dividends_by(portfolio_dividends,"category");
+  const year_dividends = filterGroupMap(portfolio_dividends,"pay_date_by_year");
+  const month_dividends = filterGroupMap(portfolio_dividends,"pay_date_by_month_year");
+  const category_dividends = filterGroupMap(portfolio_dividends,"category");
 
   return (
     <MainLayout>
