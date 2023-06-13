@@ -87,21 +87,30 @@ const GroupedTables = ({currency, grouped_assets}) => {
                                 {data.map((asset) => (
                                   asset.shares_amount > 0 && (
                                   <tr key={asset.id}>
-                                    <td>{asset.ticker}</td>
+                                    <td>
+                                      <span className="badge badge-primary">
+                                      {asset.ticker}
+                                      </span>
+                                    </td>
                                     <td>{asset[`asset_price_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
                                     <td>{asset.shares_amount}</td>
                                     <td>{asset[`total_today_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
                                     <td>{asset[`total_cost_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
                                     <td>{asset[`share_average_price_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
                                     <td className="text-primary">{asset[`dividends_profit_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
-                                    <td className={asset[`trade_profit_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`trade_profit_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>            
+                                    <td className={asset[`trade_profit_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`trade_profit_${currency}`]}</td>            
                                     <td>{asset[`av_price_minus_div_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
                                     <td>{asset[`yield_on_cost_${currency}`].toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td className={asset[`total_profit_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`total_profit_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
+                                    <td className={asset[`total_profit_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`total_profit_${currency}`]}</td>
                                     <td className={asset[`profit_without_div_trade_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`profit_without_div_trade_${currency}`].toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td className={asset[`profit_with_div_trade_${currency}`] > -0.001 ? 'text-primary' : 'text-warn'}>{asset[`profit_with_div_trade_${currency}`].toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
                                     <td>{asset.portfolio_percentage.toLocaleString('pt-br', { style: 'percent', minimumFractionDigits: 2 })}</td>
-                                    <td>{asset.broker}</td>
+                                    <td>
+                                      <span className="badge badge-success">
+                                      {asset.broker}
+                                      </span>
+                                      
+                                    </td>
                                     <td style={{display: 'flex',justifyContent: 'space-between',alignItems: 'center',width: '80px'} }>
                                       <Button variant="link" 
                                         // onclick setAsset and show modal

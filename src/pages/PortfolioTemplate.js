@@ -70,20 +70,25 @@ const Portfolio = ({assetType, groupBy, currency, layout}) => {
             </Row>
         ) : (
             <Row>
-              <Col lg={4}>
+              <Col lg={5}>
                   <SideModules 
                   group_total={total} 
                   currency={currency}
                   />
               </Col>
-              <Col lg={8}>
-                  <TreeMap portfolio_treemap={treemap} />
+              <Col lg={7}>
+                  <PieChart
+                    total={total}
+                  />
               </Col>
               <Col lg={12}>
                   <GroupedTables 
                     grouped_assets={assets} 
                     currency={currency}
                   />
+              </Col>
+              <Col lg={12}>
+                  <TreeMap portfolio_treemap={treemap} />
               </Col>
             </Row>
         )}

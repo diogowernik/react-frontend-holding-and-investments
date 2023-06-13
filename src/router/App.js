@@ -12,6 +12,7 @@ import Register from '../pages/Register';
 import Portfolios from '../pages/Portfolios';
 
 import Radar from '../pages/Radar';
+import FiisRadar from '../pages/Radar/Fiis';
 
 import DividendsBrl from '../pages/Brl/Dividends';
 import CategoryBrl from '../pages/Brl/Category';
@@ -50,6 +51,9 @@ function App() {
           </Route>
           <PrivateRoute exact path='/radar'>
             <Radar />
+          </PrivateRoute>
+          <PrivateRoute exact path='/radar/fiis'>
+            <FiisRadar />
           </PrivateRoute>
           <PrivateRoute exact path='/portfolios'>
             <Portfolios />

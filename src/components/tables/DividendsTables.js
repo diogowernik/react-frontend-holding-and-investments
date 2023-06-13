@@ -9,7 +9,8 @@ const DividendsTables = ({currency, year_dividends, month_dividends}) => {
     'ordering': true, 
     'info': false,
     "order": [[ 4, "asc" ]],
-    "pageLength": 25,
+    "pageLength": 50,
+    "dom": '<"float-left"f><"clear">',
   }
 
   return (
@@ -101,8 +102,12 @@ const DividendsTables = ({currency, year_dividends, month_dividends}) => {
                                 {data.map((dividend) => (
                                 <tr key={dividend.id}>
                                   <td>{dividend.ticker}</td>
-                                  <td>{dividend.category}</td>
-                                  <td>{dividend.record_date}</td>
+                                  <td>
+                                    <span className="badge badge-pill badge-primary">{dividend.category}</span>
+                                  </td>
+                                  <td>
+                                    {dividend.record_date}
+                                  </td>
                                   <td>{dividend.pay_date}</td>
                                   <td>{dividend.shares_amount}</td>
                                   <td>{dividend[`average_price_${currency}`]}</td>
