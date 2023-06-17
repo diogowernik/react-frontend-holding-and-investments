@@ -1,14 +1,14 @@
-import React from 'react';
-import CommonTable from '../components/radars/CommonTable';
+// Remove the import of withFetchData here
+const RadarTemplate = ({ data, TableComponent, title }) => {
+  return (
+    <>
+      {/* lots of layout */}
+      <h2>{title}</h2>
+      <TableComponent data={data} />
+      {/* lots of layout */}
+    </>
+  );
+};
 
-
-const RadarTemplate = ({ data }) => {
-      
-    return (
-      <CommonTable
-        data={data}
-      />
-    )
-  }
-
+// Do not use withFetchData here
 export default RadarTemplate;

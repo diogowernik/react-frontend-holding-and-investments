@@ -82,6 +82,15 @@ export function fetchFiis(token) {
 export function fetchBrStocks(token) {
   return request('/api/br_stocks/', { token });
 }
+// reits and stocks
+export function fetchReits(token) {
+  return request('/api/reits/', { token });
+}
+
+export function fetchStocks(token) {
+  return request('/api/stocks/', { token });
+}
+
 
 export function addPortfolio(data, token) {
   return request('/api/portfolios/', { data, token, method: 'POST', message: 'portfolio criado com sucesso' });

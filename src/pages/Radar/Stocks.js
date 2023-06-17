@@ -1,18 +1,15 @@
-import { fetchFiis } from "../../apis";
-import FiisTable from "../../components/radars/FiisTable";
+import { fetchStocks } from "../../apis";
+import StocksTable from "../../components/radars/StocksTable";
 import RadarTemplate from "../RadarTemplate";
 import  withFetchData  from "../../hocs/withFetchData";  // mantenha essa linha
 
-const FiisRadar = ({ data }) => (
+const StocksRadar = ({ data }) => (
   <RadarTemplate
     data={data}
-    TableComponent={FiisTable}
+    TableComponent={StocksTable}
     title="Radar"
   />
 );
 
 // Use withFetchData here as you were doing
-export default withFetchData(FiisRadar, fetchFiis);
-
-
-
+export default withFetchData(StocksRadar, fetchStocks);

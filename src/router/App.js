@@ -13,6 +13,10 @@ import Portfolios from '../pages/Portfolios';
 
 import Radar from '../pages/Radar';
 import FiisRadar from '../pages/Radar/Fiis';
+import BrStocksRadar from '../pages/Radar/BrStocks';
+// reits and stocks
+import ReitsRadar from '../pages/Radar/Reits';
+import StocksRadar from '../pages/Radar/Stocks';
 
 import DividendsBrl from '../pages/Brl/Dividends';
 import CategoryBrl from '../pages/Brl/Category';
@@ -55,6 +59,16 @@ function App() {
           <PrivateRoute exact path='/radar/fiis'>
             <FiisRadar />
           </PrivateRoute>
+          <PrivateRoute exact path='/radar/br_stocks'>
+            <BrStocksRadar />
+          </PrivateRoute>
+          <PrivateRoute exact path='/radar/reits'>
+            <ReitsRadar />
+          </PrivateRoute>
+          <PrivateRoute exact path='/radar/stocks'>
+            <StocksRadar />
+          </PrivateRoute>
+
           <PrivateRoute exact path='/portfolios'>
             <Portfolios />
           </PrivateRoute>
