@@ -31,9 +31,14 @@ const BrStocksTable = ({data}) => {
                       <tr className='text-center'>  
                         <th>Ranking</th>                            
                         <th>Ticker</th>
-                        <th>BRL</th>
+                        <th>% ideal</th>
                         <th>USD</th>
+                        <th>DER</th>
+                        <th>P/FFO</th>
+                        <th>EY</th>
+                        <th>ROIC</th>
                         <th>Yield 12m</th>
+                        <th>FFo Yield</th>
                         <th>% topo</th>
                         <th>% fundo</th>
                         <th>Setor</th>
@@ -44,9 +49,14 @@ const BrStocksTable = ({data}) => {
                         <tr className='text-center' key={data.id}>
                           <td>{data.ranking}</td>
                           <td>{data.ticker}</td>
-                          <td>{data.price_brl}</td>
+                          <td>{data.ideal_percentage}</td>
                           <td>{data.price_usd}</td>
-                          <td>{data.twelve_m_yield}</td>
+                          <td>{data.der.toFixed(2)}</td>
+                          <td>{data.p_ffo.toFixed(2)}</td>
+                          <td>{(data.earnings_yield * 100).toFixed(2)}</td>
+                          <td>{(data.roic * 100).toFixed(2)}</td>
+                          <td>{data.twelve_m_yield.toFixed(2)}</td>
+                          <th>{data.ffo_yield.toFixed(2)}</th>
                           <td>{data.percentage_top_52w}</td>
                           <td
                             style={{backgroundColor: data.percentage_bottom_52w < 10 ? '#d1ecf1' : ''}}

@@ -56,16 +56,16 @@ function App() {
           <PrivateRoute exact path='/radar'>
             <Radar />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/fiis'>
+          <PrivateRoute exact path='/radar/:id/fiis'>
             <FiisRadar />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/br_stocks'>
+          <PrivateRoute exact path='/radar/:id/br_stocks'>
             <BrStocksRadar />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/reits'>
+          <PrivateRoute exact path='/radar/:id/reits'>
             <ReitsRadar />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/stocks'>
+          <PrivateRoute exact path='/radar/:id/stocks'>
             <StocksRadar />
           </PrivateRoute>
 

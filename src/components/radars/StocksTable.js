@@ -33,6 +33,10 @@ const BrStocksTable = ({data}) => {
                         <th>Ticker</th>
                         <th>BRL</th>
                         <th>USD</th>
+                        <th>DER</th>
+                        <th>P/FFO</th>
+                        <th>EY</th>
+                        <th>ROIC</th>
                         <th>Yield 12m</th>
                         <th>% topo</th>
                         <th>% fundo</th>
@@ -46,6 +50,10 @@ const BrStocksTable = ({data}) => {
                           <td>{data.ticker}</td>
                           <td>{data.price_brl}</td>
                           <td>{data.price_usd}</td>
+                          <td>{data.der}</td>
+                          <td>{data.p_ffo}</td>
+                          <td>{data.earnings_yield}</td>
+                          <td>{data.roic}</td>
                           <td>{data.twelve_m_yield}</td>
                           <td>{data.percentage_top_52w}</td>
                           <td

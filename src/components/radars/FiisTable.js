@@ -31,17 +31,18 @@ const FiisTable = ({data}) => {
                       <tr className='text-center'>  
                         <th>Ranking</th>                            
                         <th>Ticker</th>
+                        <th>% Ideal</th>
                         <th>BRL</th>
-                        <th>USD</th>
                         <th>Yield 12m</th>
                         <th>FFo Yield</th>
                         <th>Cap Rate</th>
                         <th>Vacancy</th>
-                        <th>Price m2</th>
-                        <th>Rent m2</th>
+                        <th>Alavanc.</th>
+                        <th>% Alavac</th>
                         <th>Market Cap</th>
                         <th>liquidity</th>
                         <th>p/vpa</th>
+                        <th>ativos</th>
                         <th>% topo</th>
                         <th>% fundo</th>
                         <th>Setor</th>
@@ -52,17 +53,18 @@ const FiisTable = ({data}) => {
                         <tr className='text-center' key={data.id}>
                           <td>{data.ranking}</td>
                           <td>{data.ticker}</td>
+                          <td>{data.ideal_percentage}</td>
                           <td>{data.price_brl}</td>
-                          <td>{data.price_usd}</td>
                           <td>{data.twelve_m_yield}</td>
                           <td>{data.ffo_yield}</td>
                           <td>{data.cap_rate}</td>
                           <td>{data.vacancy}</td>
-                          <td>{data.price_m2}</td>
-                          <td>{data.rent_m2}</td>
+                          <td>{data.is_leveraged}</td>
+                          <td>{data.leverage_percentage}</td>
                           <td>{data.market_cap}</td>
                           <td>{data.liquidity}</td>
                           <td>{data.p_vpa}</td>
+                          <th>{data.assets}</th>
                           <td>{data.percentage_top_52w}</td>
                           <td
                             style={{backgroundColor: data.percentage_bottom_52w < 10 ? '#d1ecf1' : ''}}
