@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { total_by } from '../../group_functions';
 
 
+
 const DistributionCalculator = () => {
 
     const [portfolio_assets, setPortfolioAssets] = useState([]);
@@ -41,16 +42,16 @@ const DistributionCalculator = () => {
     const ideal_asset_percentage = radar_true.filter(asset => asset.ideal_percentage > 0);
     console.log(ideal_asset_percentage);
 
-    const desired_category = {
-        "Stocks": 18,
-        "Ações Brasileiras": 18,
-        "REITs": 18,
-        "Propriedades": 18,
-        "Fundos Imobiliários": 18,
-        "Criptomoedas": 1,
-        "Caixa": 4.5,
-        "Caixa Internacional": 4.5
-    };
+    const desired_category = [
+        { category: 'Stocks', ideal_percentage: 18 },
+        { category: 'Ações Brasileiras', ideal_percentage: 18 },
+        { category: 'REITs', ideal_percentage: 18 },
+        { category: 'Propriedades', ideal_percentage: 18 },
+        { category: 'Fundos Imobiliários', ideal_percentage: 18 },
+        { category: 'Criptomoedas', ideal_percentage: 1 },
+        { category: 'Caixa', ideal_percentage: 4.5 },
+        { category: 'Caixa Internacional', ideal_percentage: 4.5 }
+    ]
 
     const totalInvestment = total.reduce((sum, category) => sum + category.total, 0);
 
@@ -60,14 +61,14 @@ const DistributionCalculator = () => {
         const resultados = [];
         
         // calcular aportes para cada categoria
-        for (const category of Object.keys(desired_category)) {
-            const idealCategoryTotal = aporte * desired_category[category] / 100;
-            const assets = ideal_asset_percentage.filter(asset => asset.category === category);
-    
+        for (const category of desired_category) {
+            const idealCategoryTotal = aporte * category.ideal_percentage ;
+            const assets = ideal_asset_percentage.filter(asset => asset.category === category.category);
+        
             for (const asset of assets) {
                 const idealAssetTotal = idealCategoryTotal * asset.ideal_percentage / 100;
-                const cotas = Math.floor(idealAssetTotal / asset.price_brl); // corrigido aqui
-    
+                const cotas = Math.floor(idealAssetTotal / asset.price_brl); 
+        
                 if (cotas > 0) {
                     resultados.push({
                         ticker: asset.ticker,
@@ -79,6 +80,12 @@ const DistributionCalculator = () => {
     
         setResultados(resultados);
     };
+
+        // Determine o número máximo de ativos em qualquer categoria
+    const maxAssets = Math.max(...desired_category.map(category => {
+        const relevant_assets = ideal_asset_percentage.filter(asset => asset.category === category.category);
+        return relevant_assets.length;
+    }));
     
 
 
@@ -91,7 +98,7 @@ const DistributionCalculator = () => {
                     <form onSubmit={handleSubmit}>
                         <label>
                             Valor do aporte:
-                            <input type="number" value={aporte} onChange={e => setAporte(e.target.value)} />
+                            <input type="number" value={aporte} onChange={e => setAporte(parseFloat(e.target.value))} />
                         </label>
                         <input type="submit" value="Calcular" />
                     </form>
@@ -101,37 +108,50 @@ const DistributionCalculator = () => {
                 <Col lg={12}>
                     <h4>Resultados</h4>
                     {resultados.map(({ ticker, cotas }) => (
-                        <p key={ticker}>{ticker} - {cotas} cotas</p>
+                        <p key={ticker}>{ticker} | {cotas} cotas</p>
                     ))}
                 </Col>
             </Row>
-            <Row>
-                {/* <Col lg={3}>
-                    <h4>Porcentagem ideal por categoria</h4>
-                    {Object.keys(desired_category).map(category => (
-                        <p key={category}>{category} | {desired_category[category]} %</p>
-                    ))}
-                </Col>
-                <Col lg={3}>
-                    <h4>Porcentagens ideais por ativos</h4>
-                    {ideal_asset_percentage.map(asset => (
-                        <p key={asset.id}>{asset.ticker} | {asset.category} | {asset.ideal_percentage.toFixed(2)} %</p>
-                    ))}
-                </Col>
-                <Col lg={3}>
-                    <h4>Porcentagem atual por categoria</h4>
-                    {total.map(category => (
-                        <p key={category.category}>{category.name} | {(category.total / totalInvestment * 100).toFixed(2)} %</p>
-                    ))}
-                </Col>
-                <Col lg={3}>
-                    <h4>Porcentagens atuais por ativos</h4>
-                    {portfolio_assets.map(asset => (
-                        <p key={asset.id}>{asset.ticker} | {asset.category} | {(asset.total_today_brl / totalInvestment * 100).toFixed(2)} %</p>
 
-                    ))}
-                </Col> */}
-            </Row>
+
+    <table className="table table-striped table-bordered">
+        <thead>
+            <tr>
+                {desired_category.map((category, index) => (
+                    <th key={index}>{category.category} | {category.ideal_percentage} %</th>
+                ))}
+            </tr>
+        </thead>
+        <tbody>
+            {Array.from({ length: maxAssets }, (_, i) => i).map(row => (
+                <tr key={row}>
+                    {desired_category.map((category, index) => {
+                        let relevant_assets = ideal_asset_percentage.filter(asset => asset.category === category.category);
+                        // Classificar os ativos pela porcentagem desejada
+                        relevant_assets = [...relevant_assets].sort((a, b) => (b.ideal_percentage * category.ideal_percentage / 100) - (a.ideal_percentage * category.ideal_percentage / 100));
+                        const asset = relevant_assets[row];
+                        if (asset) {
+                            const portfolio_asset = portfolio_assets.find(pa => pa.ticker === asset.ticker);
+                            return (
+                                <td key={index}>
+                                    <div key={asset.id}>
+                                        <p>{asset.ticker}
+                                            <ul>
+                                                <li>% desejada: {(asset.ideal_percentage * category.ideal_percentage / 100).toFixed(2)} %</li>
+                                                <li>% atual: {portfolio_asset ? (portfolio_asset.total_today_brl / totalInvestment * 100).toFixed(2) : 0.00} %</li>
+                                            </ul>
+                                        </p>
+                                    </div>
+                                </td>
+                            );
+                        }
+                        return <td key={index} />; // Retorna uma célula vazia se não houver ativo para essa linha
+                    })}
+                </tr>
+            ))}
+        </tbody>
+    </table>
+
         </>
     )
 };
