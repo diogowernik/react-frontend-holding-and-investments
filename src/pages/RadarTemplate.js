@@ -1,39 +1,37 @@
-import { Card, Nav, Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import React from "react";
-import { useHistory } from "react-router-dom";
-import DistributionCalculator from "../components/radars/DistributionCalculator";
+// import { useHistory } from "react-router-dom";
+import RadarNavTemplate from "../components/nav/RadarNavTemplate";
+import PortfolioNavTemplate from "../components/nav/PortfolioNavTemplate"
+import MainLayout from "../layouts/MainLayout"
+// import { useParams } from "react-router-dom";
 
 
 // Remove the import of withFetchData here
 const RadarTemplate = ({ data, TableComponent, title }) => {
-  const history = useHistory();
+  // const history = useHistory();
+  // const params = useParams();
+
   return (
     <>
-      <Col>
-        <Card>
-          <Nav variant="pills" className="flex-row">
-            <Nav.Item>
-              <Nav.Link onClick={() => history.push(`/radar/fiis`)}>Fiis</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link onClick={() => history.push(`/radar/reits`)}>Reits</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link onClick={() => history.push(`/radar/stocks`)}>Stocks</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link onClick={() => history.push(`/radar/br_stocks`)}>Ações Br</Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Card>
-        <Card>
-          <Card.Header>
-              <DistributionCalculator/>
-          </Card.Header>
-        </Card>
+    <MainLayout>
+      <PortfolioNavTemplate
+       currency={"brl"}
+      />
+      <Row>
+        <Col lg={2}>
+          <RadarNavTemplate
+            currency={"brl"}
+          />
+        </Col>
+        <Col lg={10}>
+          <TableComponent data={data} />
+        </Col>
 
-        <TableComponent data={data} />
-      </Col>
+      </Row>
+
+        
+    </MainLayout>
       
     </>
   );

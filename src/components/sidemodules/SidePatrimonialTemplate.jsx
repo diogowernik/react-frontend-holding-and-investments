@@ -14,9 +14,7 @@ const SideModules = ({ group_total, currency }) => {
     const locale = currency === 'brl' ? 'pt-BR' : 'en-US';
     const formatCurrency = currency === 'brl' ? 'BRL' : 'USD';
 
-    // const group_total_order = group_total.sort((a, b) => b[totalKey] - a[totalKey]);
-    // const total = group_total_order.reduce((acc, curr) => acc + curr[totalKey], 0);
-    const group_total_order = group_total.sort((a, b) => b.total - a.total);
+    const group_total_order = group_total.filter((group) => group[totalKey] !== 0).sort((a, b) => b[totalKey] - a[totalKey]);
     const total = group_total_order.reduce((acc, curr) => acc + curr.total, 0);
 
 

@@ -5,14 +5,14 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { total_by } from '../../group_functions';
 
-
-
 const DistributionCalculator = () => {
 
     const [portfolio_assets, setPortfolioAssets] = useState([]);
     const [assets_radar, setAssetsRadar] = useState([]);
     const [aporte, setAporte] = useState(0);
     const [resultados, setResultados] = useState([]);
+    const [remainingAporte, setRemainingAporte] = useState(0);
+
 
     const auth = useContext(AuthContext);
     const params = useParams();
@@ -38,10 +38,6 @@ const DistributionCalculator = () => {
   
     const total = total_by(portfolio_assets, "category", "brl");
 
-    const radar_true = assets_radar.filter(asset => asset.is_radar === true);
-    const ideal_asset_percentage = radar_true.filter(asset => asset.ideal_percentage > 0);
-    console.log(ideal_asset_percentage);
-
     const desired_category = [
         { category: 'Stocks', ideal_percentage: 18 },
         { category: 'Ações Brasileiras', ideal_percentage: 18 },
@@ -53,33 +49,66 @@ const DistributionCalculator = () => {
         { category: 'Caixa Internacional', ideal_percentage: 4.5 }
     ]
 
+    const radar_true = assets_radar.filter(asset => asset.is_radar === true);
+    const ideal_asset_percentage = radar_true.filter(asset => asset.ideal_percentage > 0);
+    // const new_ideal_percentage = ideal_percentage.map(asset => {
+    //     return {
+    //         ...asset,
+    //         ideal_percentage: asset.ideal_percentage / 4 
+    //     }
+    // });
+    console.log(ideal_asset_percentage);
+
+
+
     const totalInvestment = total.reduce((sum, category) => sum + category.total, 0);
 
     const handleSubmit = event => {
         event.preventDefault();
+    
+        const maxInvestmentPerAsset = 1000; // Define the maximum investment per asset
+
+        // Sort the assets in decreasing order of ideal percentage
+        ideal_asset_percentage.sort((a, b) => b.ideal_percentage - a.ideal_percentage);
         
-        const resultados = [];
         
-        // calcular aportes para cada categoria
-        for (const category of desired_category) {
-            const idealCategoryTotal = aporte * category.ideal_percentage ;
-            const assets = ideal_asset_percentage.filter(asset => asset.category === category.category);
+        let remainingAporte = aporte;
+        let resultados = [];
         
-            for (const asset of assets) {
-                const idealAssetTotal = idealCategoryTotal * asset.ideal_percentage / 100;
-                const cotas = Math.floor(idealAssetTotal / asset.price_brl); 
+        for (const asset of ideal_asset_percentage) {
+            if (remainingAporte <= 0) {
+                break; // Exit the loop when the remainingAporte is zero or negative
+            }
         
-                if (cotas > 0) {
-                    resultados.push({
-                        ticker: asset.ticker,
-                        cotas
-                    });
-                }
+            let moneyToInvestInAsset = Math.min(maxInvestmentPerAsset, remainingAporte);
+            let cotas = Math.floor(moneyToInvestInAsset / asset.price_brl);
+            let totalInvestedInAsset = cotas * asset.price_brl;
+        
+            // Make sure we can buy at least one share
+            if (cotas > 0) {
+                remainingAporte -= totalInvestedInAsset;
+                
+                resultados.push({
+                    cotas,
+                    ticker: asset.ticker,
+                    price_brl: asset.price_brl,
+                    total_invested: totalInvestedInAsset,
+                    ideal_percentage: asset.ideal_percentage
+                });
             }
         }
-    
+        
+        if (remainingAporte > 0) {
+            setRemainingAporte(remainingAporte);
+        }
+        
+
+
         setResultados(resultados);
     };
+    
+    
+
 
         // Determine o número máximo de ativos em qualquer categoria
     const maxAssets = Math.max(...desired_category.map(category => {
@@ -92,24 +121,28 @@ const DistributionCalculator = () => {
     return (
         <>
             <Row>
-                <Col lg={12}>
+                <Col lg={6}>
                     <h1>Calculadora de Distribuição</h1>
                     <p>Calculadora de distribuição de ativos para a carteira {params.id}</p>
                     <form onSubmit={handleSubmit}>
                         <label>
                             Valor do aporte:
-                            <input type="number" value={aporte} onChange={e => setAporte(parseFloat(e.target.value))} />
+                            <input type="number" value={isNaN(aporte) ? "" : aporte} onChange={e => setAporte(parseFloat(e.target.value))} />
+
                         </label>
                         <input type="submit" value="Calcular" />
                     </form>
                 </Col>
-            </Row>
-            <Row>
-                <Col lg={12}>
+            
+                <Col lg={6}>
                     <h4>Resultados</h4>
-                    {resultados.map(({ ticker, cotas }) => (
-                        <p key={ticker}>{ticker} | {cotas} cotas</p>
+                    {resultados.map(({ ticker, cotas, category, price_brl, ideal_percentage }) => (
+                        <p key={ticker}>{ticker} | {cotas} cotas | {category} | {price_brl} | total: {cotas * price_brl} | {ideal_percentage} %</p>
                     ))}
+                    {/* show only if remainingAporte > 0 */}
+                    {remainingAporte > 0 && (
+                        <p>Sobrou {remainingAporte.toFixed(2)} reais do aporte inicial.</p>
+                    )}
                 </Col>
             </Row>
 
@@ -135,12 +168,16 @@ const DistributionCalculator = () => {
                             return (
                                 <td key={index}>
                                     <div key={asset.id}>
-                                        <p>{asset.ticker}
-                                            <ul>
-                                                <li>% desejada: {(asset.ideal_percentage * category.ideal_percentage / 100).toFixed(2)} %</li>
-                                                <li>% atual: {portfolio_asset ? (portfolio_asset.total_today_brl / totalInvestment * 100).toFixed(2) : 0.00} %</li>
-                                            </ul>
-                                        </p>
+                                        <div>{asset.ticker}
+                                        <br/>
+                                        {(asset.ideal_percentage * category.ideal_percentage / 100).toFixed(2)} % = 
+                                        {'\u00A0'}
+                                        {(asset.ideal_percentage * category.ideal_percentage / 100 * totalInvestment / 100).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                        <br/>
+                                            {portfolio_asset ? (portfolio_asset.total_today_brl / totalInvestment * 100).toFixed(2) : 0.00} % = 
+                                            {'\u00A0'}
+                                            {portfolio_asset ? portfolio_asset.total_today_brl.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : 0.00} 
+                                        </div>
                                     </div>
                                 </td>
                             );

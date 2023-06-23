@@ -27,6 +27,9 @@ const PortfolioNavTemplate = ({currency}) => {
                     <Nav.Item>
                         <Nav.Link onClick={() => history.push(`/evolution/${params.id}/${currency}`)}>Evolução</Nav.Link>
                     </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link onClick={() => history.push(`/portfolio/${params.id}/radars`)}>Radars</Nav.Link>
+                    </Nav.Item>
                   </Nav>
                   </Col>
                   <Col lg={5}>

@@ -11,10 +11,12 @@ import Register from '../pages/Register';
 
 import Portfolios from '../pages/Portfolios';
 
-import Radar from '../pages/Radar';
+import Radars from '../pages/Radars';
+import RadarHome from '../pages/Radar/Home';
+
+
 import FiisRadar from '../pages/Radar/Fiis';
 import BrStocksRadar from '../pages/Radar/BrStocks';
-// reits and stocks
 import ReitsRadar from '../pages/Radar/Reits';
 import StocksRadar from '../pages/Radar/Stocks';
 
@@ -53,8 +55,11 @@ function App() {
           <Route exact path='/register'>
             <Register />
           </Route>
-          <PrivateRoute exact path='/radar'>
-            <Radar />
+          <PrivateRoute exact path='/portfolio/:id/radars'>
+            <Radars />
+          </PrivateRoute>
+          <PrivateRoute exact path='/radar/:id'>
+            <RadarHome />
           </PrivateRoute>
           <PrivateRoute exact path='/radar/:id/fiis'>
             <FiisRadar />
