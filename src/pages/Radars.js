@@ -21,6 +21,9 @@ const Radar = () => {
     useEffect(() => {
     onFetchPortfolioRadars();
     }, [onFetchPortfolioRadars]);
+
+  console.log(radars);
+  console.log(params);
   
   return (
     <MainLayout>
@@ -42,7 +45,7 @@ const Radar = () => {
               <Card>
                 <Card.Body>
                   <h6 className="m-3">
-                    <a href={`/radar/${radar.id}`}>{radar.name}</a>
+                    <a href={`/portfolio/${params.id}/radar/${radar.radar_id}`}>{radar.name} | {radar.portfolio}</a>
                   </h6>
                 </Card.Body>
               </Card>

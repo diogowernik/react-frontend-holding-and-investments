@@ -19,6 +19,8 @@ import FiisRadar from '../pages/Radar/Fiis';
 import BrStocksRadar from '../pages/Radar/BrStocks';
 import ReitsRadar from '../pages/Radar/Reits';
 import StocksRadar from '../pages/Radar/Stocks';
+import Distribution from '../pages/Radar/Distribution';
+import DistributionPanel from '../pages/Radar/DistributionPanel'; 
 
 import DividendsBrl from '../pages/Brl/Dividends';
 import CategoryBrl from '../pages/Brl/Category';
@@ -58,20 +60,26 @@ function App() {
           <PrivateRoute exact path='/portfolio/:id/radars'>
             <Radars />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/:id'>
+          <PrivateRoute exact path='/portfolio/:id/radar/:radar_id'>
             <RadarHome />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/:id/fiis'>
+          <PrivateRoute exact path='/portfolio/:id/radar/:radar_id/fiis'>
             <FiisRadar />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/:id/br_stocks'>
+          <PrivateRoute exact path='/portfolio/:id/radar/:radar_id/br_stocks'>
             <BrStocksRadar />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/:id/reits'>
+          <PrivateRoute exact path='/portfolio/:id/radar/:radar_id/reits'>
             <ReitsRadar />
           </PrivateRoute>
-          <PrivateRoute exact path='/radar/:id/stocks'>
+          <PrivateRoute exact path='/portfolio/:id/radar/:radar_id/distribution'>
+            <Distribution />
+          </PrivateRoute>
+          <PrivateRoute exact path='/portfolio/:id/radar/:radar_id/stocks'>
             <StocksRadar />
+          </PrivateRoute>
+          <PrivateRoute exact path='/portfolio/:id/radar/:radar_id/distribution_panel'>
+            <DistributionPanel />
           </PrivateRoute>
 
           <PrivateRoute exact path='/portfolios'>

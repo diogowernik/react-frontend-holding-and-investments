@@ -131,11 +131,11 @@ export function fetchPortfolioRadars(id, token) {
 export function fetchRadar(id, token) { 
   return request(`/api/radars/${id}`, { token });
 }
-export function fetchRadarCategories(id, token) {
-  return request(`/api/radars/${id}/categories`, { token });
+export function fetchRadarCategories(id, radar_id, token) {
+  return request(`/api/radars/${radar_id}/categories`, { token });
 }
-export function fetchRadarAssets(id, token) {
-  return request(`/api/radars/${id}/assets`, { token });
+export function fetchRadarAssets(id, radar_id, token) {
+  return request(`/api/radars/${radar_id}/assets`, { token });
 }
 
 // fetchPortfolioDividends

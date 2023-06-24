@@ -2,9 +2,11 @@ import { Nav, Card } from 'react-bootstrap';
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-const PortfolioNavTemplate = ({currency}) => {
+const RadarNavTemplate = ({currency}) => {
   const params = useParams();
   const history = useHistory();
+
+  console.log(params);
 
   return (
     <>
@@ -12,10 +14,11 @@ const PortfolioNavTemplate = ({currency}) => {
         <Card.Header>Radar Menu</Card.Header>
         <Card.Body>
           <Nav defaultActiveKey="/home" className="flex-column">
-            <Nav.Link eventKey="link-1" onClick={() => history.push(`/radar/${params.id}/fiis`)}>Fiis</Nav.Link>
-            <Nav.Link eventKey="link-2" onClick={() => history.push(`/radar/${params.id}/reits`)}>Reits</Nav.Link>
-            <Nav.Link eventKey="link-3" onClick={() => history.push(`/radar/${params.id}/stocks`)}>Stocks</Nav.Link>
-            <Nav.Link eventKey="link-4" onClick={() => history.push(`/radar/${params.id}/br_stocks`)}>Ações Br</Nav.Link>
+            <Nav.Link eventKey="link-1" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/fiis`)}>Fiis</Nav.Link>
+            <Nav.Link eventKey="link-2" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/reits`)}>Reits</Nav.Link>
+            <Nav.Link eventKey="link-3" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/stocks`)}>Stocks</Nav.Link>
+            <Nav.Link eventKey="link-4" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/br_stocks`)}>Ações Br</Nav.Link>
+            <Nav.Link eventKey="link-5" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/distribution_panel`)}>Distribuição</Nav.Link>
           </Nav>
         </Card.Body>
       </Card>
@@ -23,4 +26,4 @@ const PortfolioNavTemplate = ({currency}) => {
   );
 };
 
-export default PortfolioNavTemplate;
+export default RadarNavTemplate;
