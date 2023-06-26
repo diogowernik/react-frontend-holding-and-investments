@@ -31,7 +31,6 @@ const FiisTable = ({data}) => {
                       <tr className='text-center'>  
                         <th>Ranking</th>                            
                         <th>Ticker</th>
-                        <th>% Ideal</th>
                         <th>BRL</th>
                         <th>Yield 12m</th>
                         <th>FFo Yield</th>
@@ -53,7 +52,6 @@ const FiisTable = ({data}) => {
                         <tr className='text-center' key={data.id}>
                           <td>{data.ranking}</td>
                           <td>{data.ticker}</td>
-                          <td>{data.ideal_percentage}</td>
                           <td>{data.price_brl}</td>
                           <td>{data.twelve_m_yield}</td>
                           <td>{data.ffo_yield}</td>

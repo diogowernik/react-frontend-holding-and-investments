@@ -124,8 +124,8 @@ export function fetchPortfolioAssets(id, token) {
 }
 
 export function fetchPortfolioRadars(id, token) {
-  // return request(`/api/portfolios/${id}/radars`, { token });
-  return request(`/api/portfolios/2/radars`, { token });
+  return request(`/api/portfolios/${id}/radars`, { token });
+  // return request(`/api/portfolios/2/radars`, { token });
 }
 
 export function fetchRadar(id, token) { 

@@ -18,7 +18,8 @@ const RadarNavTemplate = ({currency}) => {
             <Nav.Link eventKey="link-2" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/reits`)}>Reits</Nav.Link>
             <Nav.Link eventKey="link-3" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/stocks`)}>Stocks</Nav.Link>
             <Nav.Link eventKey="link-4" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/br_stocks`)}>Ações Br</Nav.Link>
-            <Nav.Link eventKey="link-5" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/distribution_panel`)}>Distribuição</Nav.Link>
+            <Nav.Link eventKey="link-5" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/distribution_panel`)}>Painel Distribuição</Nav.Link>
+            <Nav.Link eventKey="link-5" onClick={() => history.push(`/portfolio/${params.id}/radar/${params.radar_id}/distribution_calculator`)}>Calculadora Distribuição</Nav.Link>
           </Nav>
         </Card.Body>
       </Card>

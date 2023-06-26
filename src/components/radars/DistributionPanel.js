@@ -32,7 +32,7 @@ const AssetCard = ({ asset }) => {
                 <br/>
                 <strong>Porcentagem atual:</strong> {(asset.portfolio_investment_percentage_on_portfolio * 100).toFixed(2)}%
                 <br/>
-                <strong>Falta:</strong> 
+                <strong>Falta para completar:</strong> {'\u00A0'}
                 {(
                     asset.delta_ideal_actual_percentage_on_portfolio *
                     asset.portfolio_total_value
@@ -40,7 +40,31 @@ const AssetCard = ({ asset }) => {
                     style: "currency",
                     currency: "BRL",
                 })}
+                <br/>
+                <strong>Cota em reais:</strong> {'\u00A0'}
+                {asset.price_brl.toLocaleString(
+                    "pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                })}
+                <br/>
+                <strong>Cota em dólares:</strong> {'\u00A0'}
+                {asset.price_usd.toLocaleString(
+                    "pt-BR", {
+                    style: "currency",
+                    currency: "USD",
+                })}
+                <br/>
+                {/* falta para completar x cotas  arredondar para cima*/}
+                Faltam: {'\u00A0'}
+                <strong>{Math.ceil((asset.delta_ideal_actual_percentage_on_portfolio *
+                asset.portfolio_total_value) /
+                asset.price_brl).toFixed(0)} cotas </strong> para completar
                 </Card.Body>
+                
+                
+                
+
             </Collapse>
             <Card.Footer style={{backgroundColor: "white"}}>
             <Row>

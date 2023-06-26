@@ -31,7 +31,6 @@ const BrStocksTable = ({data}) => {
                       <tr className='text-center'>  
                       <th>Ranking</th>                            
                         <th>Ticker</th>
-                        <th>% ideal</th>
                         <th>USD</th>
                         <th>DER</th>
                         <th>P/FFO</th>
@@ -49,7 +48,6 @@ const BrStocksTable = ({data}) => {
                         <tr className='text-center' key={data.id}>
                           <td>{data.ranking}</td>
                           <td>{data.ticker}</td>
-                          <td>{data.ideal_percentage}</td>
                           <td>{data.price_usd}</td>
                           <td>{data.der.toFixed(2)}</td>
                           <td>{data.p_ffo.toFixed(2)}</td>

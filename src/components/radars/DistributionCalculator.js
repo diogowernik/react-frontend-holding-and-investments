@@ -1,195 +1,192 @@
-import {Col, Row} from 'react-bootstrap';
-import { fetchPortfolioAssets, fetchAssets } from '../../apis';
+import {Col, Row, Card, Form, Button, Alert} from 'react-bootstrap';
+import {fetchRadarAssets , fetchRadarCategories} from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { total_by } from '../../group_functions';
 
 const DistributionCalculator = () => {
+    const [radar_assets, setRadarAssets] = useState([]);
+    const [radar_categories, setRadarCategories] = useState([]);
 
-    const [portfolio_assets, setPortfolioAssets] = useState([]);
-    const [assets_radar, setAssetsRadar] = useState([]);
     const [aporte, setAporte] = useState(0);
     const [resultados, setResultados] = useState([]);
     const [remainingAporte, setRemainingAporte] = useState(0);
-
+    const [selectedCategory, setSelectedCategory] = useState("Todas");
+    const [maxAssets, setMaxAssets] = useState(null);
 
     const auth = useContext(AuthContext);
     const params = useParams();
-  
-    const onFetchPortfolioAssets = useCallback(async () => {
-        const json = await fetchPortfolioAssets(params.id, auth.token);
-        if (json) {
-            setPortfolioAssets(json);
-        }
-    }, [params.id, auth.token]);
 
-    const onFetchAssets = useCallback(async () => {
-        const json = await fetchAssets(auth.token);
+    const onFetchRadarAssets = useCallback(async () => {
+        const json = await fetchRadarAssets(params.id, params.radar_id, auth.token);
         if (json) {
-            setAssetsRadar(json);
+            setRadarAssets(json);
         }
-    }, [auth.token]);
+    }, [params.id, params.radar_id, auth.token]);
+
+    const onFetchRadarCategories = useCallback(async () => {
+        const json = await fetchRadarCategories(params.id, params.radar_id, auth.token);
+        if (json) {
+            setRadarCategories(json);
+        }
+    }, [params.id, params.radar_id, auth.token]);
 
     useEffect(() => {
-        onFetchPortfolioAssets();
-        onFetchAssets();
-    }, [onFetchPortfolioAssets, onFetchAssets]);
-  
-    const total = total_by(portfolio_assets, "category", "brl");
+        onFetchRadarAssets();
+        onFetchRadarCategories();
+    }, [onFetchRadarAssets, onFetchRadarCategories]);
 
-    const desired_category = [
-        { category: 'Stocks', ideal_percentage: 18 },
-        { category: 'Ações Brasileiras', ideal_percentage: 18 },
-        { category: 'REITs', ideal_percentage: 18 },
-        { category: 'Propriedades', ideal_percentage: 18 },
-        { category: 'Fundos Imobiliários', ideal_percentage: 18 },
-        { category: 'Criptomoedas', ideal_percentage: 1 },
-        { category: 'Caixa', ideal_percentage: 4.5 },
-        { category: 'Caixa Internacional', ideal_percentage: 4.5 }
-    ]
-
-    const radar_true = assets_radar.filter(asset => asset.is_radar === true);
-    const ideal_asset_percentage = radar_true.filter(asset => asset.ideal_percentage > 0);
-    // const new_ideal_percentage = ideal_percentage.map(asset => {
-    //     return {
-    //         ...asset,
-    //         ideal_percentage: asset.ideal_percentage / 4 
-    //     }
-    // });
-    console.log(ideal_asset_percentage);
-
-
-
-    const totalInvestment = total.reduce((sum, category) => sum + category.total, 0);
 
     const handleSubmit = event => {
-        event.preventDefault();
+      event.preventDefault();
+  
+      if (maxAssets && maxAssets > radar_assets.length) {
+          // Aqui você pode definir um estado de erro e mostrar uma mensagem para o usuário, 
+          // ou simplesmente ignorar o valor de maxAssets e prosseguir com o cálculo para todos os ativos.
+          console.error('Erro: o número máximo de ativos é maior do que a quantidade disponível.');
+          return;
+      }
+  
+      let remainingAporte = aporte;
+      let resultados = [];
+      let lastAporte = remainingAporte + 1;  // Initialize with a different value
+      let iterationCount = 0;
+  
+      while (remainingAporte > Math.min(...radar_assets.map(asset => asset.price_brl)) && Math.abs(lastAporte - remainingAporte) > 0.01 && iterationCount < 1000) {
+          iterationCount++;
+          lastAporte = remainingAporte;
+          
+          // Consider only the assets that pass the category filter for the calculation of totalDelta
+          let assetsInCategory = radar_assets.filter(asset => selectedCategory === "Todas" || asset.category === selectedCategory);
+  
+          // If maxAssets is defined and less than the number of assets in the category, restrict the assets to the first maxAssets
+          if (maxAssets) {
+              assetsInCategory = assetsInCategory.slice(0, maxAssets);
+          }
+  
+          let totalDelta = assetsInCategory.reduce((sum, asset) => sum + asset.delta_ideal_actual_percentage_on_portfolio, 0);
+          
+          for (const asset of assetsInCategory) {
+              if (remainingAporte <= 0) {
+                  break; // Exit the loop when the remainingAporte is zero or negative
+              }
+              
+              let moneyToInvestInAsset = (asset.delta_ideal_actual_percentage_on_portfolio / totalDelta) * remainingAporte;
+              let cotas = Math.floor(moneyToInvestInAsset / asset.price_brl);
+              let totalInvestedInAsset = cotas * asset.price_brl;
+  
+              // Make sure we can buy at least one share
+              if (cotas > 0) {
+                  remainingAporte -= totalInvestedInAsset;
+  
+                  // Find this asset in the resultados array and update it, or add a new entry
+                  const assetIndex = resultados.findIndex(result => result.ticker === asset.asset);
+                  if (assetIndex > -1) {
+                      resultados[assetIndex].cotas += cotas;
+                      resultados[assetIndex].total_invested += totalInvestedInAsset;
+                  } else {
+                      resultados.push({
+                          cotas,
+                          ticker: asset.asset,
+                          category: asset.category,
+                          price_brl: asset.price_brl,
+                          total_invested: totalInvestedInAsset,
+                      });
+                  }
+              } else {
+                  totalDelta -= asset.delta_ideal_actual_percentage_on_portfolio;
+              }
+          }
+      }
+  
+      if (remainingAporte > 0) {
+          setRemainingAporte(remainingAporte);
+      }
+  
+      setResultados(resultados);
+  };
+  
+  
     
-        const maxInvestmentPerAsset = 1000; // Define the maximum investment per asset
-
-        // Sort the assets in decreasing order of ideal percentage
-        ideal_asset_percentage.sort((a, b) => b.ideal_percentage - a.ideal_percentage);
-        
-        
-        let remainingAporte = aporte;
-        let resultados = [];
-        
-        for (const asset of ideal_asset_percentage) {
-            if (remainingAporte <= 0) {
-                break; // Exit the loop when the remainingAporte is zero or negative
-            }
-        
-            let moneyToInvestInAsset = Math.min(maxInvestmentPerAsset, remainingAporte);
-            let cotas = Math.floor(moneyToInvestInAsset / asset.price_brl);
-            let totalInvestedInAsset = cotas * asset.price_brl;
-        
-            // Make sure we can buy at least one share
-            if (cotas > 0) {
-                remainingAporte -= totalInvestedInAsset;
-                
-                resultados.push({
-                    cotas,
-                    ticker: asset.ticker,
-                    price_brl: asset.price_brl,
-                    total_invested: totalInvestedInAsset,
-                    ideal_percentage: asset.ideal_percentage
-                });
-            }
-        }
-        
-        if (remainingAporte > 0) {
-            setRemainingAporte(remainingAporte);
-        }
-        
-
-
-        setResultados(resultados);
-    };
-    
-    
-
-
-        // Determine o número máximo de ativos em qualquer categoria
-    const maxAssets = Math.max(...desired_category.map(category => {
-        const relevant_assets = ideal_asset_percentage.filter(asset => asset.category === category.category);
-        return relevant_assets.length;
-    }));
-    
-
-
     return (
         <>
-            <Row>
-                <Col lg={6}>
-                    <h1>Calculadora de Distribuição</h1>
-                    <p>Calculadora de distribuição de ativos para a carteira {params.id}</p>
-                    <form onSubmit={handleSubmit}>
-                        <label>
-                            Valor do aporte:
-                            <input type="number" value={isNaN(aporte) ? "" : aporte} onChange={e => setAporte(parseFloat(e.target.value))} />
-
-                        </label>
-                        <input type="submit" value="Calcular" />
-                    </form>
-                </Col>
-            
-                <Col lg={6}>
-                    <h4>Resultados</h4>
-                    {resultados.map(({ ticker, cotas, category, price_brl, ideal_percentage }) => (
-                        <p key={ticker}>{ticker} | {cotas} cotas | {category} | {price_brl} | total: {cotas * price_brl} | {ideal_percentage} %</p>
-                    ))}
-                    {/* show only if remainingAporte > 0 */}
-                    {remainingAporte > 0 && (
-                        <p>Sobrou {remainingAporte.toFixed(2)} reais do aporte inicial.</p>
-                    )}
-                </Col>
+        <Row>
+          <Col lg={12}>
+            <Card>
+              <Card.Header>Calculadora de distribuição de ativos</Card.Header>
+              
+              
+              <Card.Body>
+    <Form onSubmit={handleSubmit}>
+        <Row>
+            <Col>
+                <Form.Group>
+                    <Form.Label>Valor do aporte:</Form.Label>
+                    <Form.Control
+                        type="number"
+                        value={isNaN(aporte) ? "" : aporte}
+                        onChange={e => setAporte(parseFloat(e.target.value))}
+                    />
+                </Form.Group>
+            </Col>
+            <Col>
+                <Form.Group>
+                    <Form.Label>Categoria:</Form.Label>
+                    <Form.Control as="select" value={selectedCategory} onChange={e => setSelectedCategory(e.target.value)}>
+                        <option value="Todas">Todas</option>
+                        {radar_categories.map(category => (
+                            <option key={category.category} value={category.category}>{category.category}</option>
+                        ))}
+                    </Form.Control>
+                </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group>
+                <Form.Label>Máximo de ativos para investir com este aporte:</Form.Label>
+                <Form.Control
+                    type="number"
+                    min="1"
+                    placeholder="Em branco distribui por todos"
+                    onChange={e => setMaxAssets(e.target.value ? parseInt(e.target.value) : null)}
+                />
+            </Form.Group>
+            </Col>
             </Row>
+            <Row>
+            <Col xs="auto" className="my-auto">
+                <Button variant="primary" type="submit">
+                    Calcular
+                </Button>
+            </Col>
+        </Row>
+    </Form>
+</Card.Body>
 
 
-    <table className="table table-striped table-bordered">
-        <thead>
-            <tr>
-                {desired_category.map((category, index) => (
-                    <th key={index}>{category.category} | {category.ideal_percentage} %</th>
-                ))}
-            </tr>
-        </thead>
-        <tbody>
-            {Array.from({ length: maxAssets }, (_, i) => i).map(row => (
-                <tr key={row}>
-                    {desired_category.map((category, index) => {
-                        let relevant_assets = ideal_asset_percentage.filter(asset => asset.category === category.category);
-                        // Classificar os ativos pela porcentagem desejada
-                        relevant_assets = [...relevant_assets].sort((a, b) => (b.ideal_percentage * category.ideal_percentage / 100) - (a.ideal_percentage * category.ideal_percentage / 100));
-                        const asset = relevant_assets[row];
-                        if (asset) {
-                            const portfolio_asset = portfolio_assets.find(pa => pa.ticker === asset.ticker);
-                            return (
-                                <td key={index}>
-                                    <div key={asset.id}>
-                                        <div>{asset.ticker}
-                                        <br/>
-                                        {(asset.ideal_percentage * category.ideal_percentage / 100).toFixed(2)} % = 
-                                        {'\u00A0'}
-                                        {(asset.ideal_percentage * category.ideal_percentage / 100 * totalInvestment / 100).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
-                                        <br/>
-                                            {portfolio_asset ? (portfolio_asset.total_today_brl / totalInvestment * 100).toFixed(2) : 0.00} % = 
-                                            {'\u00A0'}
-                                            {portfolio_asset ? portfolio_asset.total_today_brl.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) : 0.00} 
-                                        </div>
-                                    </div>
-                                </td>
-                            );
-                        }
-                        return <td key={index} />; // Retorna uma célula vazia se não houver ativo para essa linha
-                    })}
-                </tr>
-            ))}
-        </tbody>
-    </table>
-
-        </>
+            </Card>
+          </Col>
+        </Row>
+        {remainingAporte > 0 && (
+          <Alert variant='info' className='mt-3'>
+            Sobrou {remainingAporte.toFixed(2)} reais do aporte inicial.
+          </Alert>
+        )}
+        <Row>
+          {resultados.map(({ ticker, cotas, category, price_brl, total_invested }) => (
+            <Col key={ticker} lg={4}>
+              <Card className='mb-3'>
+                <Card.Header>{ticker}</Card.Header>
+                <Card.Body>
+                  <p>{cotas} cotas</p>
+                  <p>{category}</p>
+                  <p>{price_brl} reais por cota</p>
+                  <p>Total: {total_invested.toFixed(2)} reais</p>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </>
     )
 };
 
