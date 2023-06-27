@@ -132,7 +132,7 @@ const DistributionPanel = () => {
               (asset) => asset.category === category.category
             );
             return (
-              <Col lg={3} key={index}>
+              <Col key={index}>
                 <Card className="mb-2">
                   <Card.Header>
                     {category.category} |{" "}
