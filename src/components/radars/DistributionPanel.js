@@ -98,6 +98,7 @@ const AssetCard = ({ asset }) => {
 const DistributionPanel = () => {
     const [radar_assets, setRadarAssets] = useState([]);
     const [radar_categories, setRadarCategories] = useState([]);
+    const [openCategory, setOpenCategory] = useState({}); 
 
     const auth = useContext(AuthContext);
     const params = useParams();
@@ -125,31 +126,42 @@ const DistributionPanel = () => {
 
 
     return (
-      <>
-        <Row>
-          {radar_categories.map((category, index) => {
-            let assets_for_panel = radar_assets.filter(
-              (asset) => asset.category === category.category
-            );
-            return (
-              <Col key={index}>
-                <Card className="mb-2">
-                  <Card.Header>
-                    {category.category} |{" "}
-                    {(category.ideal_category_percentage * 100).toFixed(2)}%
-                  </Card.Header>
-                </Card>
-
-                {assets_for_panel.map((asset) => (
-                    <AssetCard key={asset.id} asset={asset} />
-                ))}
-
-              </Col>
-            );
-          })}
-        </Row>
-      </>
-    );
+        <>
+          <Row>
+            {radar_categories.map((category, index) => {
+              let assets_for_panel = radar_assets.filter(
+                (asset) => asset.category === category.category
+              );
+              return (
+                <Col key={index} lg={3} md={6} sm={12}>
+                  <Card className="mb-2">
+                    <Card.Header className="d-flex justify-content-between align-items-center">
+                      {category.category} |{" "}
+                      {(category.ideal_category_percentage * 100).toFixed(2)}%
+                      <Button
+                        variant="link"
+                        onClick={() => setOpenCategory(prev => ({...prev, [category.category]: !prev[category.category]}))}
+                        aria-controls={`collapse-text-${index}`}
+                        aria-expanded={openCategory[category.category]}
+                      >
+                        {openCategory[category.category] ? <FiChevronUp /> : <FiChevronDown />}
+                      </Button>
+                    </Card.Header>
+  
+                    <Collapse in={openCategory[category.category]}>
+                      <div id={`collapse-text-${index}`}>
+                        {assets_for_panel.map((asset) => (
+                            <AssetCard key={asset.id} asset={asset} />
+                        ))}
+                      </div>
+                    </Collapse>
+                  </Card>
+                </Col>
+              );
+            })}
+          </Row>
+        </>
+      );
 };
 
 export default DistributionPanel;
