@@ -44,9 +44,9 @@ const SideDividendsTemplate = ({currency}) => {
                                         {dividend["total_dividend_"+currency] ? dividend["total_dividend_"+currency].toLocaleString('pt-BR', { style: 'currency', currency: currency.toUpperCase() }) : 0}
                                       </span>
                                       {/* percentage */}
-                                      <span className="text-muted ml-2">
+                                      <div className="text-muted ml-2">
                                         ( {((dividend["total_dividend_"+currency] / dividends_sum) * 100).toFixed(2)} % )
-                                      </span>
+                                      </div>
                                     </td>
                                 </tr>
                             ))}
