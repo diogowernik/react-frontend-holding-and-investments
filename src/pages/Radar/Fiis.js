@@ -1,4 +1,4 @@
-import { fetchFiis, fetchRadarAssets } from "../../apis";
+import { fetchFiis } from "../../apis";
 import FiisTable from "../../components/radars/FiisTable";
 import RadarTemplate from "../RadarTemplate";
 import  withFetchData  from "../../hocs/withFetchData";  // mantenha essa linha
