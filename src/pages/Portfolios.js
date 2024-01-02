@@ -2,8 +2,8 @@ import { Row, Col, Modal, Container, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
-import { AiOutlineDelete} from 'react-icons/ai';
-import { fetchPortfolios, removePortfolio} from '../apis';
+import { AiOutlineDelete, AiOutlineEdit} from 'react-icons/ai';
+import { fetchPortfolios, removePortfolio, updatePortfolio} from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import MainLayout from '../layouts/MainLayout';
 import PortfolioForm from '../containers/PortfolioForm';
@@ -44,6 +44,8 @@ const AddPortfolioButton = styled.div`
 const Portfolios = () => {
   const [portfolios, setPortfolios] = useState([]);
   const [show, setShow] = useState(false);
+  const [editingPortfolioId, setEditingPortfolioId] = useState(null);
+  const [editedName, setEditedName] = useState('');
 
   const auth = useContext(AuthContext);
   const history = useHistory();
@@ -70,6 +72,28 @@ const Portfolios = () => {
     }
   }
 
+  const onEdit = (portfolio) => {
+    setEditingPortfolioId(portfolio.id);
+    setEditedName(portfolio.name);
+  };
+
+  const onSave = async (id) => {
+    try {
+      const updatedData = { name: editedName };
+      await updatePortfolio(id, updatedData, auth.token);  // Use a função updatePortfolio
+      setEditingPortfolioId(null);
+      onFetchPortfolios();  // Recarrega os portfolios atualizados
+    } catch (error) {
+      console.error("Erro ao atualizar o portfolio:", error);
+      // Adicione aqui qualquer tratamento de erro ou notificação ao usuário
+    }
+  };
+
+  const onCancel = () => {
+    setEditingPortfolioId(null);
+  };
+
+
   useEffect(() => {
     onFetchPortfolios();
   }, [onFetchPortfolios]);
@@ -81,6 +105,7 @@ const Portfolios = () => {
 
       <Modal show={show} onHide={onHide} centered>
         <Modal.Body>
+          {/* Passa o portfolio para o formulário se estiver no modo de edição */}
           <PortfolioForm onDone={onDone} />
         </Modal.Body>
       </Modal>
@@ -88,21 +113,41 @@ const Portfolios = () => {
       <Row>
         {portfolios.map((portfolio) => (
           <Col key={portfolio.id} lg={4}>
-            <Portfolio onClick={() => history.push(`/portfolio/${portfolio.id}/brl`)}>
-              <div style={{ backgroundImage: `url(${portfolio.image})` }}></div>
-              <p>{portfolio.name} | 
-              <Button variant="link" onClick={() => onRemovePortfolio(portfolio.id)}>
-                  <AiOutlineDelete size={25} color="red" />
-              </Button>
-              
-              </p>
-            </Portfolio>
+            {/* Se o portfolio está sendo editado, mostra o campo de entrada e botões de salvar/cancelar */}
+            {editingPortfolioId === portfolio.id ? (
+              <div>
+                <input 
+                  type="text"
+                  value={editedName}
+                  onChange={(e) => setEditedName(e.target.value)}
+                />
+                <Button variant="link" onClick={() => onSave(portfolio.id)}>Salvar</Button>
+                <Button variant="link" onClick={onCancel}>Cancelar</Button>
+              </div>
+            ) : (
+              /* Se não está em edição, mostra o nome e os botões normalmente */
+              <Portfolio onClick={() => history.push(`/portfolio/${portfolio.id}/brl`)}>
+                <div style={{ backgroundImage: `url(${portfolio.image})` }}></div>
+                <p>{portfolio.name} | 
+                  <Button variant="link" onClick={(e) => {
+                    e.stopPropagation(); // Impede que o clique se propague para o Portfolio
+                    onEdit(portfolio);
+                  }}>
+                    <AiOutlineEdit size={25} color="blue" />
+                  </Button>
+                  <Button variant="link" onClick={() => onRemovePortfolio(portfolio.id)}>
+                    <AiOutlineDelete size={25} color="red" />
+                  </Button>
+                </p>
+              </Portfolio>
+            )}
           </Col>
-        ))}
-        <Col lg={4}>
-          <AddPortfolioButton onClick={onShow}>Criar novo Portfolio</AddPortfolioButton>
-        </Col>
-      </Row>
+  ))}
+  <Col lg={4}>
+    <AddPortfolioButton onClick={onShow}>Criar novo Portfolio</AddPortfolioButton>
+  </Col>
+</Row>
+
       </Container>
     </MainLayout>
   );

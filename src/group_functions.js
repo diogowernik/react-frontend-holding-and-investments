@@ -93,18 +93,25 @@ export function total_by(portfolio_assets, group_type, currency, subcategory){
   return by_group;
 }
 
-export function tickers_piechart(portfolio_assets, subcategory, currency){
-
+export function tickers_piechart(portfolio_assets, subcategory, currency) {
   const totalKey = currency === 'brl' ? 'total_today_brl' : 'total_today_usd';
 
-  const total_by = portfolio_assets.filter( data => data.category === `${subcategory}`).reduce((acc,curr)=>{
-    const {ticker} = curr
-    const total_today = curr[totalKey]
-    return {...acc, [ticker]:total_today}
-  }
-  ,{})
-  
-  const total_today = Object.entries(total_by).map(([name, total]) => ({name, total}));
-  total_today.sort((a, b) => b.total - a.total)
-  return total_today
+  const total_by = portfolio_assets.filter(data => data.category === `${subcategory}`).reduce((acc, curr) => {
+    const { ticker } = curr;
+    const total_today = curr[totalKey];
+
+    // Se o ticker já existir no acumulador, soma o valor total; caso contrário, define o valor inicial.
+    if (acc[ticker]) {
+      acc[ticker] += total_today;
+    } else {
+      acc[ticker] = total_today;
+    }
+
+    return acc;
+  }, {});
+
+  const total_today = Object.entries(total_by).map(([name, total]) => ({ name, total }));
+  total_today.sort((a, b) => b.total - a.total);
+  return total_today;
 }
+

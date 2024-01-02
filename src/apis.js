@@ -3,51 +3,46 @@ const base_url = process.env.REACT_APP_API_URI
 
 
 // export function signIn(username, password) {
-function request(path, { data = null, token = null, method = 'GET', message }) {
-  return fetch(base_url + path, {
-    method,
-    headers: {
-      Authorization: token ? `Token ${token}` : '',
-      'Content-Type': 'application/json',
-    },
-    body: method !== 'GET' && method !== 'DELETE' ? JSON.stringify(data) : null,
-    message 
-  })
-    .then((response) => {
-      // If it is success
-      if (response.ok) {
-        if (method === 'POST') {
-          toast.success(JSON.stringify(message).slice(1,-1), {
-            
-          });
-        }
-        else if (method === 'DELETE') {
-          // If delete, nothing return
-          return true;
-        }
-        return response.json();
-      }
-
-      // Otherwise, if there are errors
-      return response
-        .json()
-        .then((json) => {
-          // Handle JSON error, response by the server
-          if (response.status === 400) {
-            const errors = Object.keys(json).map((k) => `${json[k].join(' ')}`);
-            throw new Error(errors.join(' '));
-          }
-          throw new Error(JSON.stringify(json));
-        })
-        .catch((e) => {
-          throw new Error(e);
-        });
+  function request(path, { data = null, token = null, method = 'GET', message }) {
+    return fetch(base_url + path, {
+      method,
+      headers: {
+        Authorization: token ? `Token ${token}` : '',
+        'Content-Type': 'application/json',
+      },
+      body: method !== 'GET' && method !== 'DELETE' ? JSON.stringify(data) : null,
+      message 
     })
-    .catch((e) => {
-      // Handle all errors
-      toast(e.message, { type: 'error' });
-    });
-}
+      .then((response) => {
+        if (response.ok) {
+          if (method === 'POST') {
+            toast.success(JSON.stringify(message).slice(1, -1));
+          } else if (method === 'DELETE') {
+            return true;
+          }
+          return response.json();
+        }
+  
+        // Se houver erros
+        return response.json().then((json) => {
+          if (response.status === 400) {
+            // Exibe erros detalhados para Bad Request
+            const detailedErrors = Object.keys(json).map(key => {
+              return `${key}: ${json[key].join(', ')}`;
+            }).join('\n');
+            toast.error('Erro: ' + detailedErrors);
+            throw new Error('Erro: ' + detailedErrors);
+          }
+  
+          throw new Error(JSON.stringify(json));
+        });
+      })
+      .catch((e) => {
+        toast.error(e.message);
+        console.error('Erro na requisição:', e.message); // Log detalhado no console
+      });
+  }
+  
 
 export function signIn(username, password) {
   return request('/auth/token/login/', {

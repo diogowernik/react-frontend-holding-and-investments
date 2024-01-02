@@ -28,6 +28,7 @@ import BrokersBrl from '../pages/Brl/Brokers';
 import FiisBrl from '../pages/Brl/Fiis';
 import BrStocksBrl from '../pages/Brl/BrStocks';
 import StocksBrl from '../pages/Brl/Stocks';
+import ETFsBrl from '../pages/Brl/ETFs';
 import ReitsBrl from '../pages/Brl/Reits';
 import EvolutionBrl from '../pages/Brl/Evolution';
 
@@ -37,6 +38,7 @@ import BrokersUsd from '../pages/Usd/Brokers';
 import FiisUsd from '../pages/Usd/Fiis';
 import BrStocksUsd from '../pages/Usd/BrStocks';
 import StocksUsd from '../pages/Usd/Stocks';
+import ETFsUsd from '../pages/Usd/ETFs';
 import ReitsUsd from '../pages/Usd/Reits';
 import EvolutionUsd from '../pages/Usd/Evolution';
 
@@ -101,6 +103,9 @@ function App() {
           <PrivateRoute exact path='/stocks/:id/brl'>
             <StocksBrl />
           </PrivateRoute>
+          <PrivateRoute exact path='/etfs/:id/brl'>
+            <ETFsBrl />
+          </PrivateRoute>
           <PrivateRoute exact path='/reits/:id/brl'>
             <ReitsBrl />
           </PrivateRoute>
@@ -125,6 +130,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute exact path='/stocks/:id/usd'>
             <StocksUsd />
+          </PrivateRoute>
+          <PrivateRoute exact path='/etfs/:id/usd'>
+            <ETFsUsd />
           </PrivateRoute>
           <PrivateRoute exact path='/reits/:id/usd'>
             <ReitsUsd />
