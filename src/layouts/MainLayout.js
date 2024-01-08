@@ -23,8 +23,8 @@ const MainLayout = ({ children }) => {
   };
 
   return (
-    <>
-      <Navbar bg='light' variant='light' className='mb-4'>
+    <div>
+      <Navbar bg='light' expand="lg" fixed="top">
         <Navbar.Brand href='/'>Minha Holding</Navbar.Brand>
         <Nav className='flex-grow-1'>
           <Nav.Link onClick={gotoPortfolios}>Portfolios</Nav.Link>
@@ -44,8 +44,8 @@ const MainLayout = ({ children }) => {
           )}
         </Nav>
       </Navbar>
-      <Container fluid>{children}</Container>
-    </>
+      <Container className='holding-container' fluid>{children}</Container>
+    </div>
   );
 };
 

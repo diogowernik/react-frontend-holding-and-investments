@@ -34,6 +34,12 @@ const Portfolio = ({assetType, groupBy, currency, layout}) => {
   const treemap = treemap_by(portfolio_assets, groupBy, assetType);
   const piechart = tickers_piechart(portfolio_assets, assetType, currency);
 
+  // Função para atualizar os dados de portfolio_assets
+  const handleUpdatePortfolioAssets = (updatedAssets) => {
+    setPortfolioAssets(updatedAssets);
+  };
+  // console.log(handleUpdatePortfolioAssets)
+
   return (
     <MainLayout>
       <Container fluid>
@@ -85,6 +91,7 @@ const Portfolio = ({assetType, groupBy, currency, layout}) => {
                   <GroupedTables 
                     grouped_assets={assets} 
                     currency={currency}
+                    onUpdate={handleUpdatePortfolioAssets} 
                   />
               </Col>
               <Col lg={12}>

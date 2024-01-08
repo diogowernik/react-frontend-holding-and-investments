@@ -1,7 +1,7 @@
 import { Row, Col, Nav, Card, Tab, Button, Modal } from "react-bootstrap";
 import Datatable from '../../contexts/Datatable';
 import { AiOutlineDelete, AiOutlineEdit} from 'react-icons/ai';
-import {  removePortfolioAsset } from '../../apis';
+import {  removePortfolioAsset, updatePortfolioAsset } from '../../apis';
 import AuthContext from '../../contexts/AuthContext';
 import { useContext, useState } from 'react';
 import PortfolioAssetForm  from '../../containers/PortfolioAssetForm';
@@ -9,6 +9,51 @@ import PortfolioAssetForm  from '../../containers/PortfolioAssetForm';
 const GroupedTables = ({currency, grouped_assets}) => {
   const [portfolioAssetFormShow, setPortfolioAssetFormShow] = useState(false);
   const [Asset, setAsset] = useState(null);
+
+  // Estado para controlar a edição
+  const [editingAssetId, setEditingAssetId] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
+  const handleEditClick = (asset) => {
+    setEditingAssetId(asset.id);
+    setEditFormData({ ...asset });
+  };
+
+  
+  const handleEditChange = (event, fieldName) => {
+    setEditFormData({ ...editFormData, [fieldName]: event.target.value });
+  };
+  // console.log('onUpdate:', onUpdate);
+  
+  const handleSave = async () => {
+    const updatedData = {
+      shares_amount: editFormData.shares_amount,
+    };
+  
+    const json = await updatePortfolioAsset(editingAssetId, updatedData, auth.token);
+  
+    if (json) {
+      console.log("Ativo atualizado com sucesso");
+
+      // Encontrar e atualizar o ativo na lista de assets
+      const newAssets = grouped_assets.map(group => ({
+        ...group,
+        data: group.data.map(asset => 
+          asset.id === editingAssetId ? { ...asset, ...updatedData } : asset
+        )
+      }));
+
+      // Chamar o callback com os novos dados
+      // onUpdate(newAssets);
+      // recarregar a página
+      window.location.reload();
+      
+
+      // Resetar o estado de edição
+      setEditingAssetId(null);
+      setEditFormData({});
+    }
+  };
+  
 
   const showModal = () => setPortfolioAssetFormShow(true);
   const hideModal = () => setPortfolioAssetFormShow(false);
@@ -93,7 +138,38 @@ const GroupedTables = ({currency, grouped_assets}) => {
                                       </span>
                                     </td>
                                     <td>{asset[`asset_price_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
-                                    <td>{asset.shares_amount}</td>
+
+                                    {/* Campo td editável inline */}
+                                    {asset.id === editingAssetId ? (
+                                      <>
+                                        {/* Exemplo para editar a quantidade */}
+                                        <td>
+                                          <input
+                                            type="number"
+                                            value={editFormData.shares_amount}
+                                            onChange={(e) => handleEditChange(e, "shares_amount")}
+                                          />
+                                        </td>
+                                        {/* Adicionar inputs para outros campos conforme necessário */}
+                                        {/* Botão para salvar as alterações */}
+                                        <td>
+                                          <Button onClick={handleSave}>Salvar</Button>
+                                        </td>
+                                      </>
+                                    ) : (
+                                      <>
+                                        {/* Exibição normal quando não está editando */}
+                                        <td>{asset.shares_amount}
+                                          <Button variant="link" onClick={() => handleEditClick(asset)}>
+                                            <AiOutlineEdit />
+                                          </Button>
+                                        </td>
+                                      </>
+                                    )}
+
+
+
+
                                     <td>{asset[`total_today_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
                                     <td>{asset[`total_cost_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>
                                     <td>{asset[`share_average_price_${currency}`].toLocaleString('pt-br', { style: 'currency', currency: currency })}</td>

@@ -52,6 +52,9 @@ section::before {
   align-items: center; /* Centraliza o conteúdo verticalmente */
 }
 
+/* */
+
+
 .bg-color1 {
   background-color: #f4f4f4; /* Uma cor de exemplo */
 }
@@ -80,6 +83,10 @@ section::before {
   border-radius: 8px;
   margin-bottom: 40px;
   position: relative;
+}
+
+.holding-container {
+  padding-top: 30px;
 }
 
 
