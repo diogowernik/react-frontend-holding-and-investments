@@ -112,7 +112,7 @@ const DividendsTables = ({currency, year_dividends, month_dividends}) => {
                                   <td>{dividend.shares_amount}</td>
                                   <td>{dividend[`average_price_${currency}`]}</td>
                                   <td>{dividend[`total_dividend_${currency}`]}</td>
-                                  <td>{dividend[`value_per_share_${currency}`]}</td>
+                                  <td>{(dividend[`value_per_share_${currency}`]).toFixed(2)}</td>
                                   <td>{(dividend[`yield_on_cost_${currency}`] * 100).toFixed(2)}</td>
                                 </tr>
                                 ))}
