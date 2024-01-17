@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-import { Row, Col, Container, Card } from 'react-bootstrap';
+import { Row, Col, Container, Card, Button } from 'react-bootstrap';
 import MainLayout from '../layouts/MainLayout';
 import { fetchPortfolioEvolution } from '../apis';
 import AuthContext from '../contexts/AuthContext';
 import { useParams } from 'react-router-dom';
-import { filterGroupMap } from '../group_functions';
 import PortfolioNavTemplate from '../components/nav/PortfolioNavTemplate';
+import EvolutionTable from '../components/tables/EvolutionTable';
+import StackedChart from '../components/charts/StackedChart';
+import { groupBy } from '../group_functions';
 
 const EvolutionTemplate = ({ currency }) => {
     const [portfolio_evolution, setPortfolioEvolution] = useState([]);
+    const [chartData, setChartData] = useState({ series: [], categories: [] });
     const [activeYear, setActiveYear] = useState('');
 
     const auth = useContext(AuthContext);
@@ -31,79 +34,95 @@ const EvolutionTemplate = ({ currency }) => {
         setActiveYear(uniqueYears.sort().reverse()[0]);
     }, [portfolio_evolution]);
 
+    useEffect(() => {
+        if (portfolio_evolution.length > 0) {
+            const processedData = processDataForChart(portfolio_evolution, 'category_total_brl');
+            setChartData(processedData);
+        }
+    }, [portfolio_evolution]);
+
+    function processDataForChart(data, currencyKey) {
+        // Agrupar por categoria
+        const groupedByCategory = groupBy(data, 'category');
+    
+        // Extrair datas únicas e ordená-las
+        const uniqueDates = [...new Set(data.map(item => item.date))];
+        uniqueDates.sort((a, b) => new Date(a.split('/').reverse().join('-')) - new Date(b.split('/').reverse().join('-')));
+    
+        // Construir séries para o ApexCharts
+        const series = Object.keys(groupedByCategory).map(category => {
+            const dataPoints = uniqueDates.map(date => {
+                const itemsOnDate = groupedByCategory[category].filter(item => item.date === date);
+                return itemsOnDate.length
+                    ? itemsOnDate.reduce((sum, item) => sum + item[currencyKey], 0)
+                    : 0;
+            });
+    
+            return { name: category, data: dataPoints };
+        });
+    
+        return { series, categories: uniqueDates };
+    }
+    
+    
+    function chartRounded(chartData) {
+        const roundedSeries = chartData.series.map(seriesItem => {
+            return {
+                ...seriesItem,
+                data: seriesItem.data.map(value => Math.round(value))
+            };
+        });
+    
+        return { ...chartData, series: roundedSeries };
+    }
+
+    function chartDated(chartData) {
+        const monthNames = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+    
+        const datedCategories = chartData.categories.map(category => {
+            const [, month, year] = category.split('/');
+            const monthIndex = parseInt(month, 10) - 1;
+            return `${monthNames[monthIndex]}/${year.slice(2)}`;
+        });
+    
+        // Ordenar as categorias baseadas em data
+        const sortedCategories = datedCategories.sort((a, b) => {
+            const [monthA, yearA] = a.split('/');
+            const [monthB, yearB] = b.split('/');
+            const dateA = new Date(parseInt(yearA, 10) + 2000, monthNames.indexOf(monthA));
+            const dateB = new Date(parseInt(yearB, 10) + 2000, monthNames.indexOf(monthB));
+            return dateA - dateB;
+        });
+    
+        return { ...chartData, categories: sortedCategories };
+    }
+
+    const processedChartData = processDataForChart(portfolio_evolution, 'category_total_brl');
+    const roundedChartData = chartRounded(processedChartData);
+    const finalChartData = chartDated(roundedChartData);
+
     const renderTabs = () => {
         const years = portfolio_evolution.map(item => item.date.split('/')[2]);
-        const uniqueYears = [...new Set(years)];
+        const uniqueYears = [...new Set(years)].sort();
 
         return (
             <ul className="nav nav-tabs">
                 {uniqueYears.map(year => (
                     <li className="nav-item" key={year}>
-                        <a 
+                        <Button 
+                            variant="link"
                             className={`nav-link ${activeYear === year ? 'active' : ''}`}
                             onClick={() => setActiveYear(year)}
                         >
                             {year}
-                        </a>
+                        </Button>
                     </li>
                 ))}
             </ul>
         );
     };
 
-    const renderTabContent = () => {
-        const filteredEvolution = portfolio_evolution.filter(item => item.date.includes(activeYear));
-        const filteredCategoryEvolution = filterGroupMap(filteredEvolution, "date");
-
-        filteredCategoryEvolution.forEach(category => {
-            category.data.sort((a, b) => a.category > b.category ? 1 : -1);
-        });
-
-        const category_evolution_sum = filteredCategoryEvolution.map(name => {
-            const category_total = name.data.reduce((acc, cur) => acc + cur[`category_total_${currency}`], 0);
-            return { name: name.name, total: category_total };
-        });
-
-        const combinedData = filteredCategoryEvolution.reduce((acc, cur) => [...acc, ...cur.data], []);
-        const categoryMap = combinedData.reduce((acc, cur) => {
-            acc[cur.category] = acc[cur.category] || [];
-            acc[cur.category].push(cur);
-            return acc;
-        }, {});
-
-        return (
-            <table className="table table-sm table-hover table-striped table-bordered table-responsive-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Categoria</th>
-                        {filteredCategoryEvolution.map(({ name }) => (
-                            <th scope="col" key={name}>{name}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.entries(categoryMap).map(([category, values]) => (
-                        <tr key={category}>
-                            <th>{category}</th>
-                            {values.map(({ id, ...category_total }) => (
-                                <td key={id}>
-                                    {category_total[`category_total_${currency}`].toLocaleString('pt-BR', { style: 'currency', currency: currency.toUpperCase() })}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                    <tr key="total" className="text-primary font-weight-bold">
-                        <th>Total</th>
-                        {category_evolution_sum.map(({ total }) => (
-                            <td key={total}>
-                                {total.toLocaleString('pt-BR', { style: 'currency', currency: currency.toUpperCase() })}
-                            </td>
-                        ))}
-                    </tr>
-                </tbody>
-            </table>
-        );
-    };
+    console.log(chartData)
 
     return (
         <MainLayout>
@@ -116,8 +135,22 @@ const EvolutionTemplate = ({ currency }) => {
                                 <Card.Title>Crescimento Patrimonial</Card.Title>
                             </Card.Header>
                             <Card.Body>
+                                <StackedChart 
+                                    series={finalChartData.series}
+                                    categories={finalChartData.categories}
+                                    title="Crescimento Patrimonial"
+                                    currency={currency}
+                                />
+                            </Card.Body>
+                        </Card>
+                        <Card className='mt-10'>
+                            <Card.Body>
                                 {renderTabs()}
-                                {renderTabContent()}
+                                <EvolutionTable
+                                    portfolio_evolution={portfolio_evolution}
+                                    activeYear={activeYear}
+                                    currency={currency}
+                                />
                             </Card.Body>
                         </Card>
                     </Col>
@@ -128,4 +161,3 @@ const EvolutionTemplate = ({ currency }) => {
 };
 
 export default EvolutionTemplate;
-
