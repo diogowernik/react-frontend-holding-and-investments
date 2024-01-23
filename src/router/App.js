@@ -41,6 +41,7 @@ import StocksUsd from '../pages/Usd/Stocks';
 import ETFsUsd from '../pages/Usd/ETFs';
 import ReitsUsd from '../pages/Usd/Reits';
 import EvolutionUsd from '../pages/Usd/Evolution';
+import KidsDividends from '../pages/KidsDividends';
 
 
 function App() {
@@ -52,6 +53,9 @@ function App() {
           
           <Route exact path='/'>
             <Home />
+          </Route>
+          <Route exact path='/isabel'>
+            <KidsDividends />
           </Route>
           <Route exact path='/login'>
             <Login />
@@ -143,6 +147,7 @@ function App() {
           <PrivateRoute exact path='/evolution/:id/usd'>
             <EvolutionUsd />
           </PrivateRoute>
+          
 
         </Switch>
       </BrowserRouter>

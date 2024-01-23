@@ -1,0 +1,149 @@
+/* KidsDividends.css */
+  .kids-dividends {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      padding: 20px 10px;
+    }
+  .welcome-message {
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .investments {
+    background-color: #fff;
+    border-radius: 10px;
+    margin-bottom: 0px;
+    margin-left: 0;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .child-name {
+    font-size: 1.8em;
+    color: #ff5722;
+    display: block;
+  }
+  
+  .welcome-text {
+    font-size: 1.4em;
+    color: #333;
+    display: block;
+  }
+  
+  .current-balance-box {
+    text-align: right;
+  }
+  
+  .current-balance {
+    display: inline-block;
+    background-color: #e1f5fe;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 1.5em;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .investment-card {
+    border: none;
+    border-radius: 0; /* Retirada das bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .investment-card + .investment-card {
+    border-left: 1px solid #f0f8ff; /* Linha divisória sutil entre os cartões */
+  }
+  
+  .investment-image {
+    width: 100%; /* Faz a imagem preencher toda a largura do cartão */
+    height: 150px; /* Define uma altura fixa para todas as imagens */
+    object-fit: cover; /* Garante que a imagem cubra o espaço disponível sem ser distorcida */
+    object-position: top; /* Centraliza a imagem no espaço disponível */
+  }
+  
+  .card-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #0b7b16;
+    margin-bottom: 5px;
+  }
+  
+  .card-text {
+    font-size: 1em;
+    color: #555;
+  }
+  .card-body {
+    padding: 10px;
+  }
+  .card-header {
+    padding: 5px;
+    font-size: 1.3em;
+  }
+  
+  .next-allowance {
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.4em;
+  }
+  .dividends-amount {
+    font-weight: bold;
+    color: #188d24;
+    font-size: 1.1em;
+  }
+  /* Estilização da Navbar */
+.custom-navbar .nav {
+  width: 100%; /* Garante que a navbar ocupa toda a largura */
+  justify-content: space-around; /* Espaça os ícones uniformemente */
+}
+
+.nav-icon {
+  display: flex; /* Utiliza flex para centralizar o ícone */
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  margin: 0 10px; /* Adiciona espaço horizontal entre os ícones */
+}
+  
+  /* Responsividade para telas pequenas */
+  @media (max-width: 767px) {
+    .nav-icon {
+      margin: 0 5px; /* Menos espaço em telas pequenas */
+    }
+    .row [class^='col-'], .row [class*=' col-'] {
+      padding: 0 !important;
+    }
+    .row {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+  
+    .investment-card {
+      margin: 2px; /* Reduzindo o espaço entre os cartões */
+      padding: 5px; /* Espaçamento interno reduzido */
+    }
+  
+    .card-title, .card-text {
+      white-space: nowrap; /* Evitar quebra de texto */
+      overflow: hidden; /* Ocultar texto que excede o cartão */
+      text-overflow: ellipsis; /* Adicionar reticências se o texto for muito longo */
+    }
+  
+    .card-title {
+      font-size: 1.2em; /* Reduzir tamanho da fonte do título do cartão */
+    }
+  
+    .card-text {
+      font-size: 1.1em; /* Reduzir tamanho da fonte do texto do cartão */
+    }
+  
+    .child-name, .welcome-text, .current-balance, .next-allowance {
+      font-size: 1em; /* Reduzir o tamanho da fonte para telas pequenas */
+    }
+  }
+  
