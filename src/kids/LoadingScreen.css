@@ -1,0 +1,79 @@
+  
+@keyframes zoomAndSlide {
+  0% {
+    transform: translateY(-100px) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0px) scale(2);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+.animated-text {
+  animation: zoomAndSlide 3s ease forwards;
+}
+
+.loading-screen {
+  background-color: #F9F9F9; /* Ou qualquer cor de fundo que desejar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+}
+
+.loading-text {
+  color: #FFB6C1; /* Uma cor alegre que as crianças gostariam */
+  font-family: 'Comic Neue', cursive; /* Uma fonte amigável para crianças */
+  margin-bottom: 20px;
+  font-size: 2rem; /* Ajuste o tamanho conforme necessário */
+}
+
+/* KidsDividends.css */
+/* ... outros estilos ... */
+@keyframes floatBubble {
+  0% {
+    transform: translateY(20px) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px) scale(1);
+    opacity: 0;
+  }
+}
+
+.bubbles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0; /* Ajuste para que fique atrás do texto */
+}
+
+.bubble {
+  position: absolute;
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: #FF69B4;
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatBubble 2s ease-in-out infinite;
+}
+
+/* Configurações individuais para cada bolha */
+.bubble-1 { background-color: #6495ED; animation-delay: 0.2s; top: -40px; left: -60px; }
+.bubble-2 { background-color: #FFD700; animation-delay: 0.4s; top: 40px; left: -20px; }
+.bubble-3 { background-color: #90EE90; animation-delay: 0.6s; top: -30px; right: -50px; }
+.bubble-4 { background-color: #FFB6C1; animation-delay: 0.8s; top: 50px; right: 30px; }
+.bubble-5 { background-color: #87CEEB; animation-delay: 1s; top: -50px; left: 40px; }
+.bubble-6 { background-color: #20B2AA; animation-delay: 1.2s; top: 60px; right: -40px; }
+.bubble-7 { background-color: #FFA07A; animation-delay: 1.4s; top: -20px; left: -30px; }

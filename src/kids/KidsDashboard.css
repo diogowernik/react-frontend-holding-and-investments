@@ -1,0 +1,100 @@
+.dashboard {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9; /* Fundo mais claro para leveza */
+  color: #333;
+  padding: 20px 10px;
+  min-height: 100vh; /* Assegura que ocupa a altura toda da tela */
+}
+
+.dashboard-item {
+  text-align: center;
+  margin-top: 30px; /* Mais espaço no topo */
+}
+
+.icon-button {
+  background-color: #ffffff; /* Botões brancos para leveza */
+  border: 1px solid #e7e7e7; /* Borda sutil */
+  border-radius: 12px; /* Bordas suavemente arredondadas */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  padding: 20px; /* Espaçamento interno */
+  display: inline-flex; /* Para manter os ícones centralizados */
+  justify-content: center;
+  align-items: center;
+  width: auto; /* Largura automática baseada no conteúdo */
+  height: auto; /* Altura automática baseada no conteúdo */
+}
+
+.dashboard-item h3 {
+  font-size: 1.5em;
+  color: #555; /* Cor mais suave */
+  margin-top: 10px; /* Menos espaço acima do título */
+}
+
+/* Estilos adicionais para a mensagem e o saldo */
+.welcome-message {
+  font-size: 1.6em;
+  color: #ff5722;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.current-balance {
+  background-color: #e1f5fe;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 30px; /* Mais espaço abaixo do saldo */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra mais suave */
+  text-align: center;
+  width: 100%; /* Ocupa a largura total do container */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.action-message {
+    text-align: center;
+    font-size: 1.6em;
+    color: #555;
+    margin: 20px 0;
+    animation: fadeIn 2s ease-in-out;
+}
+
+
+/* Responsividade para telas pequenas */
+@media (max-width: 767px) {
+  .dashboard-item h3 {
+    font-size: 1em; /* Tamanho menor da fonte para caber nos dispositivos móveis */
+    white-space: normal; /* Permite que o texto quebre em linhas */
+    line-height: 1.2; /* Espaçamento da linha para melhor legibilidade */
+    word-wrap: break-word; /* Quebra a palavra para evitar truncagem */
+    margin: 10px 0; /* Espaço acima e abaixo dos títulos */
+  }
+
+  /* Ajustar o tamanho dos ícones para telas menores */
+  .icon-button {
+    padding: 10px; /* Menos preenchimento para mais espaço */
+    margin-bottom: 5px; /* Espaço reduzido abaixo do botão */
+  }
+
+  /* Ajustar o espaçamento e alinhamento da mensagem de saldo */
+  .current-balance {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+  }
+
+  /* Ajustar o espaçamento e tamanho da mensagem de boas-vindas */
+  .welcome-message {
+    font-size: 1.4em;
+    margin: 15px 0;
+  }
+}
