@@ -48,6 +48,9 @@ import KidsDividends from '../kids/KidsDividends';
 import KidsQuests from '../kids/KidsQuests';
 import QuestDetails from '../kids/QuestDetails';
 
+// Wtree App
+import Profile from '../wtree/Profile';
+
 
 function App() {
   
@@ -161,6 +164,10 @@ function App() {
           </Route>
           <Route exact path='/kids/isabel/ganhar/:questKey'>
             <QuestDetails />
+          </Route>
+          {/* Wtree App  */}
+          <Route exact path='/diogo.wernik'>
+            <Profile />
           </Route>
         </Switch>
       </BrowserRouter>

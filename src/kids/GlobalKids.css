@@ -1,8 +1,4 @@
-.container {
-    max-width: 765px;
-    margin-right: auto;
-    margin-left: auto; /* Isso centralizará o container */
-}
+
 .welcome-message {
     font-size: 1.6em;
     color: #ff5722;
