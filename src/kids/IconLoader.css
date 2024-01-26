@@ -1,0 +1,25 @@
+.new-loading-screen {
+  background-color: #F9F9F9; /* Ou a cor de fundo que desejar */
+  text-align: center;
+  height: 100vh;
+}
+
+.icon-container {
+  position: relative;
+}
+
+.loading-icon {
+  animation: growAndFade 3s ease forwards;
+  font-size: 2rem; /* Tamanho inicial */
+}
+
+@keyframes growAndFade {
+  0% {
+      transform: scale(1);
+      opacity: 1;
+  }
+  100% {
+      transform: scale(10); /* Cresce 10 vezes o tamanho original */
+      opacity: 0;
+  }
+}

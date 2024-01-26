@@ -5,14 +5,7 @@
       color: #333;
       padding: 20px 10px;
     }
-  .welcome-message {
-    background-color: #fff;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 5px 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+
   .investments {
     background-color: #fff;
     border-radius: 10px;
@@ -36,16 +29,7 @@
   .current-balance-box {
     text-align: right;
   }
-  
-  .current-balance {
-    display: inline-block;
-    background-color: #e1f5fe;
-    border-radius: 20px;
-    padding: 5px 15px;
-    font-size: 1.5em;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+
   
   .investment-card {
     border: none;

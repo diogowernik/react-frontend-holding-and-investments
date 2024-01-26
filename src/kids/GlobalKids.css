@@ -1,0 +1,24 @@
+.container {
+    max-width: 765px;
+    margin-right: auto;
+    margin-left: auto; /* Isso centralizará o container */
+}
+.welcome-message {
+    font-size: 1.6em;
+    color: #ff5722;
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .current-balance {
+    background-color: #e1f5fe;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 10px; /* Mais espaço abaixo do saldo */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra mais suave */
+    text-align: center;
+    width: 100%; /* Ocupa a largura total do container */
+  }

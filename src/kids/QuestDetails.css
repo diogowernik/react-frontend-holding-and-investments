@@ -1,0 +1,110 @@
+.quest-details {
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.quest-details-container {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.quest-image {
+    width: 100%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.quest-title {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.quest-story {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.quest-mission {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.quest-reward {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #85BB65; /* Green color from your palette */
+}
+/* Estilos para telas maiores */
+.quest-title {
+    font-size: 2em; /* Tamanho maior para telas grandes */
+    /* restante dos estilos */
+}
+
+.quest-progress {
+    margin: 20px 0;
+}
+
+.coins-icon {
+    color: #ffd700; /* Dourado para as moedas */
+    margin-right: 5px;
+}
+
+.quest-instructions {
+    background-color: #e1f5fe;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1em;
+}
+
+
+/* Estilos para telas menores (dispositivos móveis) */
+@media (max-width: 767px) {
+    .quest-card .card-title,
+    .quest-card .card-text,
+    .quest-card .quest-instructions {
+        white-space: normal; /* Permite a quebra de linha */
+        overflow: visible; /* Mostra o texto que ultrapassa o elemento */
+        text-overflow: clip; /* Remove as reticências e mostra todo o texto */
+        word-wrap: break-word; /* Quebra as palavras para ajustar ao container */
+    }
+
+    .quest-card .card-body {
+        padding: 1rem; /* Espaçamento adequado para dispositivos móveis */
+    }
+    
+    .quest-title {
+        font-size: 1.1em; /* Tamanho menor para telas móveis */
+        margin-bottom: 0.5rem; /* Menos espaço abaixo do título */
+    }
+
+    /* Ajuste outros elementos conforme necessário para dispositivos móveis */
+    .quest-details-container {
+        padding: 1rem; /* Menos preenchimento */
+    }
+
+    .quest-image {
+        height: auto; /* Altura automática para se ajustar ao conteúdo */
+        margin-bottom: 1rem; /* Espaço acima do botão */
+    }
+
+    .quest-story, .quest-mission, .quest-reward {
+        font-size: 1em; /* Tamanho de fonte menor para o texto no mobile */
+    }
+
+    /* Ajustar o botão para telas menores, se necessário */
+    .btn-primary {
+        padding: 0.5rem 1rem; /* Preenchimento menor */
+        font-size: 0.9em; /* Tamanho de fonte menor */
+    }
+}

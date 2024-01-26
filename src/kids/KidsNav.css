@@ -1,12 +1,36 @@
-  /* Estilização da Navbar */
-  .custom-navbar .nav {
-    width: 100%; /* Garante que a navbar ocupa toda a largura */
-    justify-content: space-around; /* Espaça os ícones uniformemente */
-  }
-  
-  .nav-icon {
-    display: flex; /* Utiliza flex para centralizar o ícone */
-    align-items: center; /* Centraliza verticalmente */
-    justify-content: center; /* Centraliza horizontalmente */
-    margin: 0 10px; /* Adiciona espaço horizontal entre os ícones */
-  }
+/* Estilização da Navbar */
+.custom-navbar .nav {
+  display: flex; /* Usa flexbox para o contêiner dos ícones */
+  justify-content: space-around; /* Espaça os ícones uniformemente */
+  width: 100%; /* Garante que a navbar ocupa toda a largura */
+}
+
+/* Estilização comum para todos os ícones */
+.nav-icon {
+  display: flex; /* Utiliza flex para centralizar o ícone */
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  margin: 0 10px; /* Adiciona espaço horizontal entre os ícones */
+  width: 50px; /* Define uma largura padrão */
+  height: 50px; /* Define uma altura padrão */
+}
+
+/* Estilização para ícones ativos e inativos */
+.nav-link, .nav-link.disabled {
+  color: inherit; /* Herda a cor do texto */
+  text-decoration: none; /* Remove o sublinhado do texto do link */
+}
+
+
+/* Estilização específica para itens desabilitados */
+.nav-link.disabled, .nav-icon.disabled {
+  opacity: 0.5 !important; /* Reduz a opacidade e garante que tenha prioridade */
+  pointer-events: none; /* Desabilita o clique */
+  cursor: not-allowed; /* Muda o cursor para indicar que não é clicável */
+}
+
+.nav-link.disabled:hover, .nav-icon.disabled:hover {
+  transform: none; /* Remove qualquer efeito de hover */
+}
+
+

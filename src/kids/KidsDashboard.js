@@ -5,6 +5,8 @@ import { FaPiggyBank, FaCoins, FaShoppingCart, FaGamepad, FaBullseye, FaBook, Fa
 import LoadingScreen from './LoadingScreen';
 
 import './KidsDashboard.css';
+import './GlobalKids.css';
+
 
 const KidsDashboard = () => {
         const childName = "Bebel"; // Nome da criança
@@ -12,16 +14,16 @@ const KidsDashboard = () => {
         const basePath = '/kids/isabel';
 
         const dashboardButtons = [
-            { id: 3, Icon: FaCoins, color: "#FFD700", text: "Mesadinha" },
-            { id: 2, Icon: FaMoneyBillWave, color: "#85BB65", text: "Ganhar" },
+            { id: 3, Icon: FaCoins, color: "#FFD700", text: "Mesadinha", isActive: true },
+            { id: 2, Icon: FaMoneyBillWave, color: "#85BB65", text: "Ganhar", isActive: true},
             // Desativar esses botões por enquanto (não temos as telas), mas o icone aparecer meio apagado
-            { id: 1, Icon: FaPiggyBank, color: "#6495ED", text: "Guardar" },
-            { id: 4, Icon: FaShoppingCart, color: "#FF6B6B", text: "Lojinha" },
-            { id: 5, Icon: FaGamepad, color: "#F6D365", text: "Desafios" },
-            { id: 6, Icon: FaBook, color: "#FF9A9E", text: "Extrato" },
-            { id: 7, Icon: FaBullseye, color: "#F0E6A7", text: "Metas" },
-            { id: 8, Icon: FaBook, color: "#C3AED6", text: "Educação" },
-            { id: 9, Icon: FaChartLine, color: "#7fdbda", text: "Crescimento" },
+            { id: 1, Icon: FaPiggyBank, color: "#6495ED", text: "Guardar", isActive: false},
+            { id: 4, Icon: FaShoppingCart, color: "#FF6B6B", text: "Lojinha", isActive: false},
+            { id: 5, Icon: FaGamepad, color: "#F6D365", text: "Desafios", isActive: false},
+            { id: 6, Icon: FaBook, color: "#FF9A9E", text: "Extrato", isActive: false},
+            { id: 7, Icon: FaBullseye, color: "#F0E6A7", text: "Metas", isActive: false},
+            { id: 8, Icon: FaBook, color: "#C3AED6", text: "Educação", isActive: false},
+            { id: 9, Icon: FaChartLine, color: "#7fdbda", text: "Crescimento", isActive: false},
         ];
 
         const [showLoadingScreen, setShowLoadingScreen] = useState(true);
@@ -60,12 +62,18 @@ const KidsDashboard = () => {
                 <Row className="justify-content-md-center">
                     {dashboardButtons.map(button => (
                         <Col key={button.id} xs={4} className="dashboard-item">
-                            <Link to={`${basePath}/${button.text.toLowerCase()}`}>
-                                <Button variant="light" className="icon-button">
+                            {button.isActive ? (
+                                <Link to={`${basePath}/${button.text.toLowerCase()}`}>
+                                    <Button variant="light" className="icon-button">
+                                        <button.Icon color={button.color} size={50} />
+                                    </Button>
+                                </Link>
+                            ) : (
+                                <div className="icon-button disabled">
                                     <button.Icon color={button.color} size={50} />
-                                </Button>
-                            </Link>
-                            <h3>{button.text}</h3>
+                                </div>
+                            )}
+                            <h3 className={button.isActive ? "" : "text-muted"}>{button.text}</h3>
                         </Col>
                     ))}
                 </Row>

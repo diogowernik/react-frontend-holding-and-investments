@@ -45,6 +45,8 @@ import EvolutionUsd from '../pages/Usd/Evolution';
 // Kids App
 import KidsDashboard from '../kids/KidsDashboard';
 import KidsDividends from '../kids/KidsDividends';
+import KidsQuests from '../kids/KidsQuests';
+import QuestDetails from '../kids/QuestDetails';
 
 
 function App() {
@@ -147,17 +149,19 @@ function App() {
           <PrivateRoute exact path='/evolution/:id/usd'>
             <EvolutionUsd />
           </PrivateRoute>
-
+          {/* Kids App  */}
           <Route exact path='/kids/isabel'>
             <KidsDashboard />
           </Route>
-
           <Route exact path='/kids/isabel/mesadinha'>
             <KidsDividends />
           </Route>
-
-          
-
+          <Route exact path='/kids/isabel/ganhar'>
+            <KidsQuests />
+          </Route>
+          <Route exact path='/kids/isabel/ganhar/:questKey'>
+            <QuestDetails />
+          </Route>
         </Switch>
       </BrowserRouter>
       <ToastContainer />

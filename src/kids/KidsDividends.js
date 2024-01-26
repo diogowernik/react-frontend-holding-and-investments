@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import LoadingScreen from './LoadingScreen';
 import './KidsDividends.css'; 
 import KidsNav from './KidsNav'; 
+import IconLoader from './IconLoader';
+import { FaCoins } from 'react-icons/fa';
+import './GlobalKids.css';
 
 
 const KidsDividends = () => {
@@ -27,32 +29,39 @@ const KidsDividends = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowLoadingScreen(false);
-    }, 3000); // Exibe a tela de carregamento por 3 segundos
+    }, 2000); // Exibe a tela de carregamento por 3 segundos
 
     return () => clearTimeout(timer); // Limpa o timer ao desmontar o componente
   }, []);
 
   if (showLoadingScreen) {
-    return <LoadingScreen />;
-  }
+    return <IconLoader 
+    Icon={FaCoins} 
+    color="#FFD700"
+    />;
+}
+
 
 
 return (
   <>
   <KidsNav />
   <Container className="kids-dividends">
-    
-    <Col xs={12} className="text-left welcome-message">
-      <h2 className="child-name">Oi {childName},</h2>
-    </Col>
-    <Col xs={12} className="text-right current-balance-box">
-      <p className="current-balance">Você tem <span className="balance-amount">R$ {currentBalance}</span></p>
-    </Col>
-    <Row>
-    <Col xs={12} className="text-left investments-message">
-      <p className="investments">Sua Mesada:</p>
-    </Col>
-    </Row>
+      <Row className="justify-content-md-center">
+          <Col xs={12}>
+              <div className="welcome-message">
+                  Oi {childName},
+              </div>
+              <div className="current-balance">
+                  Você tem R$ {currentBalance.toFixed(2)}
+              </div>
+          </Col>
+      </Row>
+      <Row>
+        <Col xs={12} className="text-left investments-message">
+          <p className="investments">Sua Mesada:</p>
+        </Col>
+      </Row>
     <Row>
       {/* Seus investimentos: */}
       {investments.map((investment) => (

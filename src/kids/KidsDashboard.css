@@ -24,6 +24,19 @@
   height: auto; /* Altura automática baseada no conteúdo */
 }
 
+.icon-button.disabled {
+  opacity: 0.5; /* Reduz a opacidade */
+  cursor: not-allowed; /* Muda o cursor para indicar que não é clicável */
+}
+
+.icon-button.disabled:hover {
+  transform: none; /* Remove qualquer efeito de hover */
+}
+
+.text-muted {
+  color: #aaa; /* Texto mais apagado para itens desativados */
+}
+
 .dashboard-item h3 {
   font-size: 1.5em;
   color: #555; /* Cor mais suave */
