@@ -5,7 +5,7 @@ import './GlobalKids.css';
 
 const LoadingScreen = () => {
   return (
-    <Container className="loading-screen">
+    <Container className="kids-container loading-screen">
       <Row className="justify-content-center align-items-center" style={{ height: '100vh' }}>
         <div className="bubbles" >
             {[...Array(6)].map((_, index) => (

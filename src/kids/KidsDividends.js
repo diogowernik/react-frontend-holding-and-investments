@@ -46,7 +46,7 @@ const KidsDividends = () => {
 return (
   <>
   <KidsNav />
-  <Container className="kids-dividends">
+  <Container className="kids-container kids-dividends">
       <Row className="justify-content-md-center">
           <Col xs={12}>
               <div className="welcome-message">

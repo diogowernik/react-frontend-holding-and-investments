@@ -21,12 +21,37 @@ const questData = {
         title: "Missão Ecológica",
         story: "Explore a natureza e aprenda sobre horta.",
         mission: "Ajude a Plantar.",
-        missionDetails: "Plante 20 mudinhas no canteiro da horta",
+        missionDetails: "Plante bandejas de mudinhas no canteiro da horta",
         reward: 10,
         image: "../../../images/eco-mission.png"
     },
+    'quest3': {
+        title: "Missão Espuma Divertida",
+        story: "Ajude a manter tudo limpo e brilhante!",
+        mission: "Lave o carro",
+        missionDetails: "Lave o carro por dentro e por fora, bem limpinho",
+        reward: 40,
+        image: "../../../images/car-wash.png"
+    },
+    'quest4': {
+        title: "Aventura das Palavras",
+        story: "Embarque em aventuras incríveis com cada página!",
+        mission: "Maratona de Leitura",
+        missionDetails: "Leia um capítulo do livro 'As Aventuras do Mundo das Letras'",
+        reward: 7,
+        image: "../../../images/reading-adventure.png"
+    },
+    'quest5': {
+        title: "Tesouro Escondido",
+        story: "Descubra e compartilhe tesouros do passado!",
+        mission: "Garage Sale",
+        missionDetails: "Organize uma venda de garagem com itens que você não usa mais",
+        reward: "o lucro da venda",
+        image: "../../../images/garage-sale.png"
+    },
     // Adicione mais quests conforme necessário...
 };
+
 
 // Função para obter os detalhes de uma quest específica
 function getQuestDetails(questKey) {
@@ -47,7 +72,7 @@ const QuestDetails = () => {
         return (
             <>
                 <KidsNav />
-                <Container className="quest-details-container">
+                <Container className="kids-container quest-details-container">
                     <Row className="justify-content-md-center">
                         <Col xs={12}>
                             <div className="welcome-message">
@@ -70,7 +95,7 @@ const QuestDetails = () => {
                             </Card.Text>
                             <div className="quest-reward">
                                 <FaCoins className="coins-icon" />
-                                <strong>Recompensa:</strong> R$ 10
+                                <strong>Recompensa:</strong> {questDetails.reward}
                             </div>
                             <Card.Text className="quest-instructions">
                                 <strong>Instruções:</strong> {questDetails.missionDetails} para ganhar {questDetails.reward} reais.

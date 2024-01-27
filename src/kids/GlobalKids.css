@@ -1,3 +1,7 @@
+.kids-container {
+    margin: 0 auto;
+    max-width: 500px;
+  }
 
 .welcome-message {
     font-size: 1.6em;

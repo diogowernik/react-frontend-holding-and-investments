@@ -41,7 +41,7 @@ const KidsDashboard = () => {
         }
         
         return (
-            <Container className="dashboard">
+            <Container className="kids-container dashboard">
                 <Row className="justify-content-md-center">
                     <Col xs={12}>
                         <div className="welcome-message">
