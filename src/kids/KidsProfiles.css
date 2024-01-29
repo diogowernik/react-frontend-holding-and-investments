@@ -1,7 +1,16 @@
 /* Estilos para KidsProfiles */
+/* KidsDividends.css */
+.kids-profiles {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f8ff;
+  color: #333;
+  padding: 20px 10px;
+}
+
 .kids-profiles-card {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    margin-top: 20px;
   }
   
   .kids-profile-card-img-top {
@@ -12,7 +21,7 @@
   
   /* Responsividade para telas menores */
   @media (max-width: 767px) {
-    .card {
+    .kids-profiles-card {
       margin: 10px auto; /* Centraliza o card em dispositivos móveis */
     }
   }

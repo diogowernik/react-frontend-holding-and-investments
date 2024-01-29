@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import KidsNav from './KidsNav';
-import IconLoader from './IconLoader';
+import KidsNav from './components/KidsNav/KidsNav';
+import IconLoader from './components/IconLoader/IconLoader';
 import { FaMoneyBillWave } from 'react-icons/fa';
 import { useKidProfile } from './contexts/KidProfileContext';
-import ProfileHeader from './ProfileHeader';
-import QuestCard from './QuestCard';
+import ProfileHeader from './components/ProfileHeader/ProfileHeader';
+import QuestCard from './components/QuestCard/QuestCard';
 
 import './KidsQuests.css';
-import './GlobalKids.css';
+import './css/GlobalKids.css';
 
 
 const KidsQuests = () => {

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import KidsNav from './KidsNav';
-import IconLoader from './IconLoader';
+import KidsNav from './components/KidsNav/KidsNav';
+import IconLoader from './components/IconLoader/IconLoader';
 import { FaCoins } from 'react-icons/fa';
 import { useKidProfile } from './contexts/KidProfileContext';
-import ProfileHeader from './ProfileHeader';
+import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 
 import './KidsDividends.css'; 
-import './GlobalKids.css';
+import './css/GlobalKids.css';
 
 
 const KidsDividends = () => {

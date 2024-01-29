@@ -2,12 +2,12 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Card } from 'react-bootstrap';
 import { FaCoins } from 'react-icons/fa';
-import KidsNav from './KidsNav';
+import KidsNav from './components/KidsNav/KidsNav';
 import { useKidProfile } from './contexts/KidProfileContext';
-import ProfileHeader from './ProfileHeader';
+import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 
 import './QuestDetails.css';
-import './GlobalKids.css';
+import './css/GlobalKids.css';
 
 
 // Dados de exemplo para as quests

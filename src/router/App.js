@@ -157,11 +157,11 @@ function App() {
         <Route exact path='/kids'>
           <KidsProfiles />
         </Route>
-        <PrivateRoute exact path='/kids/:slug'>
+        <Route exact path='/kids/:slug'>
           <KidProfileProvider>
             <KidsDashboard />
           </KidProfileProvider>
-        </PrivateRoute>
+        </Route>
         <Route exact path='/kids/:slug/mesadinha'>
           <KidProfileProvider>
             <KidsDividends />

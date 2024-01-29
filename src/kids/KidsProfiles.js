@@ -2,9 +2,10 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import AuthContext from '../contexts/AuthContext';
-import KidsNav from './KidsNav';
+import KidsNav from './components/KidsNav/KidsNav';
 import { fetchKidsProfiles } from '../apis'; // Certifique-se de que o caminho está correto
 import './KidsProfiles.css'; // Certifique-se de que o caminho está correto
+import './css/GlobalKids.css'; // Certifique-se de que o caminho está correto
 
 const KidsProfiles = () => {
   const [kidsProfiles, setKidsProfiles] = useState([]);
@@ -31,12 +32,12 @@ const KidsProfiles = () => {
   return (
     <>
       <KidsNav />
-      <Container className="kids-dividends">
+      <Container className="kids-container kids-profiles">
         <Row className="justify-content-md-center">
           {kidsProfiles.map((kidsProfile) => (
             <Col xs={12} md={4} lg={4} key={kidsProfile.slug} className="mb-3">
-              <Card onClick={() => history.push(`/kids/${kidsProfile.slug}`)}>
-                <Card.Img variant="top" src={kidsProfile.image} className="rounded-circle mx-auto mt-3" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
+              <Card className='kids-profiles-card' onClick={() => history.push(`/kids/${kidsProfile.slug}`)}>
+                <Card.Img variant="top" src={kidsProfile.image} className="kids-profile-card-img-top rounded-circle mx-auto mt-3" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
                 <Card.Body>
                   <Card.Title className="text-center">{kidsProfile.name}</Card.Title>
                 </Card.Body>

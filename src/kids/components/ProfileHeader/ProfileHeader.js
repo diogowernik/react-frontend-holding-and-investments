@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { useKidProfile } from './contexts/KidProfileContext';
+import { useKidProfile } from '../../contexts/KidProfileContext';
 
 const ProfileHeader = () => {
     const kidProfile = useKidProfile();

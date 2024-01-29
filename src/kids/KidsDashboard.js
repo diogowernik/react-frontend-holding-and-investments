@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import LoadingScreen from './LoadingScreen';
+import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import { useKidProfile } from './contexts/KidProfileContext'; // Importe o hook
-import { dashboardButtons } from './dashboardButtons'; 
-import ProfileHeader from './ProfileHeader'; 
+import { dashboardButtons } from './utils/dashboardButtons'; 
+import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 
 import './KidsDashboard.css';
-import './GlobalKids.css';
+import './css/GlobalKids.css';
 
 const KidsDashboard = () => {
     const kidProfile = useKidProfile();

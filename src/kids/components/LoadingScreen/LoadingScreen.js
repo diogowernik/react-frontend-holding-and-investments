@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row} from 'react-bootstrap';
 import './LoadingScreen.css';
-import './GlobalKids.css';
 
 const LoadingScreen = () => {
   return (
