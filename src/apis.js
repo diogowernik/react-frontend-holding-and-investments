@@ -171,3 +171,21 @@ export async function uploadImage(image) {
   });
   return await response.json();
 }
+
+// KidsProfile
+
+export function fetchKidsProfiles(token) {
+  return request('/api/kids/', { token });
+}
+
+export function fetchKidsProfile(slug, token) {
+  return request(`/api/kids/${slug}`, { token });
+}
+
+export function fetchKidsProfileQuests(slug, token) {
+  return request(`/api/kids/${slug}/quests`, { token });
+}
+
+export function fetchKidsProfileQuest(quest_key, token) {
+  return request(`/api/kids/quests/${quest_key}`, { token });
+}

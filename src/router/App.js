@@ -43,6 +43,8 @@ import ReitsUsd from '../pages/Usd/Reits';
 import EvolutionUsd from '../pages/Usd/Evolution';
 
 // Kids App
+import { KidProfileProvider } from '../kids/contexts/KidProfileContext';
+import KidsProfiles from '../kids/KidsProfiles';
 import KidsDashboard from '../kids/KidsDashboard';
 import KidsDividends from '../kids/KidsDividends';
 import KidsQuests from '../kids/KidsQuests';
@@ -152,19 +154,30 @@ function App() {
           <PrivateRoute exact path='/evolution/:id/usd'>
             <EvolutionUsd />
           </PrivateRoute>
-          {/* Kids App  */}
-          <Route exact path='/kids/isabel'>
+        <Route exact path='/kids'>
+          <KidsProfiles />
+        </Route>
+        <PrivateRoute exact path='/kids/:slug'>
+          <KidProfileProvider>
             <KidsDashboard />
-          </Route>
-          <Route exact path='/kids/isabel/mesadinha'>
+          </KidProfileProvider>
+        </PrivateRoute>
+        <Route exact path='/kids/:slug/mesadinha'>
+          <KidProfileProvider>
             <KidsDividends />
-          </Route>
-          <Route exact path='/kids/isabel/ganhar'>
+          </KidProfileProvider>
+        </Route>
+        <Route exact path='/kids/:slug/ganhar'>
+          <KidProfileProvider>
             <KidsQuests />
-          </Route>
-          <Route exact path='/kids/isabel/ganhar/:questKey'>
+          </KidProfileProvider>
+        </Route>
+        <Route exact path='/kids/:slug/ganhar/:questKey'>
+          <KidProfileProvider>
             <QuestDetails />
-          </Route>
+          </KidProfileProvider>
+        </Route>
+
           {/* Wtree App  */}
           <Route exact path='/diogo.wernik'>
             <Profile />

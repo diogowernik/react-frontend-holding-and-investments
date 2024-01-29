@@ -1,9 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import './QuestDetails.css'; // Adicione o caminho correto para o seu arquivo CSS
-import KidsNav from './KidsNav'; // Importe o componente KidsNav
-import { Container, Card, Row, Col } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
 import { FaCoins } from 'react-icons/fa';
+import KidsNav from './KidsNav';
+import { useKidProfile } from './contexts/KidProfileContext';
+import ProfileHeader from './ProfileHeader';
+
+import './QuestDetails.css';
 import './GlobalKids.css';
 
 
@@ -60,29 +63,18 @@ function getQuestDetails(questKey) {
 
 const QuestDetails = () => {
     const { questKey } = useParams();
+    const kidProfile = useKidProfile();
     const questDetails = getQuestDetails(questKey);
 
-    const childName = "Bebel"; // Nome da criança
-    const currentBalance = 264.02; // Saldo atual da criança
-
-    if (!questDetails) {
-        return <div className="quest-not-found">Quest não encontrada.</div>;
+    if (!kidProfile || !questDetails) {
+        return <div>Carregando...</div>; // ou um componente de carregamento
     }
-    
-        return (
-            <>
-                <KidsNav />
-                <Container className="kids-container quest-details-container">
-                    <Row className="justify-content-md-center">
-                        <Col xs={12}>
-                            <div className="welcome-message">
-                                Oi {childName},
-                            </div>
-                            <div className="current-balance">
-                                Você tem R$ {currentBalance.toFixed(2)}
-                            </div>
-                        </Col>
-                    </Row>
+
+    return (
+        <>
+            <KidsNav />
+            <Container className="kids-container quest-details-container">
+                <ProfileHeader />
                     <Card className="quest-card">
                         <Card.Header as="h2" className="quest-title text-center">{questDetails.title}</Card.Header>
                         <Card.Img variant="top" src={questDetails.image} alt={questDetails.title} className="quest-image" />

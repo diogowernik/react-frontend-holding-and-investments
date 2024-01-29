@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import './KidsDividends.css'; 
-import KidsNav from './KidsNav'; 
+import KidsNav from './KidsNav';
 import IconLoader from './IconLoader';
 import { FaCoins } from 'react-icons/fa';
+import { useKidProfile } from './contexts/KidProfileContext';
+import ProfileHeader from './ProfileHeader';
+
+import './KidsDividends.css'; 
 import './GlobalKids.css';
 
 
@@ -18,45 +21,27 @@ const KidsDividends = () => {
     { id: 6, image: '../../images/HGRE11.png', cotas: 9, fundo: 'HGRE11', dividends: 10.80, date: '15/02' },
   ];
 
-  const currentBalance = 264.02;
-  const childName = "Bebel"; // Nome da criança
+  const kidProfile = useKidProfile();
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
   // Calcular o total de dividendos para a próxima mesada
   const totalDividends = investments.reduce((sum, investment) => sum + investment.dividends, 0);
 
-  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLoadingScreen(false);
-    }, 2000); // Exibe a tela de carregamento por 3 segundos
+    if (kidProfile) {
+      setTimeout(() => setShowLoadingScreen(false), 2000);
+    }
+  }, [kidProfile]);
 
-    return () => clearTimeout(timer); // Limpa o timer ao desmontar o componente
-  }, []);
+  if (showLoadingScreen || !kidProfile) {
+    return <IconLoader Icon={FaCoins} color="#FFD700" />;
+  }
 
-  if (showLoadingScreen) {
-    return <IconLoader 
-    Icon={FaCoins} 
-    color="#FFD700"
-    />;
-}
-
-
-
-return (
-  <>
-  <KidsNav />
-  <Container className="kids-container kids-dividends">
-      <Row className="justify-content-md-center">
-          <Col xs={12}>
-              <div className="welcome-message">
-                  Oi {childName},
-              </div>
-              <div className="current-balance">
-                  Você tem R$ {currentBalance.toFixed(2)}
-              </div>
-          </Col>
-      </Row>
+  return (
+    <>
+      <KidsNav />
+      <Container className="kids-container kids-dividends">
+        <ProfileHeader />
       <Row>
         <Col xs={12} className="text-left investments-message">
           <p className="investments">Sua Mesada:</p>

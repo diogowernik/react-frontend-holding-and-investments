@@ -1,0 +1,18 @@
+/* Estilos para KidsProfiles */
+.kids-profiles-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .kids-profile-card-img-top {
+    width: 100px; /* Tamanho da imagem */
+    height: 100px; /* Tamanho da imagem */
+    border-radius: 50%; /* Torna a imagem circular */
+  }
+  
+  /* Responsividade para telas menores */
+  @media (max-width: 767px) {
+    .card {
+      margin: 10px auto; /* Centraliza o card em dispositivos móveis */
+    }
+  }
