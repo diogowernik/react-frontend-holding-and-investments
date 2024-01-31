@@ -49,6 +49,7 @@ import KidsDashboard from '../kids/KidsDashboard';
 import KidsDividends from '../kids/KidsDividends';
 import KidsQuests from '../kids/KidsQuests';
 import QuestDetails from '../kids/QuestDetails';
+import KidsEarns from '../kids/KidsEarns';
 
 // Wtree App
 import Profile from '../wtree/Profile';
@@ -177,6 +178,12 @@ function App() {
         <Route exact path='/kids/:slug/ganhar/:questKey'>
           <KidProfileProvider>
             <QuestDetails />
+          </KidProfileProvider>
+        </Route>
+        {/* earns = recebi */}
+        <Route exact path='/kids/:slug/recebi'>
+          <KidProfileProvider>
+            <KidsEarns />
           </KidProfileProvider>
         </Route>
 

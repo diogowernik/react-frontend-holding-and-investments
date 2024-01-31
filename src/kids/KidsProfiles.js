@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import AuthContext from '../contexts/AuthContext';
-import { fetchKidsProfiles } from '../apis'; // Certifique-se de que o caminho está correto
-import './KidsProfiles.css'; // Certifique-se de que o caminho está correto
-import './css/GlobalKids.css'; // Certifique-se de que o caminho está correto
+import { fetchKidsProfiles } from '../apis'; 
+import './KidsProfiles.css'; 
+import './css/GlobalKids.css'; 
 
 const KidsProfiles = () => {
   const [kidsProfiles, setKidsProfiles] = useState([]);

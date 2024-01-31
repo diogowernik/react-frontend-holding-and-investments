@@ -10,7 +10,7 @@ const KidsNav = () => {
     { id: 1, Icon: FaHome, color: "#6495ED", path: "/kids/isabel", isActive: true },
     { id: 2, Icon: FaCoins, color: "#FFD700", path: "/kids/isabel/mesadinha", isActive: true },
     { id: 3, Icon: FaMoneyBillWave, color: "#85BB65", path: "/kids/isabel/ganhar", isActive: true },
-    { id: 4, Icon: FaPiggyBank, color: "#FF69B4", path: "/kids/isabel/guardar", isActive: false },
+    { id: 4, Icon: FaPiggyBank, color: "#6495ED", path: "/kids/isabel/recebi", isActive: true },
     // { id: 5, Icon: FaGift, color: "#FF69B4", path: "/kids/isabel/lojinha", isActive: false },
     { id: 6, Icon: FaQuestionCircle, color: "#F28D35", path: "/kids/isabel/ajuda", isActive: false },
     // { id: 7, Icon: FaChartLine, color: "#7fdbda", path: "/kids/isabel/crescimento", isActive: false },

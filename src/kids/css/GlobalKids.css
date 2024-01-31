@@ -1,6 +1,7 @@
 .kids-container {
     margin: 0 auto;
-    max-width: 500px;
+    /* para parecer um app mobile  */
+    max-width: 800px;
   }
 
 .welcome-message {
@@ -22,3 +23,5 @@
     text-align: center;
     width: 100%; /* Ocupa a largura total do container */
   }
+  
+  

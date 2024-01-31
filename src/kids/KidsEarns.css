@@ -1,0 +1,56 @@
+.kids-earns {
+    background-color: #F0F8FF; /* Um azul claro que é suave para os olhos */
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.kids-earns h3 {
+    font-size: 1.6em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.kids-earns .earn-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.kids-earns .earn-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.kids-earns .earn-date {
+    flex-basis: 20%;
+    color: #666;
+    font-size: 1em;
+}
+
+.kids-earns .earn-icon {
+    flex-basis: 10%;
+    text-align: center;
+    font-size: 2em; /* Ícones maiores */
+}
+
+.kids-earns .earn-description {
+    flex-basis: 50%;
+    color: #333;
+    font-size: 1em;
+    padding: 0 10px;
+}
+
+.kids-earns .earn-amount {
+    flex-basis: 20%;
+    text-align: right;
+    font-weight: bold;
+    color: #188d24;
+}
+
+
