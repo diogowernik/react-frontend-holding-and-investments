@@ -9,10 +9,10 @@
   .investments {
     background-color: #fff;
     border-radius: 10px;
-    margin-bottom: 0px;
-    margin-left: 0;
+    margin-bottom: 15px;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.2em;
   }
   .child-name {
     font-size: 1.8em;
@@ -69,18 +69,34 @@
   }
   
   .next-allowance {
-    background-color: #fff;
-    border-radius: 10px;
-    margin-top: 20px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.4em;
+    font-size: 1.2em;
+
+    margin-top: 15px;
   }
+
   .dividends-amount {
     font-weight: bold;
     color: #188d24;
     font-size: 1.1em;
   }
+
+  .missions-button {
+    background-color: #28a745; /* Cor verde do botão */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-size: 1.1em;
+}
+
+.missions-button:hover {
+    background-color: #218838; /* Cor do botão ao passar o mouse */
+}
 
 
 

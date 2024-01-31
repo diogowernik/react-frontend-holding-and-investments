@@ -186,6 +186,10 @@ export function fetchKidsProfileQuests(slug, token) {
   return request(`/api/kids/${slug}/quests`, { token });
 }
 
-export function fetchKidsProfileQuest(quest_key, token) {
-  return request(`/api/kids/quests/${quest_key}`, { token });
+export function fetchKQuest(slug, quest_key, token) {
+  return request(`/api/kids/${slug}/quests/${quest_key}`, { token });
+}
+
+export function fetchKidsProfileDividends(slug, token) {
+  return request(`/api/kids/${slug}/dividends`, { token });
 }

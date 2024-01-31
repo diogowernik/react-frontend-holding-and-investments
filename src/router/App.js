@@ -162,11 +162,13 @@ function App() {
             <KidsDashboard />
           </KidProfileProvider>
         </Route>
+        {/* dividends = mesadinha */}
         <Route exact path='/kids/:slug/mesadinha'>
           <KidProfileProvider>
             <KidsDividends />
           </KidProfileProvider>
         </Route>
+        {/* quests = ganhar  */}
         <Route exact path='/kids/:slug/ganhar'>
           <KidProfileProvider>
             <KidsQuests />
@@ -182,6 +184,7 @@ function App() {
           <Route exact path='/diogo.wernik'>
             <Profile />
           </Route>
+          
         </Switch>
       </BrowserRouter>
       <ToastContainer />

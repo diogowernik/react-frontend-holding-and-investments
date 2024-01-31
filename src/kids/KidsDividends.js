@@ -1,37 +1,58 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import KidsNav from './components/KidsNav/KidsNav';
 import IconLoader from './components/IconLoader/IconLoader';
 import { FaCoins } from 'react-icons/fa';
 import { useKidProfile } from './contexts/KidProfileContext';
 import ProfileHeader from './components/ProfileHeader/ProfileHeader';
+import { fetchKidsProfileDividends } from '../apis'; // Certifique-se de que o caminho está correto
+import { useHistory } from 'react-router-dom';
+
 
 import './KidsDividends.css'; 
 import './css/GlobalKids.css';
 
-
 const KidsDividends = () => {
-  // Dados de exemplo
-  const investments = [
-    { id: 1, image: '../../images/HGLG11.jpeg', cotas: 10, fundo: 'HGLG11', dividends: 11.00, date: '15/02' },
-    { id: 2, image: '../../images/BRCO11.png', cotas: 12, fundo: 'BRCO11', dividends: 11.88, date: '15/02' },
-    { id: 3, image: '../../images/HGBS11.jpeg', cotas: 5, fundo: 'HGBS11', dividends: 10.00, date: '15/02' },
-    { id: 4, image: '../../images/KNRI11.png', cotas: 10, fundo: 'KNRI11', dividends: 10.00, date: '15/02' },
-    { id: 5, image: '../../images/HGCR11.png', cotas: 10, fundo: 'HGCR11', dividends: 10.00, date: '15/02' },
-    { id: 6, image: '../../images/HGRE11.png', cotas: 9, fundo: 'HGRE11', dividends: 10.80, date: '15/02' },
-  ];
-
   const kidProfile = useKidProfile();
+  const history = useHistory();
+  const [investments, setInvestments] = useState([]);
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  
+  const getCurrentMonthDividends = (investments) => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1; // Janeiro é 0, então adicione 1
 
-  // Calcular o total de dividendos para a próxima mesada
-  const totalDividends = investments.reduce((sum, investment) => sum + investment.dividends, 0);
+    return investments.filter(investment => {
+        const [, month, year] = investment.pay_date.split('/').map(Number);
+        return year === currentYear && month === currentMonth;
+    });
+};
 
   useEffect(() => {
+    const fetchDividends = async () => {
+      try {
+        const json = await fetchKidsProfileDividends(kidProfile.slug, kidProfile.token);
+        if (json) {
+          const monthlyDividends = getCurrentMonthDividends(json);
+          setInvestments(monthlyDividends);
+      }
+      } catch (error) {
+        console.error('Erro ao buscar dados de dividendos:', error);
+        // Tratamento de erro ou notificação ao usuário aqui
+      } finally {
+        setShowLoadingScreen(false);
+      }
+    };
+
     if (kidProfile) {
-      setTimeout(() => setShowLoadingScreen(false), 2000);
+      fetchDividends();
     }
   }, [kidProfile]);
+
+  console.log(investments)
+
+  const totalDividends = investments.reduce((sum, investment) => sum + investment.total_dividend_brl, 0);
 
   if (showLoadingScreen || !kidProfile) {
     return <IconLoader Icon={FaCoins} color="#FFD700" />;
@@ -42,38 +63,43 @@ const KidsDividends = () => {
       <KidsNav />
       <Container className="kids-container kids-dividends">
         <ProfileHeader />
-      <Row>
-        <Col xs={12} className="text-left investments-message">
-          <p className="investments">Sua Mesada:</p>
-        </Col>
-      </Row>
-    <Row>
-      {/* Seus investimentos: */}
-      {investments.map((investment) => (
-        <Col xs={4} key={investment.id} className="investment-col"> {/* Mantendo 3 colunas em dispositivos móveis */}
-          <Card className="investment-card">
-            <Card.Header>{investment.cotas} cotas</Card.Header>
-            <Card.Img variant="top" src={investment.image} className="investment-image" />
-            <Card.Body>
-              <Card.Title> R$ {(investment.dividends).toFixed(2)}</Card.Title>
-            </Card.Body>
-          </Card>
-        </Col>
-      ))}
-    </Row>
-    <Row>
-          <Col xs={12} className="text-center next-allowance">
-            <p className='mt-2'>
-              Somando os alugueis dos seus investimentos,
-              <br/>
-              você recebeu <span className="dividends-amount">R$ {totalDividends.toFixed(2)}</span> de mesada.
-            </p>
+        <Row>
+          <Col xs={12} className="text-center investments-message">
+            <p className="investments">Sua Mesada:</p>
           </Col>
         </Row>
-  </Container>
-  </>
-);
-
+        <Row>
+          {investments.map((investment) => (
+            <Col xs={4} key={investment.id} className="investment-col">
+              <Card className="investment-card">
+                <Card.Header>{investment.shares_amount} cotas</Card.Header>
+                <Card.Img variant="top" src={`../../images/${investment.ticker}.png`} className="investment-image" />
+                <Card.Body>
+                  <Card.Title> R$ {(investment.total_dividend_brl.toFixed(2))} </Card.Title>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+        <Row>
+          <Col xs={12} className="text-center next-allowance">
+          <p className='mt-2'>
+                      Somando os alugueis dos investimentos,
+                      <br/>
+                      Sua mesada deste mês é: <span className="dividends-amount">R$ {totalDividends.toFixed(2)}</span>.
+                  </p>
+                  <Button 
+                      variant="success" 
+                      className="missions-button" 
+                      onClick={() => history.push(`/kids/${kidProfile.slug}/ganhar`)}>
+                      Faça uma missão para <br/>
+                      ganhar mais!
+                  </Button>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
 };
 
 export default KidsDividends;

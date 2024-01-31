@@ -6,26 +6,33 @@ import { FaMoneyBillWave } from 'react-icons/fa';
 import { useKidProfile } from './contexts/KidProfileContext';
 import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 import QuestCard from './components/QuestCard/QuestCard';
+import { fetchKidsProfileQuests } from '../apis'; // Atualize o caminho conforme necessário
 
 import './KidsQuests.css';
 import './css/GlobalKids.css';
 
-
 const KidsQuests = () => {
     const kidProfile = useKidProfile();
     const [showLoadingScreen, setShowLoadingScreen] = useState(true);    
-    const quests = [
-        // { questKey: 'quest1', title: "Aventura Matemática", description: "Ganhe recompensas resolvendo divertidos desafios matemáticos!", reward: 5, image: '../../images/math-adventure.png' },
-        { questKey: 'quest2', title: "Missão Ecológica", description: "Explore a natureza e aprenda sobre horta.", reward: 3, image: '../../images/eco-mission.png' },
-        { questKey: 'quest3', title: "Missão Espuma Divertida", description: "Divirta-se lavando o carro e ganhe!", reward: 4, image: '../../images/car-wash.png' },
-        // { questKey: 'quest4', title: "Aventura das Palavras", description: "Leia um capítulo e embarque em uma jornada de conhecimento!", reward: 3, image: '../../images/reading-adventure.png' },
-        { questKey: 'quest5', title: "Tesouro Escondido", description: "Venda itens antigos em uma garage sale!", reward: 3, image: '../../images/garage-sale.png' },
-        // Adicione outras quests aqui...
-    ];
-    
+    const [quests, setQuests] = useState([]);
+
     useEffect(() => {
+        const fetchQuests = async () => {
+            try {
+                const json = await fetchKidsProfileQuests(kidProfile.slug, kidProfile.token);
+                if (json) {
+                    setQuests(json);
+                    setShowLoadingScreen(false);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar quests:', error);
+                // Adicione tratamento de erro ou notificação ao usuário aqui
+                setShowLoadingScreen(false);
+            }
+        };
+
         if (kidProfile) {
-            setTimeout(() => setShowLoadingScreen(false), 2000);
+            fetchQuests();
         }
     }, [kidProfile]);
 
@@ -47,7 +54,7 @@ const KidsQuests = () => {
                 </Row>
                 <Row>
                     {quests.map(quest => (
-                        <Col xs={12} className="mb-4" key={quest.questKey}>
+                        <Col xs={12} className="mb-4" key={quest.quest_key}>
                             <QuestCard quest={quest} kidSlug={kidProfile.slug} />
                         </Col>
                     ))}
@@ -56,6 +63,5 @@ const KidsQuests = () => {
         </>
     );
 };
-
 
 export default KidsQuests;

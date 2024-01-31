@@ -8,8 +8,9 @@ const QuestCard = ({ quest, kidSlug }) => {
             <Card.Img variant="top" src={quest.image} />
             <Card.Body>
                 <Card.Title>{quest.title}</Card.Title>
-                <Card.Text>{quest.description}</Card.Text>
-                <Link to={`/kids/${kidSlug}/ganhar/${quest.questKey}`}>
+                <Card.Text>{quest.story}</Card.Text>
+                {/* quests = ganhar  */}
+                <Link to={`/kids/${kidSlug}/ganhar/${quest.quest_key}`}>
                     <Button variant="primary">Começar Aventura</Button>
                 </Link>
             </Card.Body>

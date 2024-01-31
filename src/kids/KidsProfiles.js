@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import AuthContext from '../contexts/AuthContext';
-import KidsNav from './components/KidsNav/KidsNav';
 import { fetchKidsProfiles } from '../apis'; // Certifique-se de que o caminho está correto
 import './KidsProfiles.css'; // Certifique-se de que o caminho está correto
 import './css/GlobalKids.css'; // Certifique-se de que o caminho está correto
@@ -31,8 +30,17 @@ const KidsProfiles = () => {
 
   return (
     <>
-      <KidsNav />
       <Container className="kids-container kids-profiles">
+      <Row className="justify-content-md-center">
+            <Col xs={12}>
+                <div className="welcome-message">
+                    Oi tudo bem?
+                </div>
+                <div className="current-balance">
+                    Veja seu perfil aqui!
+                </div>
+            </Col>
+        </Row>
         <Row className="justify-content-md-center">
           {kidsProfiles.map((kidsProfile) => (
             <Col xs={12} md={4} lg={4} key={kidsProfile.slug} className="mb-3">
