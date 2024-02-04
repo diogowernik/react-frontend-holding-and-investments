@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Alert } from 'react-bootstrap';
 import KidsNav from './components/KidsNav/KidsNav';
 import IconLoader from './components/IconLoader/IconLoader';
 import { FaCoins } from 'react-icons/fa';
@@ -63,11 +63,29 @@ const KidsDividends = () => {
       <KidsNav />
       <Container className="kids-container kids-dividends">
         <ProfileHeader />
-        <Row>
-          <Col xs={12} className="text-center investments-message">
-            <p className="investments">Sua Mesada:</p>
-          </Col>
-        </Row>
+        <Alert variant="info" className="dividends-alert">
+          <p>
+            Aqui estão os seus dividendos. Você pode ver o quanto ganhou com seus investimentos.
+          </p>
+        </Alert>
+        {/* if (investments.length === 0) {   // create a second alert when there are no dividends
+
+                  <Alert variant="info" className="dividends-alert">
+                      <p>
+                          Você costuma receber no dia 15 de cada mes.
+                      </p>
+                  </Alert>
+                  } */}
+        {investments.length === 0 && (
+          // variant cor laranja 
+          <Alert variant="warning" className="dividends-alert">
+            <p>
+              Você costuma receber no dia 15 de cada mes. Aguarde mais um pouco!
+            </p>
+          </Alert>
+        )
+        }
+
         <Row>
           {investments.map((investment) => (
             <Col xs={4} key={investment.id} className="investment-col">
@@ -88,6 +106,8 @@ const KidsDividends = () => {
                       <br/>
                       Sua mesada deste mês é: <span className="dividends-amount">R$ {totalDividends.toFixed(2)}</span>.
                   </p>
+                  
+                  
                   <Button 
                       variant="success" 
                       className="missions-button" 

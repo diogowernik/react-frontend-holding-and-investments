@@ -10,11 +10,17 @@
     border-radius: 20px; /* Bordas arredondadas para um look suave */
     overflow: hidden; /* Garante que a imagem não saia do card */
     transition: transform 0.3s ease-in-out; /* Transição suave para o hover */
-    margin-bottom: 20px; /* Espaçamento na parte inferior do cartão */
+    margin-bottom: 10px; /* Espaçamento na parte inferior do cartão */
 }
 
 .quest-card:hover {
     transform: scale(1.03); /* Efeito de "pop" ao passar o mouse */
+}
+
+ /* fade ade quests-alert alert alert-info show margin botton 0 */
+
+ .quests-alert {
+    margin-bottom: 0;
 }
 
 .quest-card img {

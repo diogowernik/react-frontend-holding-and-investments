@@ -50,6 +50,11 @@ import KidsDividends from '../kids/KidsDividends';
 import KidsQuests from '../kids/KidsQuests';
 import QuestDetails from '../kids/QuestDetails';
 import KidsEarns from '../kids/KidsEarns';
+import KidsEvents from '../kids/KidsEvents';
+import KidsExpenses from '../kids/KidsExpenses';
+import KidsGames from '../kids/KidsGames';
+import KidsIntegration from '../kids/KidsIntegration';
+import KidsBanks from '../kids/KidsBanks';
 
 // Wtree App
 import Profile from '../wtree/Profile';
@@ -186,7 +191,36 @@ function App() {
             <KidsEarns />
           </KidProfileProvider>
         </Route>
-
+        {/* events = eventos */}
+        <Route exact path='/kids/:slug/eventos'>
+          <KidProfileProvider>
+            <KidsEvents />
+          </KidProfileProvider>
+        </Route>
+        {/* expenses = gastei */}
+        <Route exact path='/kids/:slug/gastei'>
+          <KidProfileProvider>
+            <KidsExpenses />
+          </KidProfileProvider>
+        </Route>
+        {/* games = jogos */}
+        <Route exact path='/kids/:slug/jogos'>
+          <KidProfileProvider>
+            <KidsGames />
+          </KidProfileProvider>
+        </Route>
+        {/* integration = integração */}
+        <Route exact path='/kids/:slug/conecte-se'>
+          <KidProfileProvider>
+            <KidsIntegration />
+          </KidProfileProvider>
+        </Route>
+        {/* bank integration = integração bancária */}
+        <Route exact path='/kids/:slug/bancos'>
+          <KidProfileProvider>
+            <KidsBanks />
+          </KidProfileProvider>
+        </Route>
           {/* Wtree App  */}
           <Route exact path='/diogo.wernik'>
             <Profile />

@@ -3,7 +3,8 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { FaHome, FaPiggyBank,
   //  FaChartLine, FaGift, 
-   FaQuestionCircle, FaMoneyBillWave, FaCoins } from 'react-icons/fa';
+   FaQuestionCircle, FaMoneyBillWave, FaCoins, FaShoppingCart } from 'react-icons/fa';
+
 
 const KidsNav = () => {
   const menuButtons = [
@@ -12,7 +13,7 @@ const KidsNav = () => {
     { id: 3, Icon: FaMoneyBillWave, color: "#85BB65", path: "/kids/isabel/ganhar", isActive: true },
     { id: 4, Icon: FaPiggyBank, color: "#6495ED", path: "/kids/isabel/recebi", isActive: true },
     // { id: 5, Icon: FaGift, color: "#FF69B4", path: "/kids/isabel/lojinha", isActive: false },
-    { id: 6, Icon: FaQuestionCircle, color: "#F28D35", path: "/kids/isabel/ajuda", isActive: false },
+    { id: 6, Icon: FaShoppingCart, color: "#e7ab3c", path: "/kids/isabel/gastei", isActive: true },
     // { id: 7, Icon: FaChartLine, color: "#7fdbda", path: "/kids/isabel/crescimento", isActive: false },
 ];
 

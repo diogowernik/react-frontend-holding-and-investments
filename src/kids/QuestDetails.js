@@ -61,7 +61,7 @@ const QuestDetails = () => {
                             <strong>Recompensa:</strong> {questDetails.reward}
                         </div>
                         <Card.Text className="quest-instructions">
-                            <strong>Instruções:</strong> {questDetails.missionDetails} para ganhar {questDetails.reward} reais.
+                            <strong>Instruções:</strong> {questDetails.mission_details} para ganhar {questDetails.reward} reais.
                         </Card.Text>
                     </Card.Body>
                 </Card>

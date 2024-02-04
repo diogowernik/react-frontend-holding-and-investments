@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import KidsNav from './components/KidsNav/KidsNav';
 import IconLoader from './components/IconLoader/IconLoader';
 import { FaMoneyBillWave } from 'react-icons/fa';
@@ -45,6 +45,11 @@ const KidsQuests = () => {
             <KidsNav />
             <Container className="kids-container kids-quests">
                 <ProfileHeader />
+                <Alert variant="info" className="quests-alert">
+                    <p>
+                        Escolha uma aventura, para ganhar mais dinheirinho!
+                    </p>
+                </Alert>
                 <Row className="justify-content-md-center">
                     <Col md={12}>
                         <div className="action-message">
