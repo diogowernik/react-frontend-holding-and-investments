@@ -6,34 +6,38 @@ import KidsNav from './components/KidsNav/KidsNav';
 import IconLoader from './components/IconLoader/IconLoader';
 import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 import { formatByMonth, getIconForCategory } from './utils/financialUtils';
+import { fetchKidsEarns } from '../apis';
 
 import './KidsEarns.css';
 import './css/GlobalKids.css';
 
-// Dados de exemplo
-const kidsEarnings = [
-    // { id: 1, date: '13/05/2023', category: 'presente', description: 'Presente do vovô', amount: 400.00 },
-    { id: 2, date: '01/02/2024', category: 'missao', description: 'Missão Espuma Divertida', amount: 44.00 },
-    { id: 3, date: '15/01/2024', category: 'aluguel', description: 'Aluguéis de Fiis', amount: 60.56 },
-    // { id: 4, date: '21/05/2023', category: 'presente', description: 'Presente da tia', amount: 150.00 },
-    // { id: 5, date: '25/05/2023', category: 'aluguel', description: 'Rendimentos de investimentos', amount: 75.20 },
-    // { id: 6, date: '28/05/2023', category: 'missao', description: 'Jardinagem no fim de semana', amount: 30.00 },
-    // { id: 7, date: '02/06/2023', category: 'presente', description: 'Dinheiro de mesada', amount: 100.00 },
-    // { id: 8, date: '05/06/2023', category: 'missao', description: 'Limpeza do quarto', amount: 25.00 }
-];
 
 const KidsEarns = () => {
     const kidProfile = useKidProfile();
+    const [earnings, setEarnings] = useState([]);
     const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
-    // Utilizando a função formatByMonth para organizar os dados por mês
-    const formattedEarnings = formatByMonth(kidsEarnings);
-
     useEffect(() => {
-        if (kidProfile) {
-            setTimeout(() => setShowLoadingScreen(false), 2000);
+        const fetchEarnings = async () => {
+            try {
+                const json = await fetchKidsEarns(kidProfile.slug, kidProfile.token);
+                if (json) {
+                    setEarnings(json);
+                    setShowLoadingScreen(false);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar ganhos:', error);
+                // Adicione tratamento de erro ou notificação ao usuário aqui
+                setShowLoadingScreen(false);
+            }
         }
-    }, [kidProfile]);
+
+        if (kidProfile) {
+            fetchEarnings();
+        }
+    } , [kidProfile]);
+
+    const formattedEarnings = formatByMonth(earnings);
 
     if (showLoadingScreen || !kidProfile) {
         return <IconLoader Icon={FaPiggyBank} color="#6495ED" />;
@@ -59,7 +63,7 @@ const KidsEarns = () => {
                                         <div className="earn-date">{earn.date}</div>
                                         <div className="earn-icon">{getIconForCategory(earn.category, 'earnings')}</div>
                                         <div className="earn-description">{earn.description}</div>
-                                        <div className="earn-amount">R$ {earn.amount.toFixed(2)}</div>
+                                        <div className="earn-amount">R$ {earn.amount}</div>
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>

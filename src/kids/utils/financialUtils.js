@@ -29,9 +29,9 @@ export const getIconForCategory = (category, type) => {
     switch (category) {
       case 'doces':
         return <FaIceCream color="#F0B27A" />;
-      case 'brinquedo':
+      case 'brinquedos':
         return <FaPuzzlePiece color="#85C1E9" />;
-      case 'comida':
+      case 'comidas':
         return <FaPizzaSlice color="#F1948A" />;
       case 'outros':
         return <FaGifts color="#FFD700" />;
