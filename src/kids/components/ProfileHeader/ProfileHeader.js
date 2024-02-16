@@ -16,7 +16,7 @@ const ProfileHeader = () => {
                     Oi {kidProfile.name},
                 </div>
                 <div className="current-balance">
-                    Você tem R$ {kidProfile.current_balance.toFixed(2)}
+                    Você tem R$ {kidProfile.current_balance}
                 </div>
             </Col>
         </Row>

@@ -8,15 +8,24 @@ const monthNames = {
   '10': 'Outubro', '11': 'Novembro', '12': 'Dezembro'
 };
 
-export const formatByMonth = (items) => {
-  return items.reduce((acc, item) => {
+export const formatByYearAndMonth = (items) => {
+  // Ordenar os itens pela data em ordem decrescente
+  const sortedItems = items.sort((a, b) => {
+    const dateA = new Date(a.date.split('/').reverse().join('-'));
+    const dateB = new Date(b.date.split('/').reverse().join('-'));
+    return dateB - dateA;
+  });
+
+  // Agrupar por ano e mês
+  return sortedItems.reduce((acc, item) => {
     const [day, month, year] = item.date.split('/');
-    const formattedMonth = monthNames[month];
-    if (!acc[formattedMonth]) {
-      acc[formattedMonth] = [];
+    if (!acc[year]) {
+      acc[year] = {};
     }
-    console.log(year)
-    acc[formattedMonth].push({
+    if (!acc[year][monthNames[month]]) {
+      acc[year][monthNames[month]] = [];
+    }
+    acc[year][monthNames[month]].push({
       ...item,
       date: `${day}/${month}` // Formata a data como dd/mm
     });

@@ -1,0 +1,70 @@
+.kids-quests {
+    background-color: #f9f9f9; /* Cor de fundo suave */
+    padding: 20px;
+    min-height: 100vh; /* Garantir que o fundo cubra toda a altura da tela */
+}
+
+.quest-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para os cartões */
+    border: none; /* Remover borda padrão do Bootstrap */
+    border-radius: 20px; /* Bordas arredondadas para um look suave */
+    overflow: hidden; /* Garante que a imagem não saia do card */
+    transition: transform 0.3s ease-in-out; /* Transição suave para o hover */
+    margin-bottom: 10px; /* Espaçamento na parte inferior do cartão */
+}
+
+.quest-card:hover {
+    transform: scale(1.03); /* Efeito de "pop" ao passar o mouse */
+}
+
+ /* fade ade quests-alert alert alert-info show margin botton 0 */
+
+ .quests-alert {
+    margin-bottom: 0;
+}
+
+.quest-card img {
+    height: 200px; /* Definir uma altura fixa para todas as imagens */
+    object-fit: cover; /* Garante que a imagem preencha a área */
+    border-top-left-radius: 20px; /* Arredondar cantos superiores da imagem */
+    border-top-right-radius: 20px;
+}
+
+.quest-card .card-body {
+    padding: 15px;
+    background-color: #ffffff; /* Fundo branco para o corpo do cartão */
+}
+
+.quest-card .card-title {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px; /* Espaço entre o título e a descrição */
+}
+
+.quest-card .card-text {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 15px; /* Espaço acima do botão */
+}
+
+.quest-card .btn-primary {
+    background-color: #85BB65; /* Botão na cor da paleta já usada */
+    border-color: #85BB65; /* Borda do botão na mesma cor do fundo */
+    border-radius: 10px; /* Bordas suavemente arredondadas */
+    font-weight: bold; /* Negrito para o texto do botão */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave para o botão */
+    width: 100%; /* Botão ocupa a largura total do cartão */
+    transition: background-color 0.3s ease-in-out; /* Transição suave para o hover do botão */
+}
+
+.quest-card .btn-primary:hover {
+    background-color: #93c47d; /* Cor um pouco mais clara para o hover */
+    border-color: #93c47d;
+}
+
+/* Ajustes para telas pequenas */
+@media (max-width: 767px) {
+    .quest-card img {
+        height: 150px; /* Imagens menores em dispositivos móveis */
+    }
+}

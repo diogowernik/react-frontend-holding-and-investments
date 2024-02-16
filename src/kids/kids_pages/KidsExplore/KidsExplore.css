@@ -1,0 +1,54 @@
+/* KidsIntegration.css */
+.kids-integration .alert {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.integration-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  border: none;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.integration-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.integration-card .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.integration-card .card-title {
+  font-size: 1.5em;
+}
+
+.integration-card .btn-primary {
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Reaproveite os estilos para o contêiner da imagem e a imagem em si de KidsBanks.css */
+/* Estilos para o contêiner da imagem */
+.integration-card .card-img-container {
+  width: 100px; /* Define a largura do contêiner da imagem */
+  height: 100px; /* Define a altura do contêiner da imagem */
+  display: flex; /* Usa Flexbox para centralizar a imagem */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  margin: 0 auto; /* Centraliza o contêiner da imagem */
+  overflow: hidden; /* Esconde partes da imagem que excedem o tamanho do contêiner */
+  border-radius: 20px; /* Opção para arredondar os cantos do contêiner da imagem */
+}
+
+/* Estilos para a imagem dentro do contêiner */
+.integration-card .card-img-top {
+  max-width: 100%; /* Permite que a imagem ocupe no máximo 100% da largura do contêiner */
+  max-height: 100%; /* Permite que a imagem ocupe no máximo 100% da altura do contêiner */
+  object-fit: contain; /* Garante que a imagem seja redimensionada para caber, sem cortes */
+}

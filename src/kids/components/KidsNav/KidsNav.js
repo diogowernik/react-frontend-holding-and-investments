@@ -1,22 +1,19 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { FaHome, FaPiggyBank,
-  //  FaChartLine, FaGift, 
-   FaQuestionCircle, FaMoneyBillWave, FaCoins, FaShoppingCart } from 'react-icons/fa';
-
+import { FaHome, FaPiggyBank, FaMoneyBillWave, FaCoins, FaShoppingCart } from 'react-icons/fa';
+import { useKidProfile } from '../../contexts/KidProfileContext'; // Ajuste o caminho conforme necessário
 
 const KidsNav = () => {
-  const menuButtons = [
-    { id: 1, Icon: FaHome, color: "#6495ED", path: "/kids/isabel", isActive: true },
-    { id: 2, Icon: FaCoins, color: "#FFD700", path: "/kids/isabel/mesadinha", isActive: true },
-    { id: 3, Icon: FaMoneyBillWave, color: "#85BB65", path: "/kids/isabel/ganhar", isActive: true },
-    { id: 4, Icon: FaPiggyBank, color: "#6495ED", path: "/kids/isabel/recebi", isActive: true },
-    // { id: 5, Icon: FaGift, color: "#FF69B4", path: "/kids/isabel/lojinha", isActive: false },
-    { id: 6, Icon: FaShoppingCart, color: "#e7ab3c", path: "/kids/isabel/gastei", isActive: true },
-    // { id: 7, Icon: FaChartLine, color: "#7fdbda", path: "/kids/isabel/crescimento", isActive: false },
-];
+  const kidProfile = useKidProfile();
 
+  const menuButtons = [
+    { id: 1, Icon: FaHome, color: "#6495ED", path: `/kids/${kidProfile?.slug}`, isActive: true },
+    { id: 2, Icon: FaCoins, color: "#FFD700", path: `/kids/${kidProfile?.slug}/mesadinha`, isActive: true },
+    { id: 3, Icon: FaMoneyBillWave, color: "#85BB65", path: `/kids/${kidProfile?.slug}/ganhar`, isActive: true },
+    { id: 4, Icon: FaPiggyBank, color: "#6495ED", path: `/kids/${kidProfile?.slug}/recebi`, isActive: true },
+    { id: 6, Icon: FaShoppingCart, color: "#e7ab3c", path: `/kids/${kidProfile?.slug}/gastei`, isActive: true },
+  ];
 
     return (
       <Navbar bg="light" variant="light" className="justify-content-center custom-navbar" fixed="top">

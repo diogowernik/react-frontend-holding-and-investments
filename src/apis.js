@@ -201,3 +201,7 @@ export function fetchKidsEarns(slug, token) {
 export function fetchKidsExpenses(slug, token) {
   return request(`/api/kids/${slug}/expenses`, { token });
 }
+
+export function fetchKidsButtons(slug, token) {
+  return request(`/api/kids/${slug}/buttons`, { token });
+}

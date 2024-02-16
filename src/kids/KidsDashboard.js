@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
-import { useKidProfile } from './contexts/KidProfileContext'; // Importe o hook
-import { dashboardButtons } from './utils/dashboardButtons'; 
+import { useKidProfile } from './contexts/KidProfileContext';
+import { updatedDashboard } from './utils/dashboardButtons'; // Atualizado para usar a nova função
 import ProfileHeader from './components/ProfileHeader/ProfileHeader';
+import AuthContext from '../contexts/AuthContext';
 
 import './KidsDashboard.css';
 import './css/GlobalKids.css';
@@ -12,12 +13,22 @@ import './css/GlobalKids.css';
 const KidsDashboard = () => {
     const kidProfile = useKidProfile();
     const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+    const [buttons, setButtons] = useState([]); // Inicializado como um array vazio
+
+    const auth = useContext(AuthContext);
 
     useEffect(() => {
-        if (kidProfile) {
-            setTimeout(() => setShowLoadingScreen(false), 2000);
-        }
-    }, [kidProfile]);
+        const fetchAndUpdateButtons = async () => {
+            if (kidProfile) {
+                const updatedButtons = await updatedDashboard(kidProfile.slug, auth.token);
+                setButtons(updatedButtons); // Atualiza os botões com as configurações do backend
+                setShowLoadingScreen(false); // Esconde o loading screen após a atualização
+            }
+        };
+    
+        fetchAndUpdateButtons();
+    }, [kidProfile, auth.token]); // Dependências atualizadas para incluir auth.token
+    
 
     if (showLoadingScreen || !kidProfile) {
         return <LoadingScreen />;
@@ -36,10 +47,10 @@ const KidsDashboard = () => {
                 </Col>
             </Row>
             <Row className="justify-content-md-center">
-                {dashboardButtons.map(button => (
+                {buttons.filter(button => button.isVisible).map((button) => (
                     <Col key={button.id} xs={4} className="dashboard-item">
                         {button.isActive ? (
-                            <Link to={`${basePath}/${button.text.toLowerCase()}`}>
+                            <Link to={`${basePath}${button.link}`}> {/* Alterado para usar button.link */}
                                 <Button variant="light" className="icon-button">
                                     <button.Icon color={button.color} size={50} />
                                 </Button>
@@ -57,7 +68,4 @@ const KidsDashboard = () => {
     );
 }
 
-
 export default KidsDashboard;
-
-

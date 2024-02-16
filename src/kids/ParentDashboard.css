@@ -1,0 +1,82 @@
+.parent-dashboard {
+    background-color: #f8f9fa; /* Light grey background */
+    padding: 15px;
+    color: #736f6f; /* Dark grey text */
+}
+
+.parent-dashboard-alert {
+    background-color: #e9ecef; /* Slightly darker grey for the alert */
+    border-color: #dee2e6; /* Border color */
+    color: #495057; /* Dark text */
+}
+
+.card {
+    border: 1px solid #dee2e6; /* Subtle borders for cards */
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Space between icon and text */
+    color: #7d7676; /* Dark grey text */
+}
+
+.card-title-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .arrow-right {
+    font-size: 1.2em; /* Ajuste o tamanho conforme necessário */
+    margin-left: auto; /* Isso empurra a seta para a direita */
+    color:#d4d3d3
+  }
+
+.text-center {
+    padding: 20px;
+}
+
+/* Button variants for different actions */
+.outline-primary {
+    background-color: #f8f9fa;
+}
+
+.outline-secondary {
+    background-color: #f8f9fa;
+}
+
+.outline-success {
+    background-color: #f8f9fa;
+}
+
+.outline-danger {
+    background-color: #f8f9fa;
+}
+
+.outline-warning {
+    background-color: #f8f9fa;
+}
+
+.outline-info {
+    background-color: #f8f9fa;
+}
+
+.parent-dashboard-card {
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out, transform 0.1s ease;
+  }
+  
+  .parent-dashboard-card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .parent-dashboard-card:active {
+    transform: translateY(1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  

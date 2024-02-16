@@ -46,15 +46,16 @@ import EvolutionUsd from '../pages/Usd/Evolution';
 import { KidProfileProvider } from '../kids/contexts/KidProfileContext';
 import KidsProfiles from '../kids/KidsProfiles';
 import KidsDashboard from '../kids/KidsDashboard';
-import KidsDividends from '../kids/KidsDividends';
-import KidsQuests from '../kids/KidsQuests';
-import QuestDetails from '../kids/QuestDetails';
-import KidsEarns from '../kids/KidsEarns';
-import KidsEvents from '../kids/KidsEvents';
-import KidsExpenses from '../kids/KidsExpenses';
-import KidsGames from '../kids/KidsGames';
-import KidsIntegration from '../kids/KidsIntegration';
-import KidsBanks from '../kids/KidsBanks';
+import KidsDividends from '../kids/kids_pages/KidsDividends/KidsDividends';
+import KidsQuests from '../kids/kids_pages/KidsQuests/KidsQuests';
+import QuestDetails from '../kids/kids_pages/KidsQuests/QuestDetails';
+import KidsEarns from '../kids/kids_pages/KidsTransactions/KidsEarns';
+import KidsEvents from '../kids/kids_pages/KidsEvents/KidsEvents';
+import KidsExpenses from '../kids/kids_pages/KidsTransactions/KidsExpenses';
+import KidsGames from '../kids/kids_pages/KidsGames/KidsGames';
+import KidsIntegration from '../kids/kids_pages/KidsExplore/KidsExplore';
+import KidsBanks from '../kids/kids_pages/KidsBanks/KidsBanks';
+import ParentDashboard from '../kids/ParentDashboard';
 
 // Wtree App
 import Profile from '../wtree/Profile';
@@ -203,14 +204,8 @@ function App() {
             <KidsExpenses />
           </KidProfileProvider>
         </Route>
-        {/* games = jogos */}
-        <Route exact path='/kids/:slug/jogos'>
-          <KidProfileProvider>
-            <KidsGames />
-          </KidProfileProvider>
-        </Route>
         {/* integration = integração */}
-        <Route exact path='/kids/:slug/conecte-se'>
+        <Route exact path='/kids/:slug/explorar'>
           <KidProfileProvider>
             <KidsIntegration />
           </KidProfileProvider>
@@ -221,6 +216,18 @@ function App() {
             <KidsBanks />
           </KidProfileProvider>
         </Route>
+        {/* Parent Dashboard */}
+        <Route exact path='/kids/:slug/config'>
+          <ParentDashboard />
+        </Route>
+        {/* Em desenvolvimento  */}
+        {/* games = jogos */}
+        <Route exact path='/kids/:slug/jogos'>
+          <KidProfileProvider>
+            <KidsGames />
+          </KidProfileProvider>
+        </Route>
+
           {/* Wtree App  */}
           <Route exact path='/diogo.wernik'>
             <Profile />
