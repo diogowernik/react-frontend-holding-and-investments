@@ -182,6 +182,10 @@ export function fetchKidsProfile(slug, token) {
   return request(`/api/kids/${slug}`, { token });
 }
 
+export function updateKidProfile(slug, data, token) {
+  return request(`/api/kids/${slug}`, { data, token, method: "PATCH", message: 'Perfil atualizado com sucesso' });
+}
+
 export function fetchKidsProfileQuests(slug, token) {
   return request(`/api/kids/${slug}/quests`, { token });
 }
@@ -197,6 +201,19 @@ export function fetchKidsProfileDividends(slug, token) {
 export function fetchKidsEarns(slug, token) {
   return request(`/api/kids/${slug}/earns`, { token });
 }
+
+export function addKidsEarn(slug, data, token) {
+  return request(`/api/kids/${slug}/earns`, { data, token, method: 'POST', message: 'Receita criada com sucesso' });
+}
+
+export function updateKidsEarn(slug, id, data, token) {
+  return request(`/api/kids/${slug}/earns/${id}`, { data, token, method: "PATCH", message: 'Receita atualizada com sucesso' });
+}
+
+export function deleteKidsEarn(slug, id, token) {
+  return request(`/api/kids/${slug}/earns/${id}`, { token, method: "DELETE", message: 'Receita deletada com sucesso' });
+}
+
 
 export function fetchKidsExpenses(slug, token) {
   return request(`/api/kids/${slug}/expenses`, { token });

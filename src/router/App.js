@@ -56,10 +56,12 @@ import KidsGames from '../kids/kids_pages/KidsGames/KidsGames';
 import KidsIntegration from '../kids/kids_pages/KidsExplore/KidsExplore';
 import KidsBanks from '../kids/kids_pages/KidsBanks/KidsBanks';
 import ParentDashboard from '../kids/ParentDashboard';
+import KidProfile from '../kids/parents_pages/KidProfile/KidProfile';
+import ParentAuth from '../kids/parents_pages/ParentAuth/ParentAuth';
+import Earning from '../kids/parents_pages/Earnings/Earning';
 
 // Wtree App
 import Profile from '../wtree/Profile';
-
 
 function App() {
   
@@ -218,8 +220,30 @@ function App() {
         </Route>
         {/* Parent Dashboard */}
         <Route exact path='/kids/:slug/config'>
-          <ParentDashboard />
+          <KidProfileProvider>
+            <ParentDashboard />
+          </KidProfileProvider>
         </Route>
+        {/* Parent Auth */}
+        <Route exact path='/kids/:slug/parent-auth'>
+          <KidProfileProvider>
+            <ParentAuth />
+          </KidProfileProvider>
+        </Route>
+        {/* Kid Profile */}
+        <Route exact path='/kids/:slug/config/edit-kid-profile'>
+          <KidProfileProvider>
+            <KidProfile />
+          </KidProfileProvider>
+        </Route>
+
+        {/* Earning */}
+        <Route exact path='/kids/:slug/config/add-earnings'>
+          <KidProfileProvider>
+            <Earning />
+          </KidProfileProvider>
+        </Route>
+
         {/* Em desenvolvimento  */}
         {/* games = jogos */}
         <Route exact path='/kids/:slug/jogos'>

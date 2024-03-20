@@ -1,0 +1,36 @@
+.kids-container {
+    background: #f9f9f9; /* Cor de fundo leve */
+    border-radius: 3px; /* Bordas arredondadas */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  
+  .form-profile {
+    background: white;
+    border-radius: 8px; /* Bordas arredondadas para o formulário */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+  }
+  
+  .form-control-custom {
+    border-radius: 8px; /* Bordas arredondadas para os inputs */
+    border: 1px solid #ced4da; /* Cor da borda */
+  }
+  
+  .form-control-custom:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  }
+  
+  /* Botão com estilo mais marcante */
+  button[type="submit"] {
+    background-color: #007bff; /* Cor de fundo do botão */
+    border: none; /* Remover a borda padrão */
+    padding: 10px; /* Preenchimento para aumentar o tamanho */
+    border-radius: 8px; /* Bordas arredondadas para o botão */
+    font-weight: bold; /* Texto em negrito */
+    transition: background-color 0.2s; /* Transição suave ao mudar de cor */
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+  }
+  

@@ -59,7 +59,7 @@ const buttonConfig = [
   { id: 9, Icon: FaChartLine, color: "#7fdbda", key: "show_growth", link: "/crescimento", isActive: true },
   { id: 10, Icon: FaUniversity, color: "#4A90E2", key: "show_banks", link: "/bancos", isActive: true },
   { id: 11, Icon: FaGlobeAmericas, color: "#F5A623", key: "show_explore", link: "/explorar", isActive: true },
-  { id: 12, Icon: FaUserCog, color: "#9B9B9B", key: "show_settings", link: "/config", isActive: true },
+  { id: 12, Icon: FaUserCog, color: "#9B9B9B", key: "show_settings", link: "/parent-auth", isActive: true },
 ];
 
 export async function fetchAndUpdateButtonVisibility(slug, token) {

@@ -1,0 +1,59 @@
+/* Container principal */
+.parent-auth-container {
+    max-width: 400px; /* Ajusta a largura máxima do container para um tamanho adequado */
+    margin: 50px auto; /* Centraliza e coloca espaço no topo */
+    padding: 20px;
+    background: #fff; /* Fundo branco para o container */
+    border-radius: 20px; /* Bordas arredondadas para o container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve para o container */
+}
+
+/* Estilo dos botões numéricos */
+.parent-auth-number-button {
+    font-size: 24px; /* Tamanho da fonte dos números */
+    padding: 20px; /* Preenchimento para aumentar a área de clique */
+    border-radius: 20%; /* Bordas completamente arredondadas */
+    margin: 10px; /* Espaçamento entre botões */
+    width: 75px; /* Largura fixa para os botões */
+    height: 75px; /* Altura fixa para os botões */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #6161ed; /* Cor de fundo dos botões */
+    border: none; /* Remove a borda */
+}
+
+
+.parent-auth-number-button:hover {
+    background: #C7C7FF; /* Cor de fundo dos botões ao passar o mouse */
+    cursor: pointer;
+}
+
+/* Estilo do botão Confirmar */
+.parent-auth-confirm-button {
+    background-color: #4CBB17; /* Cor de fundo */
+    /* linha toda  */ 
+
+
+}
+
+.parent-auth-confirm-button:hover {
+    background-color: #409F0E; /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilo do botão Limpar */
+.parent-auth-clear-button {
+    background-color: #FF6347; /* Cor de fundo */
+    color: white; /* Cor do texto */
+
+}
+
+.parent-auth-clear-button:hover {
+    background-color: #E5533C; /* Cor de fundo ao passar o mouse */
+}
+
+/* Alertas */
+.alert {
+    text-align: center; /* Centraliza o texto do alerta */
+    margin-bottom: 20px; /* Espaço abaixo do alerta */
+}

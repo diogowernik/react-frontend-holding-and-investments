@@ -1,11 +1,14 @@
+// KidsDasboard.js
+
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import { useKidProfile } from './contexts/KidProfileContext';
-import { updatedDashboard } from './utils/dashboardButtons'; // Atualizado para usar a nova função
-import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 import AuthContext from '../contexts/AuthContext';
+
+import { Link } from 'react-router-dom';
+import { updatedDashboard } from './utils/dashboardButtons'; 
+import ProfileHeader from './components/ProfileHeader/ProfileHeader';
 
 import './KidsDashboard.css';
 import './css/GlobalKids.css';
