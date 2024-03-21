@@ -219,6 +219,18 @@ export function fetchKidsExpenses(slug, token) {
   return request(`/api/kids/${slug}/expenses`, { token });
 }
 
+export function addKidsExpense(slug, data, token) {
+  return request(`/api/kids/${slug}/expenses`, { data, token, method: 'POST', message: 'Despesa criada com sucesso' });
+}
+
+export function updateKidsExpense(slug, id, data, token) {
+  return request(`/api/kids/${slug}/expenses/${id}`, { data, token, method: "PATCH", message: 'Despesa atualizada com sucesso' });
+}
+
+export function deleteKidsExpense(slug, id, token) {
+  return request(`/api/kids/${slug}/expenses/${id}`, { token, method: "DELETE", message: 'Despesa deletada com sucesso' });
+}
+
 export function fetchKidsButtons(slug, token) {
   return request(`/api/kids/${slug}/buttons`, { token });
 }

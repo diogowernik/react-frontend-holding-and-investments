@@ -59,6 +59,7 @@ import ParentDashboard from '../kids/ParentDashboard';
 import KidProfile from '../kids/parents_pages/KidProfile/KidProfile';
 import ParentAuth from '../kids/parents_pages/ParentAuth/ParentAuth';
 import Earning from '../kids/parents_pages/Earnings/Earning';
+import Expense from '../kids/parents_pages/Expenses/Expense';
 
 // Wtree App
 import Profile from '../wtree/Profile';
@@ -241,6 +242,13 @@ function App() {
         <Route exact path='/kids/:slug/config/add-earnings'>
           <KidProfileProvider>
             <Earning />
+          </KidProfileProvider>
+        </Route>
+
+        {/* Expense */}
+        <Route exact path='/kids/:slug/config/add-expenses'>
+          <KidProfileProvider>
+            <Expense />
           </KidProfileProvider>
         </Route>
 
