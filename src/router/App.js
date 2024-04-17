@@ -11,6 +11,8 @@ import Register from '../pages/Register';
 
 import Portfolios from '../pages/Portfolios';
 
+import EditableTables from '../holding/pages/dashboard/dataGrid';
+
 import Radars from '../pages/Radars';
 import RadarHome from '../pages/Radar/Home';
 
@@ -107,6 +109,10 @@ function App() {
 
           <PrivateRoute exact path='/portfolios'>
             <Portfolios />
+          </PrivateRoute>
+
+          <PrivateRoute exact path='/portfolio/:id/editable-tables'>
+            <EditableTables />
           </PrivateRoute>
 
           <PrivateRoute exact path='/dividends/:id/brl'>

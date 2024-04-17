@@ -35,12 +35,12 @@ const GroupedTables = ({currency, grouped_assets}) => {
       console.log("Ativo atualizado com sucesso");
 
       // Encontrar e atualizar o ativo na lista de assets
-      const newAssets = grouped_assets.map(group => ({
-        ...group,
-        data: group.data.map(asset => 
-          asset.id === editingAssetId ? { ...asset, ...updatedData } : asset
-        )
-      }));
+      // const newAssets = grouped_assets.map(group => ({
+      //   ...group,
+      //   data: group.data.map(asset => 
+      //     asset.id === editingAssetId ? { ...asset, ...updatedData } : asset
+      //   )
+      // }));
 
       // Chamar o callback com os novos dados
       // onUpdate(newAssets);
