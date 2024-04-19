@@ -5,13 +5,17 @@ import React from 'react';
 import { AuthProvider } from '../contexts/AuthContext';
 import PrivateRoute from './PrivateRoute';
 
+// holding admin
+import EditableTables from '../holding/admin/dashboard/portfolio_assets/PorfolioAssets';
+import RadarCategories from '../holding/admin/dashboard/radars/Radar';
+
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 
 import Portfolios from '../pages/Portfolios';
 
-import EditableTables from '../holding/pages/dashboard/dataGrid';
+
 
 import Radars from '../pages/Radars';
 import RadarHome from '../pages/Radar/Home';
@@ -82,6 +86,14 @@ function App() {
           <Route exact path='/register'>
             <Register />
           </Route>
+          {/* Holding Admin  */}
+          <PrivateRoute exact path='/portfolio/:id/editable-tables'>
+            <EditableTables />
+          </PrivateRoute>
+          <PrivateRoute exact path='/radar/:id/categories'>
+            <RadarCategories />
+          </PrivateRoute>
+
           <PrivateRoute exact path='/portfolio/:id/radars'>
             <Radars />
           </PrivateRoute>
@@ -111,9 +123,7 @@ function App() {
             <Portfolios />
           </PrivateRoute>
 
-          <PrivateRoute exact path='/portfolio/:id/editable-tables'>
-            <EditableTables />
-          </PrivateRoute>
+
 
           <PrivateRoute exact path='/dividends/:id/brl'>
             <DividendsBrl />

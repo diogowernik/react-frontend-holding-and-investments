@@ -124,15 +124,27 @@ export function fetchPortfolioRadars(id, token) {
   // return request(`/api/portfolios/2/radars`, { token });
 }
 
+export function fetchRadarCategories(id, token) {
+  return request(`/api/radars/${id}/categories`, { token });
+}
+
+export function removeRadarCategory(id, token) {
+  return request(`/api/radar_categories/${id}`, { token, method: "DELETE", message: 'Categoria deletada com sucesso' });
+}
+
+export function updateRadarCategory(id, data, token) {
+  return request(`/api/radar_categories/${id}`, { data, token, method: "PATCH", message: 'Categoria atualizada com sucesso' });
+}
+
 export function fetchRadar(id, token) { 
   return request(`/api/radars/${id}`, { token });
 }
-export function fetchRadarCategories(id, radar_id, token) {
-  return request(`/api/radars/${radar_id}/categories`, { token });
-}
+
 export function fetchRadarAssets(id, radar_id, token) {
   return request(`/api/radars/${radar_id}/assets`, { token });
 }
+
+
 
 // fetchPortfolioDividends
 export function fetchPortfolioDividends(id, token) {
