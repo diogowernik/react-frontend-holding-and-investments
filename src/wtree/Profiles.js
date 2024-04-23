@@ -1,11 +1,13 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { FaEthereum, FaBitcoin } from 'react-icons/fa';
+import { FaEthereum, FaBitcoin } from 'react-icons/fa'; 
 
 const WalletCard = ({ type, address }) => {
     const icons = {
         Ethereum: <FaEthereum className="wallet-icon ethereum" />,
-        Bitcoin: <FaBitcoin className="wallet-icon bitcoin" />
+        // outras redes: solana, binance, polkadot, avalanche, no backend
+        // Bitcoin: <FaBitcoin className="wallet-icon bitcoin" /> implementação futura
+        
     };
 
     return (
