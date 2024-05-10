@@ -31,7 +31,7 @@ const PortfolioAssetsGrid = ({ assets, setAssets, authToken }) => {
                 columns={columns}
                 getRowId={(row) => row.id}
                 processRowUpdate={handleProcessRowUpdate}
-                sx={{ height: 400, [`& .${gridClasses.row}`]: { bgcolor: (theme) => theme.palette.mode === 'light' ? grey[200] : grey[900] } }}
+                sx={{ height: 700, [`& .${gridClasses.row}`]: { bgcolor: (theme) => theme.palette.mode === 'light' ? grey[200] : grey[900] } }}
             />
             {renderDeleteDialog()}
         </>

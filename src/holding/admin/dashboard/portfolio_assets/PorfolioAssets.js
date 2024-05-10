@@ -35,7 +35,7 @@ const PortfolioAssets = () => {
 
     return (
         <MainLayout>
-            <Box sx={{ height: 750, width: '100%' }}>
+            <Box sx={{ height: '100vh', width: '100%', overflow: 'auto' }}>
                 <DynamicFilters filters={filters} setFilters={setFilters} />
                 {loading ? (
                     <CircularProgress />
