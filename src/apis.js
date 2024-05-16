@@ -115,6 +115,7 @@ export function updatePortfolio(id, data, token) {
 export function fetchPortfolioQuotas(id, token) {
   return request(`/api/portfolios/${id}/quotas`, { token });
 }
+
 export function fetchPortfolioAssets(id, token) {
   return request(`/api/portfolios/${id}/assets`, { token });
 }
